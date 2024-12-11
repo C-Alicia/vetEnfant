@@ -14,8 +14,11 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $content = null;
+    private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
@@ -30,7 +33,7 @@ class Transaction
     private ?\DateTimeInterface $shippingDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $deliveryDate = null;
+    private ?\DateTimeInterface $deliveredDate = null;
 
     #[ORM\Column]
     private ?float $discount = null;
@@ -41,23 +44,31 @@ class Transaction
     #[ORM\Column(length: 20)]
     private ?string $cardNumber = null;
 
-    #[ORM\ManyToOne(inversedBy: 'transactions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Order $idOrder = null;
-
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getContent(): ?string
+    public function getName(): ?string
     {
-        return $this->content;
+        return $this->name;
     }
 
-    public function setContent(string $content): static
+    public function setName(string $name): static
     {
-        $this->content = $content;
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): static
+    {
+        $this->description = $description;
 
         return $this;
     }
@@ -110,14 +121,14 @@ class Transaction
         return $this;
     }
 
-    public function getDeliveryDate(): ?\DateTimeInterface
+    public function getDeliveredDate(): ?\DateTimeInterface
     {
-        return $this->deliveryDate;
+        return $this->deliveredDate;
     }
 
-    public function setDeliveryDate(\DateTimeInterface $deliveryDate): static
+    public function setDeliveredDate(\DateTimeInterface $deliveredDate): static
     {
-        $this->deliveryDate = $deliveryDate;
+        $this->deliveredDate = $deliveredDate;
 
         return $this;
     }
@@ -154,18 +165,6 @@ class Transaction
     public function setCardNumber(string $cardNumber): static
     {
         $this->cardNumber = $cardNumber;
-
-        return $this;
-    }
-
-    public function getIdOrder(): ?Order
-    {
-        return $this->idOrder;
-    }
-
-    public function setIdOrder(?Order $idOrder): static
-    {
-        $this->idOrder = $idOrder;
 
         return $this;
     }

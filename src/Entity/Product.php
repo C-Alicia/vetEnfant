@@ -3,11 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use App\Enum\Gender;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -20,7 +17,7 @@ class Product
     #[ORM\Column(length: 90)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string', enumType: Gender::class)]
+    #[ORM\Column(length: 20)]
     private ?string $gender = null;
 
     #[ORM\Column]
@@ -37,27 +34,6 @@ class Product
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
-
-    #[ORM\ManyToOne(inversedBy: 'product')]
-    private ?Order $idOrder = null;
-
-    /**
-     * @var Collection<int, Image>
-     */
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'product')]
-    private Collection $images;
-
-    /**
-     * @var Collection<int, Category>
-     */
-    #[ORM\OneToMany(targetEntity: Category::class, mappedBy: 'product')]
-    private Collection $categorie;
-
-    public function __construct()
-    {
-        $this->images = new ArrayCollection();
-        $this->categories = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -144,78 +120,6 @@ class Product
     public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
         $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getIdOrder(): ?Order
-    {
-        return $this->idOrder;
-    }
-
-    public function setIdOrder(?Order $idOrder): static
-    {
-        $this->idOrder = $idOrder;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Image>
-     */
-    public function getImages(): Collection
-    {
-        return $this->images;
-    }
-
-    public function addImage(Image $image): static
-    {
-        if (!$this->images->contains($image)) {
-            $this->images->add($image);
-            $image->setProducts($this);
-        }
-
-        return $this;
-    }
-
-    public function removeImage(Image $image): static
-    {
-        if ($this->images->removeElement($image)) {
-            // set the owning side to null (unless already changed)
-            if ($image->getProducts() === $this) {
-                $image->setProducts(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Category>
-     */
-    public function getCategorie(): Collection
-    {
-        return $this->categorie;
-    }
-
-    public function addCategory(Category $category): static
-    {
-        if (!$this->categorie->contains($category)) {
-            $this->categorie->add($category);
-            $category->setProducts($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCategory(Category $category): static
-    {
-        if ($this->categories->removeElement($category)) {
-            // set the owning side to null (unless already changed)
-            if ($category->getProducts() === $this) {
-                $category->setProducts(null);
-            }
-        }
 
         return $this;
     }
