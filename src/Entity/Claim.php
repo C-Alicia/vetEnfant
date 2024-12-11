@@ -15,33 +15,30 @@ class Claim
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $title = null;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $createAt = null;
+    private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\Column]
     private ?bool $isStatus = null;
-
-    #[ORM\ManyToOne(inversedBy: 'claims')]
-    private ?Order $idOrder = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getName(): ?string
     {
-        return $this->title;
+        return $this->name;
     }
 
-    public function setTitle(string $title): static
+    public function setName(string $name): static
     {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
@@ -58,14 +55,14 @@ class Claim
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    public function setCreateAt(\DateTimeInterface $createAt): static
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
     {
-        $this->createAt = $createAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
@@ -78,18 +75,6 @@ class Claim
     public function setStatus(bool $isStatus): static
     {
         $this->isStatus = $isStatus;
-
-        return $this;
-    }
-
-    public function getIdOrder(): ?Order
-    {
-        return $this->idOrder;
-    }
-
-    public function setIdOrder(?Order $idOrder): static
-    {
-        $this->idOrder = $idOrder;
 
         return $this;
     }

@@ -13,33 +13,18 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 1000)]
-    private ?string $src = null;
-
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 55)]
-    private ?string $altText = null;
+    #[ORM\Column(length: 255)]
+    private ?string $src = null;
 
-    #[ORM\ManyToOne(inversedBy: 'images')]
-    private ?Product $products = null;
+    #[ORM\Column(length: 100)]
+    private ?string $altText = null;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getSrc(): ?string
-    {
-        return $this->src;
-    }
-
-    public function setSrc(string $src): static
-    {
-        $this->src = $src;
-
-        return $this;
     }
 
     public function getName(): ?string
@@ -54,6 +39,18 @@ class Image
         return $this;
     }
 
+    public function getSrc(): ?string
+    {
+        return $this->src;
+    }
+
+    public function setSrc(string $src): static
+    {
+        $this->src = $src;
+
+        return $this;
+    }
+
     public function getAltText(): ?string
     {
         return $this->altText;
@@ -62,18 +59,6 @@ class Image
     public function setAltText(string $altText): static
     {
         $this->altText = $altText;
-
-        return $this;
-    }
-
-    public function getProducts(): ?Product
-    {
-        return $this->products;
-    }
-
-    public function setProducts(?Product $products): static
-    {
-        $this->products = $products;
 
         return $this;
     }

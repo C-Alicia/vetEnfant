@@ -20,9 +20,6 @@ class Category
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\ManyToOne(inversedBy: 'categories')]
-    private ?Product $products = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -48,18 +45,6 @@ class Category
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getProducts(): ?Product
-    {
-        return $this->products;
-    }
-
-    public function setProducts(?Product $products): static
-    {
-        $this->products = $products;
 
         return $this;
     }
