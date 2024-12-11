@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\ProductRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Enum\Gender;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
@@ -17,7 +18,7 @@ class Product
     #[ORM\Column(length: 90)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(type: 'string', enumType: Gender::class)]
     private ?string $gender = null;
 
     #[ORM\Column]
