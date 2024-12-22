@@ -14,7 +14,7 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -43,6 +43,9 @@ class Transaction
 
     #[ORM\Column(length: 20)]
     private ?string $cardNumber = null;
+
+    #[ORM\ManyToOne(inversedBy: 'transaction')]
+    private ?OrderOrd $orderOrd = null;
 
     public function getId(): ?int
     {
@@ -165,6 +168,18 @@ class Transaction
     public function setCardNumber(string $cardNumber): static
     {
         $this->cardNumber = $cardNumber;
+
+        return $this;
+    }
+
+    public function getOrderOrd(): ?OrderOrd
+    {
+        return $this->orderOrd;
+    }
+
+    public function setOrderOrd(?OrderOrd $orderOrd): static
+    {
+        $this->orderOrd = $orderOrd;
 
         return $this;
     }

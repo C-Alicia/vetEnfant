@@ -22,8 +22,11 @@ class Address
     #[ORM\Column(length: 10)]
     private ?string $postalCode = null;
 
-    #[ORM\Column(length: 50)]
+    #[ORM\Column(length: 150)]
     private ?string $city = null;
+
+    #[ORM\ManyToOne(inversedBy: 'address')]
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -74,6 +77,18 @@ class Address
     public function setCity(string $city): static
     {
         $this->city = $city;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }

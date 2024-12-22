@@ -14,7 +14,7 @@ class Claim
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
@@ -25,6 +25,9 @@ class Claim
 
     #[ORM\Column]
     private ?bool $isStatus = null;
+
+    #[ORM\ManyToOne(inversedBy: 'claim')]
+    private ?OrderOrd $orderOrd = null;
 
     public function getId(): ?int
     {
@@ -75,6 +78,18 @@ class Claim
     public function setStatus(bool $isStatus): static
     {
         $this->isStatus = $isStatus;
+
+        return $this;
+    }
+
+    public function getOrderOrd(): ?OrderOrd
+    {
+        return $this->orderOrd;
+    }
+
+    public function setOrderOrd(?OrderOrd $orderOrd): static
+    {
+        $this->orderOrd = $orderOrd;
 
         return $this;
     }

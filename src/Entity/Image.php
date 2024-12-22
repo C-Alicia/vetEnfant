@@ -13,7 +13,7 @@ class Image
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 100)]
     private ?string $name = null;
 
     #[ORM\Column(length: 255)]
@@ -21,6 +21,9 @@ class Image
 
     #[ORM\Column(length: 100)]
     private ?string $altText = null;
+
+    #[ORM\ManyToOne(inversedBy: 'image')]
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -59,6 +62,18 @@ class Image
     public function setAltText(string $altText): static
     {
         $this->altText = $altText;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): static
+    {
+        $this->product = $product;
 
         return $this;
     }
