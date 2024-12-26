@@ -1,0 +1,124 @@
+.navbar-toggler {
+    border: none;
+    font-size: 1.25rem;
+}
+
+.navbar-toggler:focus,
+.btn-close:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+.nav-link {
+    color: black;
+    font-weight: 500;
+    position: relative;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    color: var(--balkeYellow-color);
+}
+
+.nav-link a {
+    margin: 0 20px;
+    text-align: center;
+}
+
+.navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid #000;
+    font-family: 'SueEllenFrancisco', ;
+    backdrop-filter: blur(0.8);
+}
+
+.navbar div {
+    margin: 0 20px;
+    text-align: center;
+}
+
+.navbar div span {
+    display: block;
+    font-size: 0.8em;
+}
+
+.navbar div a {
+    text-decoration: none;
+    color: black;
+}
+
+.separator {
+    margin: 0 px;
+    font-size: 2em;
+    display: block;
+}
+
+.navlink-title {
+    font-size: 1em;
+    font-weight: lighter;
+}
+
+.search-icon {
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    width: 0;
+    height: 38px;
+    padding: 0;
+    margin-right: -40px;
+    border: 2px solid var(--balkeYellow-color);
+    border-radius: 20px;
+    transition: width 0.4s, padding 0.4s, margin-right 0.4s;
+    opacity: 0;
+}
+
+.search-box:hover .search-input {
+    width: 200px;
+    padding: 0 20px;
+    margin-right: 0;
+    opacity: 1;
+}
+
+.dropdown-item {
+    background-color: white;
+    /* Couleur de fond par défaut */
+    color: #000;
+    /* Couleur du texte */
+    padding: 10px 15px;
+    /* Espacement intérieur */
+    border-radius: 5px;
+    /* Coins arrondis */
+    transition: background-color 0.3s ease;
+    /* Transition de couleur */
+}
+
+.dropdown-item:hover {
+    background-color: var(--peru-color);
+    /* Couleur de fond au survol */
+    color: #fff;
+    /* Couleur du texte au survol */
+}
+
+input::-webkit-input-placeholder {
+    color: var(--balkeYellow-color) !important;
+    font-style: italic;
+}
+
+/* Styles communs pour les séparateurs */
+.separator::after {
+    content: "|";
+    /* Séparateur par défaut pour les grands écrans */
+    font-size: 1.5rem;
+    /* Taille par défaut pour les grands écrans */
+}

@@ -1,0 +1,74 @@
+.footer {
+    background-color: var(--balkeYellow-color);
+    font-family: 'Poppins', sans-serif;
+}
+
+.footer-title {
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.footer-divider {
+    width: 0 auto;
+    height: 2px;
+    background-color: var(--peru-color);
+    margin: 0 auto 15px;
+}
+
+.footer-link {
+    color: #000;
+    text-decoration: none;
+}
+
+.footer-link:hover {
+    text-decoration: underline;
+    color: var(--peru-color);
+
+}
+
+.social-icons a {
+    margin-right: 15px;
+    color: #000;
+}
+
+.footer-bottom {
+    background-color: var(--balkeYellow-color);
+    color: #000;
+}
+
+/* Style de la bannière */
+.banner_img {
+    height: 100%;
+    object-fit: cover;
+    background-size: cover;
+    background-repeat: no-repeat;
+    filter: brightness(70%);
+}
+
+.banner_content h1 {
+    font-size: 3rem;
+    /* Adjust as needed */
+}
+
+.banner_content h2 {
+    font-size: 1.5rem;
+    font-weight: 300;
+}
+
+.section-products {
+    padding: 80px 0 54px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.section-products .single-product .product-content {
+    margin-top: 1em;
+}
+
+.section-products .single-product .product-title {
+    font-size: 1.5rem;
+}
+
+.section-products .single-product h4 {
+    display: inline-block;
+    font-size: 1rem;
+}

@@ -1,0 +1,20 @@
+.btn-general {
+    display: inline-block; /* Permet un ajustement dynamique de la largeur */
+    text-decoration: none; /* Supprime le soulignement par défaut */
+    font-size: 14px; /* Taille de police standard */
+    border-radius: 5px; /* Coins arrondis */
+    border: 1px solid black; /* Bordure solide */
+    padding: 10px 20px; /* Ajustement du padding horizontal */
+    background-color: white; /* Couleur de fond */
+    color: black; /* Couleur du texte */
+    width: 0 auto; /* Ajuste le bouton à la taille de son contenu */
+    transition: background-color 0.3s ease, color 0.3s ease; /* Transition douce pour le survol */
+    margin: 1em;
+}
+
+.btn-general:hover {
+    text-decoration: none;
+    background-color: var(--balkeYellow-color);
+    color: black;
+    transition: 0.9s;
+}
