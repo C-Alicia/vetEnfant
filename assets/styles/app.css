@@ -4,11 +4,16 @@
 @import url('./layouts/header.css');
 @import url('./layouts/footer.css');
 @import url('./components/card.css');
+@import url('./pages/home.css');
+
+
+
 
 /* Autres styles globaux */
 body {
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* MEDIA QUERIES */
