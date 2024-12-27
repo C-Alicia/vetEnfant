@@ -29,7 +29,7 @@
     <header>
       <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand me-auto" href="/home">
+          <a class="navbar-brand me-auto" href="{{path('app_home')}}">
             <img src="{{ asset('/images/LogoVet.png') }}" height="80" alt="Logo" />
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -40,7 +40,7 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <a class="offcanvas-title" href="/home" id="offcanvasNavbarLabel">
+              <a class="offcanvas-title" href="{{path('app_home')}}" id="offcanvasNavbarLabel">
                 <img src="{{ asset('/images/LogoVet.png') }}" height="100" alt="Logo Vetenfant" />
               </a>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

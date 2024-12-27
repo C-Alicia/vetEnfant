@@ -3,12 +3,13 @@
 @import url('./components/button.css');
 @import url('./layouts/header.css');
 @import url('./layouts/footer.css');
+@import url('./components/card.css');
 
 /* Autres styles globaux */
-/* body {
+body {
     margin: 0;
     padding: 0;
-} */
+}
 
 /* MEDIA QUERIES */
 

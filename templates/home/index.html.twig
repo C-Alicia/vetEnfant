@@ -3,65 +3,68 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-main>
+<main>
+
     <header class="banner text-center">
         <img class="banner_img w-100" src="{{ asset('/images/bannerHomePage.jpg') }}" alt="banner">
         <div class="banner_content mt-5">
             <h1 class="display-5 fw-bold mb-3">ÇA VIENT D'ARRIVER</h1>
             <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
-                <h2 class="text-center flex-grow-1 mb-0">Ici, vous composez les vestiaires de vos kids <br> aussi vite qu’ils grandissent !</h2>
-                <a href="/" class="btn-general">Tout voir</a>
-            </div>            
+                <h2 class="text-center flex-grow-1 mb-0">Ici, vous composez les vestiaires de vos kids <br> aussi vite
+                    qu’ils grandissent !</h2>
+                <a href="#" id="showAllProductsBtn" class="btn-general">Tout voir</a>
+            </div>
         </div>
-    </header>    
+    </header>
 
-    {# Section produits avec boucle par la suite #}
-    {# <section class="section-products m-2">
-        <div class="container">
-            <div class="row">
-                {% for product in products %}
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="single-product">
-                        <div class="product-header">
-                            <img src="{{ asset(product.image) }}" class="card-img-top" alt="{{ product.name }}">
-                        </div>
-                        <div class="product-content">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <h3 class="product-title mb-0">{{ product.name }}</h3>
-                                <i class="fa fa-heart-o fa-lg"></i>
+    <section class="section-products mt-6">
+        <div class="container custom-container">
+            <div id="allProducts">
+                <div class="row gx-4 gy-4">
+                    {% for product in allProducts %}
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <div class="single-product">
+                            <div class="product-header">
+                                {% if product.image is not empty %}
+                                <div class="image-container">
+                                    <img src="{{ asset(product.image[0].src) }}" class="product-image"
+                                        alt="{{ product.image[0].altText }}">
+                                </div>
+                                {% else %}
+                                <div
+                                    class="image-container bg-light text-muted d-flex justify-content-center align-items-center">
+                                    <p>Image non disponible</p>
+                                </div>
+                                {% endif %}
                             </div>
-                            <h4 class="product-subTitle">{{ product.description }}</h4>
-                            <h5 class="product-price">{{ product.price }}€</h5>
+                            <div class="product-content">
+                                <div class="d-flex justify-content-between align-items-center w-100">
+                                    <h3 class="product-title mb-0">{{ product.name }}</h3>
+                                    <i class="fa fa-heart-o fa-lg favorite-icon"></i>
+                                </div>
+                                <h4 class="product-subTitle mt-4">
+                                    {{ product.description|length > 100 ? product.description[:100] ~ '...' :
+                                    product.description }}
+                                </h4>
+                                <h5 class="product-price mt-3">{{ product.price | number_format(2, ',', ' ') }} €</h5>
+                            </div>
                         </div>
                     </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
-    </section> #}
-
-    {# <section class="section-products m-2">
-        <div class="container">
-            <div class="row">               
-                <div class="col-md-6 col-lg-4 col-xl-3">
-                    <div class="single-product">
-                        <div class="product-header">
-                            <img src="{{ asset('/images/bannerHomePage.jpg') }}" class="card-img-top" alt="product.name">
-                        </div>
-                        <div class="product-content">
-                            <div class="d-flex justify-content-between align-items-center w-100">
-                                <h3 class="product-title mb-0">Product name</h3>
-                                <i class="fa fa-heart-o fa-lg"></i>
-                            </div>
-                            <h4 class="product-subTitle">Product description</h4>
-                            <h5 class="product-price">0,00 €</h5>
-                        </div>
-                    </div>
-                </div>             
-            </div>
-        </div>
-    </section> #}
-
-
+    </section>
 </main>
+{% endblock %}
+
+{# Script pour afficher/masquer les produits #}
+{% block javascripts %}
+<script>
+    document.getElementById("showAllProductsBtn").addEventListener("click", function () {
+        // Afficher tous les produits et masquer le bouton
+        document.getElementById("allProducts").style.display = "block";
+        document.getElementById("showAllProductsBtn").style.display = "none";
+    });
+</script>
 {% endblock %}

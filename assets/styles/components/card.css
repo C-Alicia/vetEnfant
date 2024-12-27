@@ -1,0 +1,81 @@
+/* Conteneur des cartes */
+.single-product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    height: 100%;
+    min-height: 350px;
+    background-color: #fff; 
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.row > div {
+    margin-right: 15px; /* Espacement horizontal entre les colonnes */
+}
+
+.container.custom-container .row {
+    gap: 1rem; /* Personnaliser l'espacement entre les cartes */
+}
+
+/* Section image */
+.image-container {
+    height: 300px; /* Hauteur fixe pour la section image */
+    width: 100%; /* Prend toute la largeur */
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f8f9fa;
+    position: relative; /* Nécessaire pour gérer le zoom de l'image */
+}
+
+/* Image dans le conteneur avec zoom */
+.product-image {
+    width: 100%;  /* Prend toute la largeur disponible */
+    height: 100%; /* Prend toute la hauteur disponible */
+    object-fit: cover; /* L'image remplit tout l'espace sans déformation */
+    transition: transform 0.3s ease; /* Transition pour un zoom fluide */
+}
+
+/* Effet de zoom lors du survol de l'image */
+.image-container:hover .product-image {
+    transform: scale(1.2); /* Zoom sur l'image */
+}
+
+/* Section contenant les images et le contenu */
+.product-content {
+    padding: 15px;
+    flex-grow: 1; 
+}
+
+/* Ajouter de l'espace sous le titre du produit */
+.product-title {
+    margin-bottom: 10px; /* Espacement entre le titre et la description */
+}
+
+/* Effet au survol sur la carte */
+.single-product:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Alignement du titre du produit et icône des favoris */
+.product-content .d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+/* Icône des favoris */
+.favorite-icon {
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.favorite-icon:hover {
+    color: #e74c3c; /* Couleur rouge sur le survol */
+}
