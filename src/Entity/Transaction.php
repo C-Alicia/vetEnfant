@@ -17,7 +17,7 @@ class Transaction
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(nullable: true,type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -35,13 +35,13 @@ class Transaction
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $deliveredDate = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $discount = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $paymentDate = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(nullable: true,length: 20)]
     private ?string $cardNumber = null;
 
     #[ORM\ManyToOne(inversedBy: 'transaction')]

@@ -21,19 +21,19 @@ class Product
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(type: 'string', enumType: Gender::class)]
+    #[ORM\Column(nullable: true,type: 'string', enumType: Gender::class)]
     private ?Gender $gender = null;
 
     #[ORM\Column]
     private ?int $size = null;
 
-    #[ORM\Column(type: 'string', enumType: STATE::class)]
+    #[ORM\Column(nullable: true,type: 'string', enumType: STATE::class)]
     private ?STATE $state = null;
 
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(nullable: true,type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]

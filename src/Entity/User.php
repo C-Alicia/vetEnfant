@@ -19,19 +19,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column (length: 180)]
     private ?string $username = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(nullable: true,length: 180)]
     private ?string $lastName = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(nullable: true,length: 180)]
     private ?string $firstName = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true, type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateOfBirth = null;
 
-    #[ORM\Column(length: 20)]
+    #[ORM\Column(nullable: true,length: 20)]
     private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 180)]
@@ -43,13 +43,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::TEXT)]
+    #[ORM\Column(nullable: true,type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 155)]
+    #[ORM\Column(nullable: true, length: 155)]
     private ?string $profileImage = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?float $evaluation = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -75,15 +75,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: OrderOrd::class, mappedBy: 'user')]
     private Collection $orderOrd;
+
+    #[ORM\Column]
+    private ?bool $isRole = null;
  
     public function __construct()
     {
         $this->address = new ArrayCollection();
-        $this->order_ord = new ArrayCollection();
         $this->orderOrd = new ArrayCollection();
     }
-   
-
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -335,6 +336,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $orderOrd->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isRole(): ?bool
+    {
+        return $this->isRole;
+    }
+
+    public function setRole(?bool $isRole): static
+    {
+        $this->isRole = $isRole;
 
         return $this;
     }

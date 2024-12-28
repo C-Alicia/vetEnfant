@@ -16,10 +16,10 @@ class Image
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(nullable: true,length: 255)]
     private ?string $src = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(nullable: true,length: 100)]
     private ?string $altText = null;
 
     #[ORM\ManyToOne(inversedBy: 'image')]

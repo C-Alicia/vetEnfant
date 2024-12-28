@@ -13,16 +13,16 @@ class Address
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(nullable: true,length: 255)]
     private ?string $street = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(nullable: true,length: 255)]
     private ?string $streetDelivery = null;
 
-    #[ORM\Column(length: 10)]
+    #[ORM\Column(nullable: true,length: 10)]
     private ?string $postalCode = null;
 
-    #[ORM\Column(length: 150)]
+    #[ORM\Column(nullable: true,length: 150)]
     private ?string $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'address')]
