@@ -345,7 +345,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->isRole;
     }
 
-    public function setRole(?bool $isRole): static
+    public function setIsRole(?bool $isRole): static
     {
         $this->isRole = $isRole;
 

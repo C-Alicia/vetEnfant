@@ -23,6 +23,7 @@ class UserFixtures extends Fixture
             'evaluation' => 4.5,
             'createdAt' => '2023-01-01 12:00:00',
             'isActive' => true,
+            'isRole' => true,
         ],
         [
             'email' => 'asmith@example.com',
@@ -38,6 +39,7 @@ class UserFixtures extends Fixture
             'evaluation' => 4.8,
             'createdAt' => '2023-02-15 14:00:00',
             'isActive' => true,
+            'isRole' => false,
         ],
         [
             'email' => 'bjohnson@example.com',
@@ -53,6 +55,7 @@ class UserFixtures extends Fixture
             'evaluation' => 3.2,
             'createdAt' => '2023-03-01 10:30:00',
             'isActive' => false,
+            'isRole' => false,
         ],
     ];
     
@@ -73,6 +76,7 @@ class UserFixtures extends Fixture
             $user->setEvaluation($userData['evaluation']);
             $user->setCreatedAt(new \DateTime($userData['createdAt']));
             $user->setIsActive($userData['isActive']);
+            $user->setIsRole($userData['isRole']);
 
             $manager->persist($user);
         }
