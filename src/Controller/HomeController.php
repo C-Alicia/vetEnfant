@@ -27,10 +27,22 @@ class HomeController extends AbstractController
             throw $this->createNotFoundException('Aucun produit trouvé');
         }
 
-        // Passer les produits limités et tous les produits au template
-        return $this->render('home/index.html.twig', [
-            'products' => $products,
-            'allProducts' => $allProducts, // Passer tous les produits pour "Tout voir"
+        // Obtenez l'utilisateur actuel
+        $user = $this->getUser();
+
+        // Vérifiez si l'utilisateur est connecté
+        if ($user && $user->getUserIdentifier()) {
+            // Rediriger ou afficher une vue spécifique si l'utilisateur est authentifié
+            return $this->render('home/index.html.twig', [
+                'products' => $products,
+                'user' => $user,
+                'allProducts' => $allProducts, // Passer tous les produits pour "Tout voir"
+            ]);
+        }
+
+          // Redirection vers la page de connexion pour les utilisateurs non authentifiés
+          return $this->redirectToRoute('app_login', [
+            'redirect' => 'app_home', // Paramètre d'URL pour revenir à cette page après connexion
         ]);
     }
 }

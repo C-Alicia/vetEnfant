@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MainController extends AbstractController
 {
-  #[Route('/')]
+  #[Route('/main')]
   public function homepage(): Response
   {
     $articleVetCount = 521;
