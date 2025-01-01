@@ -20,10 +20,10 @@ class Claim
     #[ORM\Column(nullable: true,type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?bool $isStatus = null;
 
     #[ORM\ManyToOne(inversedBy: 'claim')]

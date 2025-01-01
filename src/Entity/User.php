@@ -49,19 +49,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true, length: 155)]
     private ?string $profileImage = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(nullable: true,)]
     private ?float $evaluation = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private array $roles = [];
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isActive = null;
 
     /**
@@ -76,7 +76,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: OrderOrd::class, mappedBy: 'user')]
     private Collection $orderOrd;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isRole = null;
  
     public function __construct()

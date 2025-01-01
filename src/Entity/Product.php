@@ -24,7 +24,7 @@ class Product
     #[ORM\Column(nullable: true,type: 'string', enumType: Gender::class)]
     private ?Gender $gender = null;
 
-    #[ORM\Column]
+    #[ORM\Column (nullable: true)]
     private ?int $size = null;
 
     #[ORM\Column(nullable: true,type: 'string', enumType: STATE::class)]
@@ -36,10 +36,10 @@ class Product
     #[ORM\Column(nullable: true,type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?bool $isSold = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
