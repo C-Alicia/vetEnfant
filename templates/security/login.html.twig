@@ -3,105 +3,107 @@
 {% block title %}Se connecter{% endblock %}
 
 {% block body %}
-
-<section class="bg-light p-3 p-md-4 p-xl-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-xxl-11">
-                <div class="card border-light-subtle shadow-sm">
-                    <div class="row g-0 align-items-center">
-                        <!-- Image à gauche -->
-                        <div class="col-12 col-md-6">
-                            <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
-                                src="{{ asset('/images/loginImage.jpg') }}" loading="lazy" alt="EnfantMèreImage">
-                        </div>
-                        <!-- Formulaire à droite -->
-                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <div class="col-12 col-lg-11 col-xl-10">
-                                <div class="card-body p-3 p-md-4 p-xl-5">
-                                    <!-- Logo et titre -->
-                                    <div class="text-center mb-4">
-                                        <a href="{{ path('app_home') }}">
-                                            <img src="{{ asset('/images/LogoVet.png') }}" width="200"
-                                                alt="VetEnfant Logo" />
-                                        </a>
-                                    </div>
-                                    <h2 class="h4 text-center">Bienvenue à VetEnfant</h2>
-                                    <!-- Formulaire -->
-                                    <form method="post" action="{{ path('app_login') }}">
-                                        {% if error %}
-                                        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData,
-                                            'security') }}</div>
-                                        {% endif %}
-
-                                        {% if app.user %}
-                                        <div class="mb-3">
-                                            Vous êtes connecté en tant que {{ app.user.userIdentifier }}, <a
-                                                href="{{ path('app_home') }}">Se déconnecter</a>
-                                        </div>
-                                        {% endif %}
-
-                                        <div class="mb-4">
-                                            <div class="form-floating">
-                                                <input type="email" value="{{ last_username }}" name="email"
-                                                    id="inputEmail" class="form-control" autocomplete="email" required
-                                                    autofocus>
-                                                <label for="inputEmail">Email</label>
-                                            </div>
-                                        </div>
-
-                                        <div class="mb-4 position-relative">
-                                            <div class="form-floating">
-                                                <input type="password" name="password" id="inputPassword"
-                                                    class="form-control" autocomplete="current-password" required>
-                                                <label for="inputPassword">Mot de passe</label>
-                                            </div>
-                                            <!-- Icône œil -->
-                                            <span class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                                style="cursor: pointer;" onclick="togglePasswordVisibility()">
-                                                <i class="fa fa-eye" id="password-icon"></i>
-                                            </span>
-                                        </div>
-
-                                        <input type="hidden" name="_csrf_token"
-                                            value="{{ csrf_token('authenticate') }}">
-
-                                        <div class="d-grid">
-                                            <button type="submit" class="btn-general">Se connecter</button>
-                                        </div>
-                                    </form>
-
-                                    <!-- Liens sous le formulaire -->
-                                    <p class="mt-4 text-center text-secondary">
-                                        Vous n’avez pas encore de compte ?
-                                        <a href="{{ path('app_register') }}"
-                                            class="link-warning text-decoration-none">Créer un compte</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<section class="bg-light p-3 p-md-4 p-xl-5 d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-12 col-xxl-11">
+        <div class="card border-light-subtle shadow-sm">
+          <div class="row g-0">
+            <!-- Image de gauche -->
+            <div class="col-12 col-md-6">
+              <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
+                src="{{ asset('/images/registerImage.jpeg') }}" loading="lazy" alt="Image d'une mère et un enfant">
             </div>
+
+            <!-- Formulaire de connexion -->
+            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+              <div class="col-12 col-lg-11 col-xl-10">
+                <div class="card-body p-3 p-md-4 p-xl-5">
+                  <div class="text-center mb-5">
+                    <a href="{{ path('app_home') }}">
+                      <img src="{{ asset('/images/LogoVet.png') }}" width="200" alt="VetEnfantLogo" />
+                    </a>
+                    <h2 class="h4 mt-4">Bienvenue chez VetEnfant</h2>
+                  </div>
+
+                  <form method="post" action="{{ path('app_login') }}">
+                    <!-- Affichage des erreurs -->
+                    {% if error %}
+                    <div class="alert alert-danger">
+                      {{ error.messageKey|trans(error.messageData, 'security') }}
+                    </div>
+                    {% endif %}
+
+                    <!-- Message pour les utilisateurs déjà connectés -->
+                    {% if app.user %}
+                    <div class="alert alert-info">
+                      Vous êtes connecté en tant que {{ app.user.userIdentifier }},
+                      <a href="{{ path('app_logout') }}">Se déconnecter</a>.
+                    </div>
+                    {% endif %}
+
+                    <!-- Email -->
+                    <div class="form-floating mb-3">
+                      <input type="email" class="form-control" name="email" value="{{ last_username }}" id="inputEmail"
+                        placeholder="Email" required>
+                      <label for="inputEmail">Email</label>
+                    </div>
+
+                    <!-- Mot de passe avec icône -->
+                    <div class="mb-4 position-relative">
+                      <div class="form-floating">
+                        <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required
+                          class="form-control" autocomplete="current-password">
+                        <label for="inputPassword">Mot de passe</label>
+                      </div>
+                      <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;"
+                        onclick="togglePasswordVisibility()">
+                        <i class="fa fa-eye" id="password-icon"></i>
+                      </span>
+                    </div>
+
+                    <!-- Jeton CSRF -->
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                    <!-- Bouton de connexion -->
+                    <div class="d-grid">
+                      <button type="submit" class="btn-general">Se connecter</button>
+                    </div>
+                  </form>
+
+                  <!-- Liens de redirection -->
+                  <div class="text-center mt-5">
+                    <p class="mb-0 text-secondary">
+                      Vous n’avez pas encore de compte ?
+                      <a href="{{ path('app_register') }}" class="link-warning text-decoration-none">Créer un
+                        compte</a>.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>
 
 <!-- Script pour afficher/masquer le mot de passe -->
 <script>
-    function togglePasswordVisibility() {
-        const passwordField = document.getElementById("inputPassword");
-        const icon = document.getElementById("password-icon");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-        } else {
-            passwordField.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-        }
+  function togglePasswordVisibility() {
+    const passwordField = document.getElementById("inputPassword");
+    const icon = document.getElementById("password-icon");
+    if (passwordField.type === "password") {
+      passwordField.type = "text";
+      icon.classList.remove("fa-eye");
+      icon.classList.add("fa-eye-slash");
+    } else {
+      passwordField.type = "password";
+      icon.classList.remove("fa-eye-slash");
+      icon.classList.add("fa-eye");
     }
+  }
 </script>
-
 {% endblock %}

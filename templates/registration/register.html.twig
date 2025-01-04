@@ -1,65 +1,103 @@
-
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}S'enregistrer'{% endblock %}
+{% block title %}S'enregistrer{% endblock %}
 
 {% block body %}
-<section class="bg-light p-3 p-md-4 p-xl-5">
+
+{# centrer ma div container #}
+
+<section class="bg-light p-3 p-md-4 p-xl-5 d-flex align-items-center justify-content-center" style="min-height: 100vh;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-xxl-11">
                 <div class="card border-light-subtle shadow-sm">
-                    <div class="row g-0 align-items-center">
-                        <!-- Image à gauche -->
+                    <div class="row g-0">
                         <div class="col-12 col-md-6">
                             <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
                                 src="{{ asset('/images/registerImage.jpeg') }}" loading="lazy" alt="EnfantMèreImage">
                         </div>
-
-                        <!-- Flash messages -->
-                        {% for flash_error in app.flashes('verify_email_error') %}
-                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                        {% endfor %}
-
-                        <!-- Formulaire à droite -->
                         <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
                             <div class="col-12 col-lg-11 col-xl-10">
                                 <div class="card-body p-3 p-md-4 p-xl-5">
-                                    <!-- Titre -->
-                                    <h2 class="h4 text-center">Nouveau client ?</h2>
-
-                                    <!-- Formulaire -->
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="mb-5">
+                                                <div class="text-center mb-4">
+                                                    <a href="{{ path('app_home') }}">
+                                                        <img src="{{ asset('/images/LogoVet.png') }}" width="200"
+                                                            alt="VetEnfant Logo" />
+                                                    </a>
+                                                </div>
+                                                <h2 class="h4 text-center">Nouveau client ?</h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {# <div class="row">
+                                        <div class="col-12">
+                                            <div class="d-flex gap-3 flex-column">
+                                                <a href="#!" class="btn btn-lg btn-outline-dark">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M15.545 6.558a9.42 9.42 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.689 7.689 0 0 1 5.352 2.082l-2.284 2.284A4.347 4.347 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.792 4.792 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.702 3.702 0 0 0 1.599-2.431H8v-3.08h7.545z" />
+                                                    </svg>
+                                                    <span class="ms-2 fs-6">Log in with Google</span>
+                                                </a>
+                                            </div>
+                                            <p class="text-center mt-4 mb-5">Or enter your details to register</p>
+                                        </div>
+                                    </div> #}
                                     {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
-
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.username, {
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            {{ form_widget(registrationForm.username, {
                                             'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
-                                        }) }}
+                                            }) }}
+                                            <label for="{{ registrationForm.username.vars.id }}" class="form-label">Nom
+                                                d'utilisateur</label>
+                                        </div>
                                     </div>
 
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.email, {
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3">
+                                            {{ form_widget(registrationForm.email, {
                                             'attr': { 'class': 'form-control', 'placeholder': 'Email' }
-                                        }) }}
+                                            }) }}
+                                            <label for="{{ registrationForm.email.vars.id }}"
+                                                class="form-label">Email</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating mb-3 position-relative">
+                                            <!-- Champ de mot de passe avec Symfony form_widget -->
+                                            {{ form_widget(registrationForm.plainPassword, {
+                                            'attr': { 'class': 'form-control', 'placeholder': 'Mot de passe', 'id':
+                                            'password' }
+                                            }) }}
+                                            <label for="{{ registrationForm.plainPassword.vars.id }}"
+                                                class="form-label">Mot de passe</label>
+
+                                            <!-- Icône œil pour afficher/masquer le mot de passe -->
+                                            <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                style="cursor: pointer;" onclick="togglePasswordVisibility()"
+                                                aria-label="Afficher ou masquer le mot de passe">
+                                                <i class="fa fa-eye" id="password-icon"></i>
+                                            </span>
+                                        </div>
                                     </div>
 
-                                    <div class="form-floating mb-3 position-relative">
-                                        {{ form_row(registrationForm.plainPassword, {
-                                            'label': 'Mot de passe',
-                                            'attr': { 'class': 'form-control', 'placeholder': 'Mot de passe' }
-                                        }) }}
-                                        <!-- Icône œil pour afficher le mot de passe -->
-                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style="cursor: pointer;" onclick="togglePasswordVisibility()">
-                                            <i class="fa fa-eye" id="password-icon"></i>
-                                        </span>
-                                    </div>
 
-                                    <div class="form-check mb-4">
-                                        {{ form_row(registrationForm.agreeTerms, {
-                                            'attr': { 'class': 'form-check-input' },
-                                            'label_attr': { 'class': 'form-check-label' }
-                                        }) }}
+                                    <div class="col-12">
+                                        <div class="form-check mb-4">
+                                            {{ form_widget(registrationForm.agreeTerms, {
+                                            'attr': { 'class': 'form-check-input' }
+                                            }) }}
+                                            <label for="{{ registrationForm.agreeTerms.vars.id }}"
+                                                class="form-check-label text-secondary">
+                                                J'accepte les <a href="#!"
+                                                    class="link-warning text-decoration-none">termes et conditions</a>
+                                            </label>
+                                        </div>
                                     </div>
 
                                     <p class="text-muted small" id="texte-justify">
@@ -85,33 +123,40 @@
                                         <a href="#" class="text-decoration-none">"Cookies"</a>.
                                     </p>
 
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn-general">S'enregistrer</button>
+                                    <div class="col-12">
+                                        <div class="d-grid">
+                                            <button class="btn-general" type="submit">S'enregistrer</button>
+                                        </div>
                                     </div>
-
-                                    {{ form_end(registrationForm) }}
                                 </div>
+                                {{ form_end(registrationForm) }}
+                                {# <div class="row">
+                                    <div class="col-12">
+                                        <p class="mb-0 mt-5 text-secondary text-center">Already have an account? <a
+                                                href="#!" class="link-primary text-decoration-none">Sign in</a></p>
+                                    </div>
+                                </div> #}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </section>
 <!-- Script pour afficher/masquer le mot de passe -->
 <script>
     function togglePasswordVisibility() {
-        const passwordField = document.getElementById("password");
+        const passwordField = document.getElementById("{{ registrationForm.plainPassword.vars.id }}");
         const icon = document.getElementById("password-icon");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
+
+        if (passwordField && icon) {
+            const isPasswordHidden = passwordField.type === "password";
+            passwordField.type = isPasswordHidden ? "text" : "password";
+            icon.classList.toggle("fa-eye", !isPasswordHidden);
+            icon.classList.toggle("fa-eye-slash", isPasswordHidden);
         } else {
-            passwordField.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
+            console.error("Champ de mot de passe ou icône non trouvée.");
         }
     }
 </script>

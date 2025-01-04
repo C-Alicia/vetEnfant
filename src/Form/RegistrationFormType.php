@@ -50,7 +50,9 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new IsTrue(['message' => 'You should agree to our terms.']),
                 ],
-            ]);
+                'label' => 'J\'accepte les termes et conditions', // Ajout du texte personnalisé
+                'label_attr' => ['class' => 'form-check-label text-secondary'], // Ajouter une classe pour le style
+            ]);            
             /* ->add('createdAt', DateTimeType::class, [
                 'widget' => 'single_text',
                 'input' => 'datetime',

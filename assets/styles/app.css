@@ -16,7 +16,6 @@ body {
 }
 
 /* MEDIA QUERIES */
-
 /* Styles spécifiques aux petits écrans */
 @media (max-width: 768px) {
     .separator::after {

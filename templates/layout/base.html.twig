@@ -13,15 +13,18 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   {#
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" /> #}
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+ <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> 
   {#
-  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"> #}
+  <link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css"> #}  
+  {# <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> #}
+
+
 
   {% block stylesheets %}
   <link rel="stylesheet" href="{{ asset('styles/app.css') }}" />
   {% endblock %}
   {% block javascripts %}
-    <script src="{{ asset('js/app.js') }}"></script>
+  <script src="{{ asset('js/app.js') }}"></script>
   {% endblock %}
   {% block importmap %}
   {{
@@ -33,13 +36,13 @@
 <body>
   <main>
     <header>
-      <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top">
+      <nav class="navbar navbar-light bg-white navbar-xexpand-lg border-bottom fixed-top">
         <div class="container-fluid">
           <a class="navbar-brand me-auto" href="{{path('app_home')}}">
             <img src="{{ asset('/images/LogoVet.png') }}" height="80" alt="Logo" />
           </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+          <button class="navbar-toggler d-lg-none" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
 
@@ -86,12 +89,11 @@
                   <input type="text" class="form-control search-input" placeholder="Rechercher..." />
                 </div>
               </li>
-
-              <div class="dropdown">
+              <div class="dropdown ">
                 <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"
                   aria-expanded="false">
                   {% if app.user %}
-                  <img src="{{ app.user.profileImage }}" height="80" alt="avatar" />
+                  <img src="{{ app.user.profileImage }}" height="50" width="50" class="rounded-circle" alt="avatar" />
                   Bonjour, {{ app.user.username }}
                   {% else %}
                   <i class="fa fa-user" aria-hidden="false"> Mon compte</i>
@@ -147,73 +149,6 @@
                   {% endif %}
                 </ul>
               </div>
-
-              {# <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  {% if app.user %}
-                  <img src="{{ app.user.profileImage }}" height="80" alt="avatar" />
-                  Bonjour, {{ app.user.username }}
-
-                  {% else %}
-                  <i class="fa fa-user" aria-hidden="false"> Mon compte</i>
-                </button>
-                {% endif %}
-                <ul class="dropdown-menu mt-2 p-4" aria-labelledby="dropdownMenuButton">
-                  {% if app.user %}
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-user"></i> Mon Profil
-                    </a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-heart"></i> Mes favoris</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Messages</a>
-                  </li>
-                  <li class="nav-item">
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <form action="{{ path('app_home') }}" method="post">
-                      <button type="submit" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-                        <a class="dropdown-item" href="{{ path('app_logout') }}">
-                          <i class="fa fa-power-off"></i> Se déconnecter
-                        </a>
-                      </button>
-                    </form>
-                    {# <a class="dropdown-item" href="{{ path('app_logout') }}">
-                      <i class="fa fa-power-off"></i> Se déconnecter
-                    </a>
-
-                  </li>
-                  {% else %}
-                  <li>
-                    <strong> Déjà client </strong>
-                  </li>
-                  <li>
-                    <a class="dropdown-item btn-general text-center" href="{{path('app_login')}}">Me connecter</a>
-                  </li>
-                  <li>
-                    <a class="text-muted" href="#">Mot de passe perdu ?</a>
-                  </li>
-                  <li>
-                    <hr class="dropdown-divider" />
-                  </li>
-                  <li>
-                    <strong> Nouveau client </strong>
-                  </li>
-                  <a class="dropdown-item btn-general text-center" href="{{path('app_register')}}">Créer un compte</a>
-                  </li>
-                </ul>
-                {% endif %}
-              </div>#}
               <li class="nav-item">
                 <a href="/" class="nav-link">
                   <i class="fa fa-shopping-bag "></i>
@@ -239,10 +174,10 @@
                 <h6 class="footer-title">Suivez-nous sur nos réseaux sociaux</h6>
                 <hr class="footer-divider" />
                 <div class="social-icons">
-                  <a href="#"><i class="fa fa-facebook fa-lg"></i></a>
-                  <a href="#"><i class="fa fa-twitter fa-lg"></i></a>
-                  <a href="#"><i class="fa fa-instagram fa-lg"></i></a>
-                  <a href="#"><i class="fa fa-youtube fa-lg"></i></a>
+                  <a href="#"><i class="fa-brands fa-facebook fa-lg"></i></a>
+                  <a href="#"><i class="fa-brands fa-twitter fa-lg"></i></a>
+                  <a href="#"><i class="fa-brands fa-instagram fa-lg"></i></a>
+                  <a href="#"><i class="fa-brands fa-youtube fa-lg"></i></a>
                 </div>
                 <p class="mt-3">Promis, ici, les enfants ressemblent <br> aux vôtres.</p>
               </div>
@@ -291,7 +226,7 @@
       </footer>
     </div>
   </main>
-  
+
   <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
   <!-- Popper.js -->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
