@@ -25,7 +25,8 @@
   - VetEnfant Mail Bot
   - composer require symfonycasts/verify-email-bundle
   - symfony console make:auth
-  - 
+  - composer require symfonycasts/reset-password-bundle
+  - php bin/console make:reset-password
   
 
  

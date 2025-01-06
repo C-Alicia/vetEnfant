@@ -1,0 +1,30 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Mot de passe renvoyé{% endblock %}
+
+{% block body %}
+
+<section class="py-3 py-md-5 min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="text-center">
+                    <h2 class="d-flex justify-content-center align-items-center gap-2 mb-4">
+                        Courriel de réinitialisation du mot de passe envoyé
+                    </h2>
+
+                    <p class="mb-5"> If an account matching your email exists, then an email was just sent that contains
+                        a link that you can use to reset your password.
+                        This link will expire in {{
+                        resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle')
+                        }}.</p>
+
+                    <p class="mb-5">If you don't receive an email please check your spam folder or <a
+                            href="{{ path('app_forgot_password_request') }}">try again</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
