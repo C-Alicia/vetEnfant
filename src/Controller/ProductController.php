@@ -8,16 +8,34 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Entity\Image;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+
+
+
+#[Route('products', name: 'products_')]
 class ProductController extends AbstractController
 {
-     #[Route('/product', name: 'app_product')]
+     #[Route('/', name: 'app_product')]
     public function index(): Response
     {    
-        return $this->render('product/index.html.twig', [
-            'controller_name' => 'ProductController',
-        ]);
+      return $this->render('product/index.html.twig');
     }
+
+    #[Route('/{id}', name: 'details')]
+    public function details(ManagerRegistry $doctrine, $id): Response
+    {
+      $product = $doctrine->getRepository(Product::class)->find($id);
+
+      if (!$product) {
+          throw new NotFoundHttpException("Product not found.");
+      }
+
+      return $this->render('product/details.html.twig', [
+          'product' => $product,
+      ]);
+    }
+
 
   // Méthode pour afficher la liste des produits
    /*  // Récupération de tous les produits depuis la base de données
