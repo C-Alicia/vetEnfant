@@ -81,7 +81,7 @@
           <div class="offcanvas-side-body d-none d-sm-block d-md-block">
             <ul class="navbar-nav justify-content-end d-flex flex-row align-items-center">
               <li class="nav-item">
-                <a href="#" class="btn-general">Vends tes articles</a>
+                {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes articles', type: 'submit' }) }}
               </li>
               <li class="nav-item">
                 <div class="search-box d-flex align-items-center">

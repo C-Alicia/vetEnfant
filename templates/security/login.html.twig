@@ -69,7 +69,7 @@
 
                     <!-- Bouton de connexion -->
                     <div class="d-grid">
-                      <button type="submit" class="btn-general">Se connecter</button>
+                      {{ include('components/button.html.twig', { class: 'btn-general', label: 'Se connnecter', type: 'submit' }) }}
                     </div>
                   </form>
 
