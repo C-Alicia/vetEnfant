@@ -3,9 +3,8 @@
 {% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
-
 <section class="bg-light p-3 p-md-4 p-xl-5 mt-5">
-    <div class="container container-lg">
+    <article class="container container-lg">
         <div class="row justify-content-center">
             <div class="col-12 col-xxl-11">
                 <div class="card border-light-subtle shadow-sm">
@@ -13,12 +12,12 @@
                         <!-- Image à gauche -->
                         <div class="col-12 col-md-6">
                             <img src="{{ asset(product.image[0].src) }}" alt="{{ product.image[0].altText }}"
-                                class="img-fluid rounded-start object-fit-cover mb-3 product-image" id="mainImage">
+                                 class="img-fluid rounded-start object-fit-cover mb-3 product-image" id="mainImage">
                             <div class="d-flex justify-content-between">
                                 {% for image in product.image %}
-                                <img src="{{ asset(image.src) }}" alt="{{ image.altText }}"
-                                    class="thumbnail rounded mb-3 {% if loop.first %}active{% endif %}"
-                                    onclick="changeImage(event, '{{ asset(image.src) }}')">
+                                    <img src="{{ asset(image.src) }}" alt="{{ image.altText }}"
+                                         class="thumbnail rounded mb-3 {% if loop.first %}active{% endif %}"
+                                         onclick="changeImage(event, '{{ asset(image.src) }}')">
                                 {% endfor %}
                             </div>
                         </div>
@@ -31,9 +30,9 @@
                                     <h2 class="mb-3">{{ product.name }}</h2>
                                     <div class="text-muted mb-4 d-flex align-items-center">
                                         <a href="" class="text-decoration-none text-muted">
-                                            <img src="{{product.user.profileImage}}" alt="Photo du vendeur"
-                                                class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                            <span>{{product.user.username}}</span>
+                                            <img src="{{ product.user.profileImage }}" alt="Photo du vendeur"
+                                                 class="rounded-circle me-2" style="width: 40px; height: 40px;">
+                                            <span>{{ product.user.username }}</span>
                                         </a>
                                     </div>
                                     <div class="mb-3">
@@ -46,12 +45,12 @@
                                     </div>
 
                                     <!-- Boutons -->
-                                    <div class="d-grid">
+                                    <div class="d-grid mb-2">
                                         <button class="btn-general">
                                             <i class="bi bi-heart"></i> Ajouter aux favoris
                                         </button>
                                     </div>
-                                    <div class="d-grid">
+                                    <div class="d-grid mb-2">
                                         <button class="btn-general">
                                             <i class="bi bi-envelope"></i> Contacter le vendeur
                                         </button>
@@ -68,10 +67,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </article>
 </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+{% block javascripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" defer></script>
 <script>
     function changeImage(event, src) {
         const mainImage = document.getElementById('mainImage');
@@ -82,5 +82,5 @@
         event.target.classList.add('active');
     }
 </script>
-
+{% endblock %}
 {% endblock %}
