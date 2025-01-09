@@ -9,36 +9,37 @@ use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Entity\Image;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use App\Repository\ProductRepository;
 
-
-
-
-#[Route('products', name: 'products_')]
+#[Route('product', name: 'product_')]
 class ProductController extends AbstractController
 {
-     #[Route('/', name: 'app_product')]
-    public function index(): Response
-    {    
-      return $this->render('product/index.html.twig');
+  #[Route('/', name: 'app_product')]
+  public function index(): Response
+  {
+    return $this->render('product/index.html.twig');
+  }
+
+  #[Route('/{id}', name: 'details')]
+  public function details(ManagerRegistry $doctrine, $id): Response
+  {
+    $product = $doctrine->getRepository(Product::class)->find($id);
+
+    if (!$product) {
+      throw new NotFoundHttpException("Product not found.");
     }
 
-    #[Route('/{id}', name: 'details')]
-    public function details(ManagerRegistry $doctrine, $id): Response
-    {
-      $product = $doctrine->getRepository(Product::class)->find($id);
+    return $this->render('product/details.html.twig', [
+      'product' => $product
+    ]);
+  }
 
-      if (!$product) {
-          throw new NotFoundHttpException("Product not found.");
-      }
 
-      return $this->render('product/details.html.twig', [
-          'product' => $product,
-      ]);
-    }
+
 
 
   // Méthode pour afficher la liste des produits
-   /*  // Récupération de tous les produits depuis la base de données
+  /*  // Récupération de tous les produits depuis la base de données
     $products = $doctrine->getRepository(Product::class)->findAll();
 
     if (!$products) {
@@ -49,5 +50,4 @@ class ProductController extends AbstractController
     return $this->render('product/index.html.twig', [
       'products' => $products
     ]); */
-  
 }

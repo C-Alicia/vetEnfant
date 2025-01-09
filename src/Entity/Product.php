@@ -143,7 +143,7 @@ class Product
         return $this->isSold;
     }
 
-    public function setSold(bool $isSold): static
+    public function setIsSold(bool $isSold): static
     {
         $this->isSold = $isSold;
 

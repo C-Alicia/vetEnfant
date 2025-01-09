@@ -1,0 +1,37 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Nouveautés{% endblock %}
+
+{% block body %}
+<main>
+    {% include 'components/banner.html.twig' with {
+    banner_image: '/images/bannerNewProduct.jpeg',
+    banner_title: "",
+    banner_subtitle: "Vêtements enfant et bébé",
+    banner_button_link: '#',
+    banner_button_text: 'Trier et Filtrer'
+    } %}
+
+    <div class="container custom-container">
+        <p>{{ productsCount }} produits</p>
+    </div>
+
+    {% if message %}
+    <div class="alert alert-warning text-center">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    {% include 'product/list.html.twig' with { 'products': products } %}
+
+    <div class="container d-flex justify-content-center align-items-center">
+        <div class="text-center">
+            <p>Résultat par page .. sur</p>
+    
+            {# utiliser le component #}
+            <button type="submit" class="btn-general">Voir plus d'articles</button>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
