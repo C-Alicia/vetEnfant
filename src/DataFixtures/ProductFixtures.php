@@ -61,7 +61,7 @@ class ProductFixtures extends Fixture
             $product->setPrice($productData['price']);
             $product->setSize($productData['size']);
             $product->setDescription($productData['description']);
-            $product->setSold($productData['isSold']);
+            $product->setIsSold($productData['isSold']);
             $product->setCreatedAt(new \DateTime($productData['createdAt']));
 
             // Associe l'ID de la commande via l'order_id

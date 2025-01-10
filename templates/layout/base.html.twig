@@ -31,7 +31,7 @@
     <header>
       <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top">
         <div class="container-fluid">
-          <a class="navbar-brand me-auto" href="{{path('home_app_home')}}">
+          <a class="navbar-brand me-auto" href="{{path('app_home')}}">
             <img src="{{ asset('/images/LogoVet.png') }}" height="80" alt="Logo" />
           </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
@@ -42,7 +42,7 @@
           <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel">
             <div class="offcanvas-header">
-              <a class="offcanvas-title" href="{{path('home_app_home')}}" id="offcanvasNavbarLabel">
+              <a class="offcanvas-title" href="{{path('app_home')}}" id="offcanvasNavbarLabel">
                 <img src="{{ asset('/images/LogoVet.png') }}" height="100" alt="Logo Vetenfant" />
               </a>
               <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -50,22 +50,22 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="{{path('home_newsproduct')}}">NOUVEAUTÉS</a>
+                  <a class="nav-link" aria-current="page" href="{{path('product_newProduct')}}">NOUVEAUTÉS</a>
                   <span class="">0-16 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">BÉBÉ</a>
+                  <a class="nav-link" href="{{path('product_productBaby')}}">BÉBÉ</a>
                   <span class="">0-3 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">FILLE</a>
+                  <a class="nav-link" href="{{path('product_productGirl')}}">FILLE</a>
                   <span class="">3-16 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">GARÇON</a>
+                  <a class="nav-link" href="{{path('product_productBoy')}}">GARÇON</a>
                   <span class="">3-16 ans</span>
                 </li>
               </ul>

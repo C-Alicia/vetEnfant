@@ -41,7 +41,7 @@
                                     </div>
                                     <p class="mb-4 text-justify">{{ product.description }}</p>
                                     <div class="mb-4">
-                                        <p class="product-detail"><strong>Taille :</strong> {{ product.size }}</p>
+                                        <p class="product-detail"><strong>Taille :</strong> {{  product.getAgeCategory() }}</p>
                                         <p class="product-detail"><strong>État :</strong> {{ product.state.value }}</p>
                                     </div>
 

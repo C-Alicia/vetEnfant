@@ -11,11 +11,10 @@ use App\Entity\Image;
 use App\Repository\ProductRepository;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-#[Route('home', name: 'home_')]
 class HomeController extends AbstractController
 {
     // Route d'accueil qui affiche la liste des produits
-    #[Route('/', name: 'app_home')]
+    #[Route('/home', name: 'app_home')]
     public function index(ProductRepository $prodRepo): Response
     {
         $products = null;
@@ -45,32 +44,4 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/newproduct', name: 'newsproduct')]
-    public function showAllNewProduct(ProductRepository $prodRepo): Response
-    {
-        $products = null;
-        $message = null;
-
-        try {
-            $products = $prodRepo->findAllNewProduct();
-
-            // Vérifier si des produits ont été trouvés
-            if (!$products) {
-                throw new NotFoundHttpException('Aucun produit trouvé.');
-            }
-        } catch (NotFoundHttpException $e) {
-            // Attraper l'exception et définir un message à transmettre à la vue
-            $message = $e->getMessage(); // Récupérer le message de l'exception
-        }
-
-        // Calculer le nombre de produits
-        $productsCount = count($products);
-
-
-        return $this->render('home/productNew.html.twig', [
-            'products' => $products,
-            'productsCount' => $productsCount,
-            'message' => $message
-        ]);
-    }
 }
