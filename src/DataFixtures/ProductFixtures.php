@@ -51,7 +51,7 @@ class ProductFixtures extends Fixture
         ],
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach (self::PRODUCTS as $productData) {
             $product = new Product();
