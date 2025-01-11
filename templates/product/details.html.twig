@@ -41,25 +41,23 @@
                                     </div>
                                     <p class="mb-4 text-justify">{{ product.description }}</p>
                                     <div class="mb-4">
-                                        <p class="product-detail"><strong>Taille :</strong> {{  product.getAgeCategory() }}</p>
+                                        <p class="product-detail"><strong>Taille :</strong> {{ product.getAgeCategory()
+                                            }}</p>
                                         <p class="product-detail"><strong>État :</strong> {{ product.state.value }}</p>
                                     </div>
 
                                     <!-- Boutons -->
                                     <div class="d-grid"> {# ajouter un lien vers la page favoris #}
-                                        <button class="btn-general">
-                                            <i class="bi bi-heart"></i> Ajouter aux favoris
-                                        </button>
+                                        {{ include('components/button.html.twig', { class: 'btn-general', label:
+                                        'Ajouter aux favoris', type: 'submit' }) }}
                                     </div>
                                     <div class="d-grid"> {# ajouter un lien vers la page du vendeur #}
-                                        <button class="btn-general">
-                                            <i class="bi bi-envelope"></i> Contacter le vendeur
-                                        </button>
+                                        {{ include('components/button.html.twig', { class: 'btn-general', label:
+                                        'Contacter le vendeur', type: 'submit' }) }}
                                     </div>
                                     <div class="d-grid"> {# ajouter un #}
-                                        <button class="btn-general">
-                                            <i class="bi bi-cart"></i> Ajouter au panier
-                                        </button>
+                                        {{ include('components/button.html.twig', { class: 'btn-general', label:
+                                        'Ajouter au panier', type: 'submit' }) }}
                                     </div>
                                 </div>
                             </div>

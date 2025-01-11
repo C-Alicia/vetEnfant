@@ -25,7 +25,7 @@
   - VetEnfant Mail Bot
   - composer require symfonycasts/verify-email-bundle
   - symfony console make:auth
-  - 
-  
 
- 
+
+  <!-- complementaire : paginator, breadcrump -->
+  - composer require knplabs/knp-paginator-bundle

@@ -10,6 +10,9 @@ use App\Entity\Product;
 use App\Entity\Image;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\ProductRepository;
+use App\Enum\Gender;
+use Symfony\Component\HttpFoundation\Request;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
@@ -131,10 +134,6 @@ class ProductController extends AbstractController
       'message' => $message
     ]);
   }
-
-
-
-
 
   #[Route('/{id<\d+>}', name: 'details')]
   public function details(ManagerRegistry $doctrine, $id): Response
