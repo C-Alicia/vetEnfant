@@ -8,16 +8,31 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Entity\Image;
+use App\Entity\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\ProductRepository;
 use App\Enum\Gender;
+use App\Enum\State;
+use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Form\ProductFormType;
+use App\Service\PictureService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Security;
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
 {
-  #[Route('/newproduct', name: 'newProduct')]
+  private $productRepo;
+
+  public function __construct(ProductRepository $productRepo)
+  {
+    $this->productRepo = $productRepo;
+  }
+
+  #[Route('/new', name: 'productNew')]
   public function showAllNewProduct(ProductRepository $prodRepo): Response
   {
     $products = [];
@@ -146,6 +161,68 @@ class ProductController extends AbstractController
 
     return $this->render('product/details.html.twig', [
       'product' => $product
+    ]);
+  }
+
+  #[Route('/sell', name: 'productSell')]
+  public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService, Security $security): Response
+  {
+    /* $this->denyAccessUnlessGranted('ROLE_ADMIN'); */
+
+    //On crée un "nouveau produit"
+    $product = new Product();
+
+    // Récupérer l'utilisateur actuellement connecté
+    $user = $security->getUser();
+
+    // Associer l'utilisateur au produit (si nécessaire)
+    if ($user) {
+      $product->setUser($user); // Assurez-vous que la méthode setUser() existe dans votre entité Product
+    }
+
+    // Associer l'utilisateur au produit (si nécessaire)
+    $product->setUser($user); // Assurez-vous que la méthode `setUser` existe dans votre entité Product
+
+    // On crée le formulaire
+    $productForm = $this->createForm(ProductFormType::class, $product);
+
+    // On traite la requête du formulaire
+    $productForm->handleRequest($request);
+
+    //On vérifie si le formulaire est soumis ET valide
+    if ($productForm->isSubmitted() && $productForm->isValid()) {
+      // On récupère les images
+      $images = $productForm->get('image')->getData();
+     /*  dd($images); */
+
+      foreach ($images as $image) {
+        // On définit le dossier de destination
+        $folder = 'products';
+
+        // On appelle le service d'ajout
+        $fichier = $pictureService->add($image, $folder, 300, 300);
+
+        $img = new Image();
+        $img->setName($fichier);
+        $product->addImage($img);
+      }
+
+      // On génère le slug
+      $slug = $slugger->slug($product->getName());
+      $product->setSlug($slug); 
+
+      // On stocke
+      $em->persist($product);
+      $em->flush();
+
+      $this->addFlash('success', 'Produit ajouté avec succès');
+
+      // On redirige
+      return $this->redirectToRoute('product_productNew');
+    }
+
+    return $this->render('product/productSell.html.twig', [
+      'productForm' => $productForm->createView(),
     ]);
   }
 }

@@ -1,0 +1,193 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Vend ton article{% endblock %}
+
+{% block body %}
+<main>
+    {% include 'components/banner.html.twig' with {
+    banner_image: '/images/bannerSellProduct.jpg',
+    banner_title: "",
+    banner_subtitle: "Vend ton article",
+    banner_button_link: '',
+    banner_button_text: ''
+    } %}
+
+ {#    {% if message %}
+    <div class="alert alert-danger text-center">
+        {{ message }}
+         
+    </div>
+    {% endif %} #}
+    <div class="container p-3 p-md-4 p-xl-5">
+        <section class="panel panel-default">
+            <div class="panel-body">
+                <form method="post" action="{{ path('product_productSell') }}" class="form-horizontal" role="form">
+                    {{ form_start(productForm, {'enctype': 'multipart/form-data'}) }}
+
+                    <div class="form-group d-flex w-50 p-3 mb-4">
+                        <label for="{{ productForm.name.vars.id }}"
+                            class="col-sm-3 control-label"><strong>Titre</strong> :</label>
+                        <div class="col-sm-6">
+                            {{ form_row(productForm.name, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex w-75 p-3 mb-6">
+                        <label for="{{ productForm.description.vars.id }}" class="col-sm-3"><strong>Décris
+                                ton article</strong> :</label>
+                        <div class="col-sm-9">
+                            {{ form_row(productForm.description, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+
+                    <div class="border-dotted rounded-3">
+                        <div class="form-group d-flex w-75 p-3 mb-4">
+                            <label for="{{ productForm.category.vars.id }}"
+                                class="col-sm-3 control-label"><strong>Catégorie:</strong></label>
+                            <div class="col-sm-6">
+                                {{ form_row(productForm.category, { 'attr': {'class': 'form-control'} }) }}                      
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex w-75 p-3 mb-4">
+                            <label for="{{ productForm.gender.vars.id }}"
+                                class="col-sm-3 control-label"><strong>Genre</strong> :</label>
+                            <div class="col-sm-6">
+                                {{ form_row(productForm.gender, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex w-75 p-3 mb-4">
+                            <label for="{{ productForm.size.vars.id }}"
+                                class="col-sm-3 control-label"><strong>Taille:</strong></label>
+                            <div class="col-sm-6">
+                                {{ form_row(productForm.size, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+
+                        <div class="form-group d-flex w-75 p-3 mb-4">
+                            <label for="{{ productForm.state.vars.id }}"
+                                class="col-sm-3 control-label"><strong>Etat:</strong></label>
+                            <div class="col-sm-6">
+                                {{ form_row(productForm.state, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-dotted rounded-3 mt-4">
+                        <div class="form-group d-flex w-75 p-3">
+                            <label for="{{ productForm.price.vars.id }}"
+                                class="col-sm-3 control-label"><strong>Prix:</strong></label>
+                            <div class="col-sm-6">
+                                {{ form_row(productForm.price, { 'attr': {'class': 'form-control'} }) }}
+                            </div>
+                        </div>
+                    </div>
+
+                    {% if productForm.image is defined %}
+                    <div class="border-dotted rounded-3 mt-4">
+                        <div class="form-group mb-3 p-3">
+                            <label for="{{ productForm.image.vars.id }}" class="form-label mb-4">
+                                Ajouter jusqu'à 5 photos <a href="#">voir astuces</a>
+                            </label>
+
+                            <!-- Champ de téléchargement d'images personnalisé -->
+                            {{ form_widget(productForm.image, {
+                            'attr': {
+                            'class': 'form-control',
+                            'multiple': 'multiple',
+                            'onchange': 'previewImages()'
+                            }
+                            }) }}
+                        </div>
+
+                        <!-- Prévisualisation des images téléchargées -->
+                        <div id="image-preview" class="mt-4 d-flex flex-wrap position-relative">
+                            <!-- Les images prévisualisées seront ajoutées ici par JavaScript -->
+                        </div>
+                    </div>
+                    {% endif %}
+                    {{ form_end(productForm) }}
+                </form>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Fonction pour afficher les miniatures des images sélectionnées
+        function previewImages() {
+            const previewContainer = document.getElementById('image-preview');
+            const files = document.querySelector('input[type="file"]').files;
+
+            // Vider les images existantes dans la prévisualisation
+            previewContainer.innerHTML = '';
+
+            if (files) {
+                // Créer une miniature pour chaque image sélectionnée
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        // Créer l'image miniature
+                        const img = document.createElement('img');
+                        img.src = e.target.result;  // Source de l'image
+                        img.alt = 'Prévisualisation';
+                        img.className = 'img-thumbnail';  // Classe pour l'image
+                        img.style.width = '150px';  // Taille de l'image
+                        img.style.height = '150px'; // Taille de l'image
+                        img.style.objectFit = 'cover';  // Assurer que l'image reste proportionnelle sans distorsion
+
+                        // Créer le conteneur de l'image avec la croix pour la suppression
+                        const imageWrapper = document.createElement('div');
+                        imageWrapper.className = 'position-relative d-inline-block m-2';  // Assurer que le conteneur est bien en ligne et avec un espacement
+
+                        // Créer la croix pour supprimer l'image
+                        const removeBtn = document.createElement('span');
+                        removeBtn.className = 'position-absolute top-0 start-100 translate-middle p-2 bg-warning text-white rounded-circle';  // Augmenter padding pour une forme ronde
+                        removeBtn.style.cursor = 'pointer';
+                        removeBtn.style.width = '30px';  // Largeur fixe pour un bouton rond
+                        removeBtn.style.height = '30px'; // Hauteur fixe pour un bouton rond
+                        removeBtn.style.lineHeight = '14px';  // Centrer le texte à l'intérieur
+                        removeBtn.style.textAlign = 'center';  // Centrer le texte à l'intérieur
+                        removeBtn.style.fontSize = '18px';  // Ajuster la taille de la croix
+                        removeBtn.style.transform = 'translate(-50%, -50%)';  // Positionner la croix correctement par rapport à l'image
+                        removeBtn.innerHTML = '&times;';  // Le symbole de la croix
+
+                        // Ajouter l'événement pour supprimer l'image
+                        removeBtn.onclick = function () {
+                            removeImage(index); // Supprimer l'image de la liste et de la prévisualisation
+                        };
+
+                        // Ajouter l'image et le bouton de suppression au conteneur
+                        imageWrapper.appendChild(img);
+                        imageWrapper.appendChild(removeBtn);
+
+                        // Ajouter le conteneur d'image avec la croix à la prévisualisation
+                        previewContainer.appendChild(imageWrapper);
+
+                    };
+                    reader.readAsDataURL(file);  // Lire le fichier comme une URL de données
+                });
+            }
+
+            // Fonction pour supprimer une image de la liste et de la prévisualisation 
+            function removeImage(index) {
+                const fileInput = document.querySelector('input[type="file"]');
+                const files = Array.from(fileInput.files);
+
+                // Retirer l'image de la liste des fichiers
+                files.splice(index, 1);
+
+                // Créer un nouvel objet DataTransfer pour mettre à jour les fichiers
+                const dataTransfer = new DataTransfer();
+                files.forEach(file => dataTransfer.items.add(file));
+
+                // Mettre à jour les fichiers dans l'élément input
+                fileInput.files = dataTransfer.files;
+
+                // Recharger la prévisualisation des images
+                previewImages();
+            }
+        }
+    </script>
+</main>
+{% endblock %}
