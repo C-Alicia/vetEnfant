@@ -17,19 +17,18 @@ class PictureService
 
     public function add(UploadedFile $picture, ?string $folder = '', ?int $width = 250, ?int $height = 250)
     {
-        // on donne un nouveau nom  à l'image
+        // On donne un nouveau nom à l'image
         $fichier = md5(uniqid(rand(), true)) . '.webp';
 
-        // on récupere les infos de l'image
-        $pictureInfos = getimagesize($picture);
+        // On récupère les infos de l'image
+        $picture_infos = getimagesize($picture);
 
-        if ($pictureInfos === false) {
-
-            throw new Exception('Format d\image incorrect');
+        if($picture_infos === false){
+            throw new Exception('Format d\'image incorrect');
         }
 
-        // on vérifie le format de l'image
-        switch ($pictureInfos['mime']) {
+        // On vérifie le format de l'image
+        switch($picture_infos['mime']){
             case 'image/png':
                 $picture_source = imagecreatefrompng($picture);
                 break;
@@ -44,19 +43,19 @@ class PictureService
         }
 
         // On recadre l'image
-        // On récupere les dimensions
-        $imageWidth = imagesx($picture_source);
-        $imageHeight = imagesy($picture_source);
+        // On récupère les dimensions
+        $imageWidth = $picture_infos[0];
+        $imageHeight = $picture_infos[1];
 
-        // on vérifie l'orientation d'image
-        switch ($imageWidth <=> $imageHeight) {
+        // On vérifie l'orientation de l'image
+        switch ($imageWidth <=> $imageHeight){
             case -1: // portrait
                 $squareSize = $imageWidth;
                 $src_x = 0;
                 $src_y = ($imageHeight - $squareSize) / 2;
                 break;
             case 0: // carré
-                $squareSize = $imageHeight;
+                $squareSize = $imageWidth;
                 $src_x = 0;
                 $src_y = 0;
                 break;
@@ -67,48 +66,47 @@ class PictureService
                 break;
         }
 
-        // On crée une nouvelle image
+        // On crée une nouvelle image "vierge"
         $resized_picture = imagecreatetruecolor($width, $height);
+
         imagecopyresampled($resized_picture, $picture_source, 0, 0, $src_x, $src_y, $width, $height, $squareSize, $squareSize);
 
         $path = $this->params->get('images_directory') . $folder;
 
-        // on créé le dossier de destination s'il n'existe pas 
-        if (!file_exists($path . '/mini/')) {
+        // On crée le dossier de destination s'il n'existe pas
+        if(!file_exists($path . '/mini/')){
             mkdir($path . '/mini/', 0755, true);
         }
 
-        // On stocke l'image recadrer
+        // On stocke l'image recadrée
         imagewebp($resized_picture, $path . '/mini/' . $width . 'x' . $height . '-' . $fichier);
 
         $picture->move($path . '/', $fichier);
-      
 
         return $fichier;
     }
 
-    public function delete(string $fichier, ?string $folder = '', int $width = 250, ?int $height = 250)
+    public function delete(string $fichier, ?string $folder = '', ?int $width = 250, ?int $height = 250)
     {
-        if ($fichier !== 'default.wepb') {
+        if($fichier !== 'default.webp'){
             $success = false;
             $path = $this->params->get('images_directory') . $folder;
 
             $mini = $path . '/mini/' . $width . 'x' . $height . '-' . $fichier;
 
-            if (file_exists($mini)) {
+            if(file_exists($mini)){
                 unlink($mini);
                 $success = true;
             }
 
             $original = $path . '/' . $fichier;
-            if (file_exists($original)) {
+
+            if(file_exists($original)){
                 unlink($original);
                 $success = true;
             }
-
             return $success;
         }
-
         return false;
     }
 }

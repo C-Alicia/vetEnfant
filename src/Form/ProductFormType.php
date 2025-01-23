@@ -26,7 +26,7 @@ class ProductFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'titre',
+                'label' => false,
                 'attr' => ['placeholder' => 'Entrer le nom d\'article'],
                 'required'  => true,
             ])
@@ -65,7 +65,7 @@ class ProductFormType extends AbstractType
                 'required'  => true,                
             ])          
             ->add('image', FileType::class, [
-                'label' => true,
+                'label' => false,
                 'multiple' => true,
                 'mapped' => false,
                 'required' => false,

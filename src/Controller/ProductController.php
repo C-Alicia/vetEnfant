@@ -20,7 +20,7 @@ use App\Form\ProductFormType;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
@@ -164,24 +164,21 @@ class ProductController extends AbstractController
     ]);
   }
 
+
   #[Route('/sell', name: 'productSell')]
-  public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService, Security $security): Response
+  public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage): Response
   {
-    /* $this->denyAccessUnlessGranted('ROLE_ADMIN'); */
 
     //On crée un "nouveau produit"
     $product = new Product();
 
-    // Récupérer l'utilisateur actuellement connecté
-    $user = $security->getUser();
+    // Récupérer l'utilisateur connecté via le TokenStorage
+    $user = $tokenStorage->getToken()?->getUser();
 
-    // Associer l'utilisateur au produit (si nécessaire)
-    if ($user) {
-      $product->setUser($user); // Assurez-vous que la méthode setUser() existe dans votre entité Product
+    // Vérifier si un utilisateur est authentifié
+    if ($user && $user instanceof User) {
+      $product->setUser($user);
     }
-
-    // Associer l'utilisateur au produit (si nécessaire)
-    $product->setUser($user); // Assurez-vous que la méthode `setUser` existe dans votre entité Product
 
     // On crée le formulaire
     $productForm = $this->createForm(ProductFormType::class, $product);
@@ -193,7 +190,6 @@ class ProductController extends AbstractController
     if ($productForm->isSubmitted() && $productForm->isValid()) {
       // On récupère les images
       $images = $productForm->get('image')->getData();
-     /*  dd($images); */
 
       foreach ($images as $image) {
         // On définit le dossier de destination
@@ -209,7 +205,11 @@ class ProductController extends AbstractController
 
       // On génère le slug
       $slug = $slugger->slug($product->getName());
-      $product->setSlug($slug); 
+      $product->setSlug($slug);
+
+      // On arrondit le prix 
+      // $prix = $product->getPrice() * 100;
+      // $product->setPrice($prix);
 
       // On stocke
       $em->persist($product);

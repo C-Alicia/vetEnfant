@@ -150,48 +150,4 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Deplacer mes informations ProductController vers ma méthode saveProduct
-
-    public function addProduct(Product $product, $images, $em, $slugger, PictureService $pictureService)
-    {
-        /* foreach ($images as $image) {
-
-            $folder = 'products';
-            $fichier = $pictureService->add($image, $folder, 300, 300);
-
-            $img = new Image();
-            
-            $name = pathinfo($fichier, PATHINFO_FILENAME);
-            $img->setName($name);
-            $slug = $this->slugger->slug($name);
-            $img->setSlug($slug);
-            $img->setAltText('Image de ' . $name);
-            $img->setSrc($fichier);
-
-            $product->addImage($img);
-        }
- */
-        foreach ($images as $image) {
-            // On définit le dossier de destination
-            $folder = 'products';
-
-            // On appelle le service d'ajout
-            $fichier = $pictureService->add($image, $folder, 300, 300);
-
-            $img = new Image();
-            $img->setName($fichier);
-            $product->addImage($img);
-        }
-
-        // On génère le slug
-        $slug = $slugger->slug($product->getName());
-        $product->setSlug($slug);
-
-        // On arrondit le prix 
-        // $prix = $product->getPrice() * 100;
-        // $product->setPrice($prix);
-
-        // On stocke
-        $em->persist($product);
-        $em->flush();
-    }
 }
