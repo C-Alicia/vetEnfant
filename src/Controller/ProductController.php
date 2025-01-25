@@ -150,74 +150,49 @@ class ProductController extends AbstractController
     ]);
   }
 
-  #[Route('/{id<\d+>}', name: 'details')]
-  public function details(ManagerRegistry $doctrine, $id): Response
+  #[Route('/{slug}', name: 'details')]
+  public function details(ManagerRegistry $doctrine, string $slug): Response
   {
-    $product = $doctrine->getRepository(Product::class)->find($id);
-
-    if (!$product) {
-      throw new NotFoundHttpException("Product not found.");
-    }
-
-    return $this->render('product/details.html.twig', [
-      'product' => $product
-    ]);
+      $product = $doctrine->getRepository(Product::class)->findOneBy(['slug' => $slug]);
+  
+      if (!$product) {
+          throw new NotFoundHttpException("Produit introuvable.");
+      }
+  
+      return $this->render('product/details.html.twig', [
+          'product' => $product
+      ]);
   }
-
 
   #[Route('/sell', name: 'productSell')]
   public function add(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage): Response
   {
-
-    //On crée un "nouveau produit"
+    // Créer un nouveau produit
     $product = new Product();
 
     // Récupérer l'utilisateur connecté via le TokenStorage
     $user = $tokenStorage->getToken()?->getUser();
 
-    // Vérifier si un utilisateur est authentifié
     if ($user && $user instanceof User) {
       $product->setUser($user);
     }
 
-    // On crée le formulaire
+    // Créer le formulaire
     $productForm = $this->createForm(ProductFormType::class, $product);
-
-    // On traite la requête du formulaire
     $productForm->handleRequest($request);
 
-    //On vérifie si le formulaire est soumis ET valide
+    // Vérifier si le formulaire est soumis et valide
     if ($productForm->isSubmitted() && $productForm->isValid()) {
-      // On récupère les images
+      // Récupérer les images
       $images = $productForm->get('image')->getData();
 
-      foreach ($images as $image) {
-        // On définit le dossier de destination
-        $folder = 'products';
+      // Appeler le repository pour créer le produit avec ses images
+      $this->productRepo->createProductWithImages($product, $images, 'products', $slugger, $pictureService, $em);
 
-        // On appelle le service d'ajout
-        $fichier = $pictureService->add($image, $folder, 300, 300);
-
-        $img = new Image();
-        $img->setName($fichier);
-        $product->addImage($img);
-      }
-
-      // On génère le slug
-      $slug = $slugger->slug($product->getName());
-      $product->setSlug($slug);
-
-      // On arrondit le prix 
-      // $prix = $product->getPrice() * 100;
-      // $product->setPrice($prix);
-
-      // On stocke
-      $em->persist($product);
-      $em->flush();
-
+      // Afficher un message de succès
       $this->addFlash('success', 'Produit ajouté avec succès');
 
-      // On redirige
+      // Redirection après ajout
       return $this->redirectToRoute('product_productNew');
     }
 

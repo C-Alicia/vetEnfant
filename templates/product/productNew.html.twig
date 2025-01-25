@@ -19,16 +19,16 @@
     </div>
     {% endfor %}
     {% endfor %} #}
-
-    <div class="container custom-container">
-        <p>{{ productsCount }} produits</p>
-    </div>
-
+    
     {% if message %}
     <div class="alert alert-warning text-center">
         {{ message }}
     </div>
     {% endif %}
+
+    <div class="container custom-container">
+        <p>{{ productsCount }} produits</p>
+    </div>
 
     {% include 'product/list.html.twig' with { 'products': products } %}
 

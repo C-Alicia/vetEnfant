@@ -19,13 +19,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class ProductRepository extends ServiceEntityRepository
 {
     private Connection $connection;
-    private SluggerInterface $slugger;  // Declare the slugger
+    private SluggerInterface $slugger;  //
+    private $em; 
 
-    public function __construct(ManagerRegistry $registry, Connection $connection, SluggerInterface $slugger)
+    public function __construct(ManagerRegistry $registry, Connection $connection, SluggerInterface $slugger, EntityManagerInterface $em)
     {
         parent::__construct($registry, Product::class);
         $this->connection = $connection;
         $this->slugger = $slugger;  // Initialize the slugger
+        $this->em = $em;  // Injections de EntityManagerInterface
     }
 
     /**
@@ -150,4 +152,36 @@ class ProductRepository extends ServiceEntityRepository
     }
 
     // Deplacer mes informations ProductController vers ma méthode saveProduct
+
+    public function createProductWithImages(Product $product, array $images, string $folder, SluggerInterface $slugger, PictureService $pictureService, EntityManagerInterface $em): Product
+    {
+        // Générer le slug du produit
+        $slug = $slugger->slug($product->getName());
+        $product->setSlug($slug);
+
+        // Traiter les images et les ajouter au produit
+        foreach ($images as $image) {
+            // Appel du service pour gérer l'image
+            $fichier = $pictureService->add($image, $folder, 300, 300);
+
+            // Création de l'image
+            $img = new Image();
+            $img->setName($fichier);
+            $img->setSrc($fichier);
+            $img->setAltText('Image de ' . $fichier);
+            $img->setSlug($fichier);
+
+            // Ajouter l'image au produit
+            $product->addImage($img);
+        }
+
+        // Initialiser le produit comme non vendu
+        $product->setIsSold(false);
+
+        // Persister le produit dans la base de données
+        $em->persist($product);
+        $em->flush();
+
+        return $product;
+    }
 }
