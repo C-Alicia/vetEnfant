@@ -26,7 +26,7 @@
                 {{ form_start(productForm, {'enctype': 'multipart/form-data'}) }}
 
                 <!-- Champ Titre -->
-                <div class="form-group d-flex w-50 p-3 mb-4">
+                <div class="form-group d-flex w-75 p-3 mb-6">
                     <label for="{{ productForm.name.vars.id }}" class="col-sm-3 control-label">
                         <strong>Titre</strong> :
                     </label>
@@ -70,7 +70,7 @@
                         <label for="{{ productForm.size.vars.id }}" class="col-sm-3 control-label">
                             <strong>Taille</strong> :
                         </label>
-                        <div class="col-sm-12">
+                        <div class="col-sm-6">
                             {{ form_widget(productForm.size, { 'attr': {'class': 'form-control'} }) }}
                             <small class="form-text text-muted"><i class="fa fa-info-circle mr-3"></i> Choisissez la taille
                                 qui correspond à etiquette de l’article. <a href="#"

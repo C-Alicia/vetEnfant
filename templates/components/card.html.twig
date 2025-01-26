@@ -3,7 +3,7 @@
         <div class="product-header">
             {% if product.image is not empty %}
             <div class="image-container">
-                <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ product.image[0].src ) }}"
+                <img src="{{ asset('assets/uploads/products/' ~ product.image[0].src ) }}"
                     alt="{{ product.name }}" class="product-image">
             </div>
             {% else %}
