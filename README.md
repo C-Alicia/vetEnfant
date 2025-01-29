@@ -29,3 +29,6 @@
 
   <!-- complementaire : paginator, breadcrump -->
   - composer require knplabs/knp-paginator-bundle
+
+  <!-- Test -->
+  - php bin/phpunit --filter ProductControllerTest

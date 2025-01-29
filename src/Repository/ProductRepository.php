@@ -29,7 +29,6 @@ class ProductRepository extends ServiceEntityRepository
         $this->slugger = $slugger;  // Initialize the slugger
         $this->em = $em;  // Injections de EntityManagerInterface
     }
-
     /**
      * Trouver un produit avec toutes ses images associées en utilisant SQL brut.
      */
@@ -130,6 +129,7 @@ class ProductRepository extends ServiceEntityRepository
             ->andWhere('p.gender IN (:genders)')      // Filter for gender being 'girl' or 'unisex'
             ->setParameter('isSold', false)           // Bind 'isSold' to false (unsold products)
             ->setParameter('genders', ['Fille', 'Mixte']) // Bind 'genders' to 'girl' and 'unisex'
+            ->orderBy('p.createdAt', 'DESC')  // Trier par date de création (du plus récent au plus ancien)
             ->getQuery()
             ->getResult(); // This will return an array of Product objects
     }
@@ -147,6 +147,7 @@ class ProductRepository extends ServiceEntityRepository
             ->andWhere('p.gender IN (:genders)')      // Filter for gender being 'girl' or 'unisex'
             ->setParameter('isSold', false)           // Bind 'isSold' to false (unsold products)
             ->setParameter('genders', ['Garçon', 'Mixte']) // Bind 'genders' to 'boy' and 'unisex'
+            ->orderBy('p.createdAt', 'DESC')  // Trier par date de création (du plus récent au plus ancien)
             ->getQuery()
             ->getResult(); // This will return an array of Product objects
     }
