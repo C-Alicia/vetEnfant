@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true,)]
     private ?float $evaluation = null;
 
-    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE, options:['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt = null;
 
     /**

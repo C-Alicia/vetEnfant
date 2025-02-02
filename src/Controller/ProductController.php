@@ -32,171 +32,128 @@ class ProductController extends AbstractController
     $this->productRepo = $productRepo;
   }
 
+  private function getProductsWithCount(ProductRepository $prodRepo, string $methodName): array
+  {
+    try {
+      // Appeler la méthode dynamique du repository pour récupérer les produits
+      $products = $prodRepo->{$methodName}();
+
+      // Vérifier si des produits ont été trouvés
+      if (!$products) {
+        throw new NotFoundHttpException('Aucun produit trouvé.');
+      }
+
+      // Retourner les produits et le nombre
+      return [
+        'products' => $products,
+        'productsCount' => count($products)
+      ];
+    } catch (NotFoundHttpException $e) {
+      // Retourner un message d'erreur et un tableau vide
+      return [
+        'products' => [],
+        'productsCount' => 0,
+        'message' => $e->getMessage()
+      ];
+    }
+  }
+
   #[Route('/new', name: 'productNew')]
   public function showAllNewProduct(ProductRepository $prodRepo): Response
   {
-    $products = [];
-    $message = null;
-
-    try {
-      $products = $prodRepo->findAllNewProduct();
-
-      // Vérifier si des produits ont été trouvés
-      if (!$products) {
-        throw new NotFoundHttpException('Aucun produit trouvé.');
-      }
-    } catch (NotFoundHttpException $e) {
-      // Attraper l'exception et définir un message à transmettre à la vue
-      $message = $e->getMessage(); // Récupérer le message de l'exception
-    }
-
-    // Calculer le nombre de produits
-    $productsCount = count($products);
-
+    $data = $this->getProductsWithCount($prodRepo, 'findAllNewProduct');
 
     return $this->render('product/productNew.html.twig', [
-      'products' => $products,
-      'productsCount' => $productsCount,
-      'message' => $message
+      'products' => $data['products'],
+      'productsCount' => $data['productsCount'],
+      'message' => $data['message'] ?? null
     ]);
   }
 
-  // Méthode pour afficher les produits pour bébé
   #[Route('/baby', name: 'productBaby')]
   public function showAllBabyProduct(ProductRepository $prodRepo): Response
   {
-    $products = [];
-    $message = null;
-
-    try {
-      $products = $prodRepo->findAllBabyProduct();
-
-      // Vérifier si des produits ont été trouvés
-      if (!$products) {
-        throw new NotFoundHttpException('Aucun produit trouvé.');
-      }
-    } catch (NotFoundHttpException $e) {
-      // Attraper l'exception et définir un message à transmettre à la vue
-      $message = $e->getMessage(); // Récupérer le message de l'exception
-    }
-
-    // Calculer le nombre de produits
-    $productsCount = count($products);
-
+    $data = $this->getProductsWithCount($prodRepo, 'findAllBabyProduct');
 
     return $this->render('product/productBaby.html.twig', [
-      'products' => $products,
-      'productsCount' => $productsCount,
-      'message' => $message
+      'products' => $data['products'],
+      'productsCount' => $data['productsCount'],
+      'message' => $data['message'] ?? null
     ]);
   }
 
-  // Méthode pour afficher les produits pour bébé
   #[Route('/girl', name: 'productGirl')]
   public function showAllGirlsProduct(ProductRepository $prodRepo): Response
   {
-    $products = [];
-    $message = null;
-
-    try {
-      $products = $prodRepo->findAllGirlOrUnisexProduct();
-
-      // Vérifier si des produits ont été trouvés
-      if (!$products) {
-        throw new NotFoundHttpException('Aucun produit trouvé.');
-      }
-    } catch (NotFoundHttpException $e) {
-      // Attraper l'exception et définir un message à transmettre à la vue
-      $message = $e->getMessage(); // Récupérer le message de l'exception
-    }
-
-    // Calculer le nombre de produits
-    $productsCount = count($products);
-
+    $data = $this->getProductsWithCount($prodRepo, 'findAllGirlOrUnisexProduct');
 
     return $this->render('product/productGirl.html.twig', [
-      'products' => $products,
-      'productsCount' => $productsCount,
-      'message' => $message
+      'products' => $data['products'],
+      'productsCount' => $data['productsCount'],
+      'message' => $data['message'] ?? null
     ]);
   }
 
   #[Route('/boy', name: 'productBoy')]
   public function showAllBoyProduct(ProductRepository $prodRepo): Response
   {
-    $products = [];
-    $message = null;
-
-    try {
-      $products = $prodRepo->findAllBoyOrUnisexProduct();
-
-      // Vérifier si des produits ont été trouvés
-      if (!$products) {
-        throw new NotFoundHttpException('Aucun produit trouvé.');
-      }
-    } catch (NotFoundHttpException $e) {
-      // Attraper l'exception et définir un message à transmettre à la vue
-      $message = $e->getMessage(); // Récupérer le message de l'exception
-    }
-
-    // Calculer le nombre de produits
-    $productsCount = count($products);
-
+    $data = $this->getProductsWithCount($prodRepo, 'findAllBoyOrUnisexProduct');
 
     return $this->render('product/productBoy.html.twig', [
-      'products' => $products,
-      'productsCount' => $productsCount,
-      'message' => $message
+      'products' => $data['products'],
+      'productsCount' => $data['productsCount'],
+      'message' => $data['message'] ?? null
     ]);
   }
 
   #[Route('/details/{slug}', name: 'details')]
   public function details(ManagerRegistry $doctrine, string $slug): Response
   {
-      $product = $doctrine->getRepository(Product::class)->findOneBy(['slug' => $slug]);
-  
-      if (!$product) {
-          throw new NotFoundHttpException("Produit introuvable.");
-      }
-  
-      return $this->render('product/details.html.twig', [
-          'product' => $product
-      ]);
+    $product = $doctrine->getRepository(Product::class)->findOneBy(['slug' => $slug]);
+
+    if (!$product) {
+      throw new NotFoundHttpException("Produit introuvable.");
+    }
+
+    return $this->render('product/details.html.twig', [
+      'product' => $product
+    ]);
   }
 
   #[Route('/sell', name: 'productSell')]
-  public function add(  Request $request, ProductRepository $productRepo, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em): Response {
-  // Créer un nouveau produit
-  $product = new Product();
+  public function addToProduct(Request $request, ProductRepository $productRepo, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em): Response
+  {
+    // Créer un nouveau produit
+    $product = new Product();
 
-  // Récupérer l'utilisateur connecté via le TokenStorage
-  $user = $tokenStorage->getToken()?->getUser();
+    // Récupérer l'utilisateur connecté via le TokenStorage
+    $user = $tokenStorage->getToken()?->getUser();
 
-  if ($user instanceof User) {
-    $product->setUser($user);
+    if ($user instanceof User) {
+      $product->setUser($user);
+    }
+
+    // Créer le formulaire
+    $productForm = $this->createForm(ProductFormType::class, $product);
+    $productForm->handleRequest($request);
+
+    // Vérifier si le formulaire est soumis et valide
+    if ($productForm->isSubmitted() && $productForm->isValid()) {
+      // Récupérer les images
+      $images = $productForm->get('image')->getData();
+
+      // Utiliser le repository pour créer le produit avec ses images
+      $productRepo->createProductWithImages($product, $images, 'products', $slugger, $pictureService, $em);
+
+      // Afficher un message de succès
+      $this->addFlash('success', 'Produit ajouté avec succès');
+
+      // Redirection après ajout
+      return $this->redirectToRoute('product_productNew');
+    }
+
+    return $this->render('product/productSell.html.twig', [
+      'productForm' => $productForm->createView(),
+    ]);
   }
-
-  // Créer le formulaire
-  $productForm = $this->createForm(ProductFormType::class, $product);
-  $productForm->handleRequest($request);
-
-  // Vérifier si le formulaire est soumis et valide
-  if ($productForm->isSubmitted() && $productForm->isValid()) {
-    // Récupérer les images
-    $images = $productForm->get('image')->getData();
-
-    // Utiliser le repository pour créer le produit avec ses images
-    $productRepo->createProductWithImages($product, $images, 'products', $slugger, $pictureService, $em);
-
-    // Afficher un message de succès
-    $this->addFlash('success', 'Produit ajouté avec succès');
-
-    // Redirection après ajout
-    return $this->redirectToRoute('product_productNew');
-  }
-
-  return $this->render('product/productSell.html.twig', [
-    'productForm' => $productForm->createView(),
-  ]);
-}
 }

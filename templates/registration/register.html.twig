@@ -1,7 +1,7 @@
 
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}S'enregistrer'{% endblock %}
+{% block title %}Inscription{% endblock %}
 
 {% block body %}
 <section class="bg-light p-3 p-md-4 p-xl-5">
@@ -33,6 +33,7 @@
 
                                     <div class="form-floating mb-3">
                                         {{ form_row(registrationForm.username, {
+                                            'label': 'Nom d\'utilisateur',
                                             'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
                                         }) }}
                                     </div>
@@ -56,7 +57,7 @@
                                     </div>
 
                                     <div class="form-check mb-4">
-                                        {{ form_row(registrationForm.agreeTerms, {
+                                        {{ form_row(registrationForm.RGPDConsent, {
                                             'attr': { 'class': 'form-check-input' },
                                             'label_attr': { 'class': 'form-check-label' }
                                         }) }}
@@ -86,7 +87,7 @@
                                     </p>
 
                                     <div class="d-grid">
-                                        <button type="submit" class="btn-general">S'enregistrer</button>
+                                        <button type="submit" class="btn-general">M'inscrire</button>
                                     </div>
 
                                     {{ form_end(registrationForm) }}
