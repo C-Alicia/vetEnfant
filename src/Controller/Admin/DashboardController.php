@@ -2,34 +2,29 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Category;
+use App\Entity\Product;
+use App\Entity\User;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
+use EasyCorp\Bundle\EasyAdminBundle\Router\AdminUrlGenerator;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class DashboardController extends AbstractDashboardController
 {
-    #[Route('/admin', name: 'admin')]
+    #[Route('/admin', name: 'admin')]   
     public function index(): Response
     {
-        return parent::index();
-
-        // Option 1. You can make your dashboard redirect to some common page of your backend
-        //
-        // $adminUrlGenerator = $this->container->get(AdminUrlGenerator::class);
-        // return $this->redirect($adminUrlGenerator->setController(OneOfYourCrudController::class)->generateUrl());
-
-        // Option 2. You can make your dashboard redirect to different pages depending on the user
-        //
-        // if ('jane' === $this->getUser()->getUsername()) {
-        //     return $this->redirect('...');
-        // }
-
-        // Option 3. You can render some custom template to display a proper dashboard with widgets, etc.
-        // (tip: it's easier if your template extends from @EasyAdmin/page/content.html.twig)
-        //
-        // return $this->render('some/path/my-dashboard.html.twig');
+        $url = $this->container->get(AdminUrlGenerator::class);
+        
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirect($url->setController(UserCrudController::class)->generateUrl());
+        } else {
+            return $this->redirectToRoute('app_home');
+        }
     }
 
     public function configureDashboard(): Dashboard
@@ -40,7 +35,21 @@ class DashboardController extends AbstractDashboardController
 
     public function configureMenuItems(): iterable
     {
-        yield MenuItem::linkToDashboard('Dashboard', 'fa fa-home');
-        // yield MenuItem::linkToCrud('The Label', 'fas fa-list', EntityClass::class);
+        yield MenuItem::linkToRoute('Retour sur le site', 'fa-solid fa-arrow-left', 'app_home');
+        yield MenuItem::section('Utilisateurs', 'fas fa-list');
+        yield MenuItem::subMenu('Utilisateurs', 'fa-solid fa-user')->setSubItems([
+                MenuItem::linkToCrud('Tous les Utilisateurs', 'fa fa-file-text', User::class)->setAction(Crud::PAGE_INDEX),
+                MenuItem::linkToCrud('Ajouter un Utilisateur', 'fas fa-plus', User::class)->setAction(Crud::PAGE_NEW)
+        ]);
+        yield MenuItem::section('Catégories', 'fas fa-list');
+        yield MenuItem::subMenu('Catégories', 'fa fa-tags')->setSubItems([
+            MenuItem::linkToCrud('Toutes les catégories', 'fa fa-file-text', Category::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud('Ajouter une catégorie', 'fas fa-plus', Category::class)->setAction(Crud::PAGE_NEW)
+        ]);
+        yield MenuItem::section('Produits', 'fas fa-list');
+        yield MenuItem::subMenu('Produits', 'fa fa-tags')->setSubItems([
+            MenuItem::linkToCrud('Toutes les produits', 'fa fa-file-text', Product::class)->setAction(Crud::PAGE_INDEX),
+            MenuItem::linkToCrud('Ajouter un produit', 'fas fa-plus', Product::class)->setAction(Crud::PAGE_NEW)
+        ]);
     }
 }
