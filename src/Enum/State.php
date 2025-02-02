@@ -9,7 +9,7 @@ enum State: string
     case TRESBONETAT = 'Très bon état';
     case BONETAT = 'Bon état';
     case ETATCORRECT = 'Etat correct';
-    case USE = 'Use';
+
 
     public static function getChoices(): array
     {
@@ -19,7 +19,6 @@ enum State: string
             'Très bon état' => self::TRESBONETAT,
             'Bon état' => self::BONETAT,
             'Etat correct' => self::ETATCORRECT,
-            'Use' => self::USE,
         ];
     }
 }
