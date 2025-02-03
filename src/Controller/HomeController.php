@@ -8,41 +8,40 @@ use Symfony\Component\Routing\Attribute\Route;
 use App\Entity\Product;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Image;
+use App\Repository\ProductRepository;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class HomeController extends AbstractController
 {
     // Route d'accueil qui affiche la liste des produits
     #[Route('/home', name: 'app_home')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ProductRepository $prodRepo): Response
     {
-        // Récupérer les 9 premiers produits triés par createdAt
-        $products = $doctrine->getRepository(Product::class)
-            ->findBy([], ['createdAt' => 'DESC'], 9); // Limiter à 9 produits
+        $products = null;
+        $message = null;
 
-        // Récupérer tous les produits pour l'option "Tout voir"
-        $allProducts = $doctrine->getRepository(Product::class)
-            ->findBy([], ['createdAt' => 'DESC']); // Tri par createdAt, tous les produits
+        try {
+            // Récupérer les 9 premiers produits non vendus et nouveaux
+            $products = $prodRepo->findAllProductActifLimit();
 
-        if (!$products) {
-            throw $this->createNotFoundException('Aucun produit trouvé');
+            // Vérifier si des produits ont été trouvés
+            if (!$products) {
+                throw new NotFoundHttpException('Aucun produit trouvé.');
+            }
+        } catch (NotFoundHttpException $e) {
+            // Attraper l'exception et définir un message à transmettre à la vue
+            $message = $e->getMessage(); // Récupérer le message de l'exception
         }
 
         // Obtenez l'utilisateur actuel
         $user = $this->getUser();
 
-        // Vérifiez si l'utilisateur est connecté
-        if ($user && $user->getUserIdentifier()) {
-            // Rediriger ou afficher une vue spécifique si l'utilisateur est authentifié
-            return $this->render('home/index.html.twig', [
-                'products' => $products,
-                'user' => $user,
-                'allProducts' => $allProducts, // Passer tous les produits pour "Tout voir"
-            ]);
-        }
-
-          // Redirection vers la page de connexion pour les utilisateurs non authentifiés
-          return $this->redirectToRoute('app_login', [
-            'redirect' => 'app_home', // Paramètre d'URL pour revenir à cette page après connexion
+        // Afficher la page d'accueil pour tous les utilisateurs, connectés ou non
+        return $this->render('home/index.html.twig', [
+            'products' => $products,
+            'user' => $user,  // Vous pouvez afficher des informations personnalisées si l'utilisateur est connecté
+            'message' => $message, // Passer le message à afficher dans Twig
         ]);
     }
+
 }

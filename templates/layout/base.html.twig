@@ -50,22 +50,26 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                 <li class="nav-item">
+<<<<<<< HEAD
                   <a class="nav-link" aria-current="page" href="">NOUVEAUTÉS</a>
+=======
+                  <a class="nav-link" aria-current="page" href="{{path('product_newProduct')}}">NOUVEAUTÉS</a>
+>>>>>>> ProductFonctionnality
                   <span class="">0-16 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">BÉBÉ</a>
+                  <a class="nav-link" href="{{path('product_productBaby')}}">BÉBÉ</a>
                   <span class="">0-3 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">FILLE</a>
+                  <a class="nav-link" href="{{path('product_productGirl')}}">FILLE</a>
                   <span class="">3-16 ans</span>
                 </li>
                 <div class="separator"></div>
                 <li class="nav-item text-wrap">
-                  <a class="nav-link" href="#">GARÇON</a>
+                  <a class="nav-link" href="{{path('product_productBoy')}}">GARÇON</a>
                   <span class="">3-16 ans</span>
                 </li>
               </ul>
@@ -74,12 +78,19 @@
           <div class="offcanvas-side-body d-none d-sm-block d-md-block">
             <ul class="navbar-nav justify-content-end d-flex flex-row align-items-center">
               <li class="nav-item">
+<<<<<<< HEAD
                 {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes articles', type: 'submit' }) }}
+=======
+                <a href="#">
+                  {{ include('components/button.html.twig', { class: 'btn-general', label:
+                  'Vends tes articles', type: 'submit' }) }}
+                </a>
+>>>>>>> ProductFonctionnality
               </li>
               <li class="nav-item">
                 <div class="search-box d-flex align-items-center">
                   <i class="fa fa-search"></i>
-                  <input type="text" class="form-control search-input" placeholder="Rechercher..." />
+                  <input type="text" class="form-control search-input" placeholder="Que recherchez-vous ?" />
                 </div>
               </li>
               <div class="dropdown ">
@@ -127,7 +138,7 @@
                     <a class="dropdown-item btn-general text-center" href="{{ path('app_login') }}">Me connecter</a>
                   </li>
                   <li>
-                    <a class="text-muted" href="#">Mot de passe perdu ?</a>
+                    <a class="text-muted" href="">Mot de passe perdu ?</a>
                   </li>
                   <li>
                     <hr class="dropdown-divider" />

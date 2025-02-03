@@ -9,7 +9,7 @@ import './styles/app.css';
 
 console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
 
-function showAllProducts() {
+/* function showAllProducts() {
     // Vous pouvez utiliser AJAX ici pour charger les produits dynamiquement.
     fetch('/path/to/api/products')  // Remplacez par une route qui renvoie tous les produits.
         .then(response => response.json())
@@ -25,7 +25,7 @@ function showAllProducts() {
             document.getElementById('showAllProducts').style.display = 'none';
         })
         .catch(error => console.error('Error fetching products:', error));
-}
+} */
 
 document.addEventListener('DOMContentLoaded', function () {
     // Ajouter un écouteur d'événements pour le formulaire de déconnexion

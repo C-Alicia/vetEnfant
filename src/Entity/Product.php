@@ -21,25 +21,25 @@ class Product
     #[ORM\Column(length: 100)]
     private ?string $name = null;
 
-    #[ORM\Column(nullable: true,type: 'string', enumType: Gender::class)]
+    #[ORM\Column(nullable: true, type: 'string', enumType: Gender::class)]
     private ?Gender $gender = null;
 
-    #[ORM\Column (nullable: true)]
+    #[ORM\Column(nullable: true)]
     private ?int $size = null;
 
-    #[ORM\Column(nullable: true,type: 'string', enumType: STATE::class)]
+    #[ORM\Column(nullable: true, type: 'string', enumType: STATE::class)]
     private ?STATE $state = null;
 
     #[ORM\Column]
     private ?float $price = null;
 
-    #[ORM\Column(nullable: true,type: Types::TEXT)]
+    #[ORM\Column(nullable: true, type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isSold = null;
 
-    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(nullable: true, type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
@@ -54,9 +54,13 @@ class Product
     #[ORM\ManyToOne(inversedBy: 'product')]
     private ?Category $category = null;
 
-      public function __construct()
+    #[ORM\ManyToOne(inversedBy: 'product')]
+    private ?User $user = null;
+
+    public function __construct()
     {
         $this->image = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -87,13 +91,16 @@ class Product
         return $this;
     }
 
-        public function getSize(): ?int
+    public function getSize(): ?int
     {
         return $this->size;
     }
 
     public function setSize(int $size): static
     {
+        if ($size < 0) {
+            throw new \InvalidArgumentException('La taille ne peut pas être négative.');
+        }
         $this->size = $size;
 
         return $this;
@@ -140,7 +147,7 @@ class Product
         return $this->isSold;
     }
 
-    public function setSold(bool $isSold): static
+    public function setIsSold(bool $isSold): static
     {
         $this->isSold = $isSold;
 
@@ -211,5 +218,32 @@ class Product
         $this->category = $category;
 
         return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getAgeCategory(): string
+    {
+        $age = $this->size;
+
+        if ($age === null || $age < 0) {
+            return 'Non défini';
+        }
+
+        if ($age < 24) {
+            return "$age mois";
+        }
+
+        return floor($age / 12) . ' ans';
     }
 }

@@ -1,0 +1,10 @@
+<header class="banner text-center">
+    <img class="banner_img w-100" src="{{ asset(banner_image) }}" alt="banner">
+    <div class="banner_content mt-5">
+        <h1 class="display-5 fw-bold mb-3">{{ banner_title }}</h1>
+        <div class="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3">
+            <h2 class="text-center flex-grow-1 mb-0">{{ banner_subtitle|nl2br }}</h2>
+            <a href="{{ banner_button_link }}" id="showAllProductsBtn" class="btn-general">{{ banner_button_text }}</a>
+        </div>
+    </div>
+</header>

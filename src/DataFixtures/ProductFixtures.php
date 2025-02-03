@@ -51,7 +51,7 @@ class ProductFixtures extends Fixture
         ],
     ];
 
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         foreach (self::PRODUCTS as $productData) {
             $product = new Product();
@@ -61,7 +61,7 @@ class ProductFixtures extends Fixture
             $product->setPrice($productData['price']);
             $product->setSize($productData['size']);
             $product->setDescription($productData['description']);
-            $product->setSold($productData['isSold']);
+            $product->setIsSold($productData['isSold']);
             $product->setCreatedAt(new \DateTime($productData['createdAt']));
 
             // Associe l'ID de la commande via l'order_id

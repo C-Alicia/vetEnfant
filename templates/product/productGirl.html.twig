@@ -1,0 +1,31 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Produits filles{% endblock %}
+
+{% block body %}
+
+<main>
+    {% include 'components/banner.html.twig' with {
+        banner_image: '/images/bannerGirlProduct.jpg',
+        banner_title: "",
+        banner_subtitle: "Univers filles",
+        banner_button_link: '#',
+        banner_button_text: 'Trier et Filtrer'
+    } %}
+
+    <div class="container custom-container">
+        <p>{{ productsCount }} produits</p>
+    </div>
+
+    {% if message %}
+    <div class="alert alert-danger text-center">
+        {{ message }}
+    </div>
+    {% endif %}
+
+    {% include 'product/list.html.twig' with { 'products': products } %}
+
+    {{ include('components/resultNumberPage.html.twig')}}
+</main>
+
+{% endblock %}

@@ -1,0 +1,19 @@
+.product-image {
+    max-height: 500px;
+    object-fit: cover;
+}
+.thumbnail {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+}
+.thumbnail:hover, .thumbnail.active {
+    opacity: 1;
+}
+
+.text-justify{
+    text-align: justify;
+}

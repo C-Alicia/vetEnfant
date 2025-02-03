@@ -78,11 +78,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?bool $isRole = null;
+
+    /**
+     * @var Collection<int, Product>
+     */
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'user')]
+    private Collection $product;
  
     public function __construct()
     {
         $this->address = new ArrayCollection();
         $this->orderOrd = new ArrayCollection();
+        $this->product = new ArrayCollection();
     }
     
     public function getId(): ?int
@@ -348,6 +355,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsRole(?bool $isRole): static
     {
         $this->isRole = $isRole;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Product>
+     */
+    public function getProduct(): Collection
+    {
+        return $this->product;
+    }
+
+    public function addProduct(Product $product): static
+    {
+        if (!$this->product->contains($product)) {
+            $this->product->add($product);
+            $product->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProduct(Product $product): static
+    {
+        if ($this->product->removeElement($product)) {
+            // set the owning side to null (unless already changed)
+            if ($product->getUser() === $this) {
+                $product->setUser(null);
+            }
+        }
 
         return $this;
     }

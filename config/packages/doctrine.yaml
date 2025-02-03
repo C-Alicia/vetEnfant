@@ -30,6 +30,7 @@ when@test:
             dbname_suffix: '_test%env(default::TEST_TOKEN)%'
             types:
                 Gender : App\Enum\Gender
+                State  : App\Enum\State
 
 when@prod:
     doctrine:
