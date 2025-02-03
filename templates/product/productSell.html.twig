@@ -1,0 +1,187 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Vend ton article{% endblock %}
+
+{% block body %}
+<main>
+    {% include 'components/banner.html.twig' with {
+    banner_image: '/images/bannerSellProduct.jpg',
+    banner_title: "",
+    banner_subtitle: "Vend ton article",
+    banner_button_link: '',
+    banner_button_text: ''
+    } %}
+
+    {# {% for type, messages in app.flashes %}
+    {% for message in messages %}
+    <div class="alert alert-{{ type }}">
+        {{ message }}
+    </div>
+    {% endfor %}
+    {% endfor %} #}
+
+    <div class="container p-3 p-md-4 p-xl-5">
+        <section class="panel panel-default">
+            <div class="panel-body">
+                {{ form_start(productForm, {'enctype': 'multipart/form-data'}) }}
+
+                <!-- Champ Titre -->
+                <div class="form-group d-flex w-75 p-3 mb-6">
+                    <label for="{{ productForm.name.vars.id }}" class="col-sm-3 control-label">
+                        <strong>Titre</strong> :
+                    </label>
+                    <div class="col-sm-12">
+                        {{ form_widget(productForm.name, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+
+                <!-- Champ Description -->
+                <div class="form-group d-flex w-75 p-3 mb-6">
+                    <label for="{{ productForm.description.vars.id }}" class="col-sm-3">
+                        <strong>Décris ton article</strong> :
+                    </label>
+                    <div class="col-sm-9">
+                        {{ form_widget(productForm.description, { 'attr': {'class': 'form-control'} }) }}
+                    </div>
+                </div>
+
+                <!-- Bloc avec bordures (catégorie, genre, taille, état) -->
+                <div class="border-dotted rounded-3">
+                    <div class="form-group d-flex w-75 p-3 mb-4">
+                        <label for="{{ productForm.category.vars.id }}" class="col-sm-3 control-label">
+                            <strong>Catégorie:</strong>
+                        </label>
+                        <div class="col-sm-6">
+                            {{ form_widget(productForm.category, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+
+                    <div class="form-group d-flex w-75 p-3 mb-4">
+                        <label for="{{ productForm.gender.vars.id }}" class="col-sm-3 control-label">
+                            <strong>Genre</strong> :
+                        </label>
+                        <div class="col-sm-6">
+                            {{ form_widget(productForm.gender, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+
+                    <!-- Champ Taille -->
+                    <div class="form-group d-flex w-75 p-3 mb-4">
+                        <label for="{{ productForm.size.vars.id }}" class="col-sm-3 control-label">
+                            <strong>Taille</strong> :
+                        </label>
+                        <div class="col-sm-6">
+                            {{ form_widget(productForm.size, { 'attr': {'class': 'form-control'} }) }}
+                            <small class="form-text text-muted"><i class="fa fa-info-circle mr-3"></i> Choisissez la taille
+                                qui correspond à etiquette de l’article. <a href="#"
+                                    class="text-decoration-none text-warning"> Voir guide des tailles </a></small>
+                        </div>
+                    </div>
+
+                    <!-- Champ Etat -->
+                    <div class="form-group d-flex w-75 p-3 mb-4">
+                        <label for="{{ productForm.state.vars.id }}" class="col-sm-3 control-label">
+                            <strong>Etat</strong> :
+                        </label>
+                        <div class="col-sm-6">
+                            {{ form_widget(productForm.state, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloc prix -->
+                <div class="border-dotted rounded-3 mt-4">
+                    <div class="form-group d-flex w-75 p-3">
+                        <label for="{{ productForm.price.vars.id }}" class="col-sm-3 control-label">
+                            <strong>Prix:</strong>
+                        </label>
+                        <div class="col-sm-6">
+                            {{ form_widget(productForm.price, { 'attr': {'class': 'form-control'} }) }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bloc image -->
+                {% if productForm.image is defined %}
+                <div class="border-dotted rounded-3 mt-4">
+                    <div class="form-group mb-3 p-3">
+                        <label for="{{ productForm.image.vars.id }}" class="form-label mb-4">
+                            Ajouter jusqu'à 5 photos <a href="#">voir astuces</a>
+                        </label>
+                        {{ form_widget(productForm.image, {
+                        'attr': {
+                        'class': 'form-control',
+                        'multiple': 'multiple',
+                        'onchange': 'previewImages()'
+                        }
+                        }) }}
+                    </div>
+                    <div id="image-preview" class="mt-4 d-flex flex-wrap position-relative">
+                        <!-- Les images prévisualisées seront ajoutées ici par JavaScript -->
+                    </div>
+                </div>
+                {% endif %}
+
+                {{ form_end(productForm) }}
+            </div>
+        </section>
+    </div>
+
+
+    <script>
+        function previewImages() {
+            const previewContainer = document.getElementById('image-preview');
+            const files = document.querySelector('input[type="file"]').files;
+
+            previewContainer.innerHTML = '';
+
+            if (files) {
+                Array.from(files).forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        img.alt = 'Prévisualisation';
+                        img.className = 'img-thumbnail';
+                        img.style.width = '150px';
+                        img.style.height = '150px';
+                        img.style.objectFit = 'cover';
+
+                        const imageWrapper = document.createElement('div');
+                        imageWrapper.className = 'position-relative d-inline-block m-2';
+
+                        const removeBtn = document.createElement('span');
+                        removeBtn.className = 'position-absolute top-0 start-100 translate-middle p-2 bg-warning text-white rounded-circle';
+                        removeBtn.style.cursor = 'pointer';
+                        removeBtn.style.width = '30px';
+                        removeBtn.style.height = '30px';
+                        removeBtn.style.textAlign = 'center';
+                        removeBtn.style.fontSize = '18px';
+                        removeBtn.innerHTML = '&times;';
+                        removeBtn.onclick = function () {
+                            removeImage(index);
+                        };
+
+                        imageWrapper.appendChild(img);
+                        imageWrapper.appendChild(removeBtn);
+                        previewContainer.appendChild(imageWrapper);
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function removeImage(index) {
+                const fileInput = document.querySelector('input[type="file"]');
+                const files = Array.from(fileInput.files);
+                files.splice(index, 1);
+
+                const dataTransfer = new DataTransfer();
+                files.forEach(file => dataTransfer.items.add(file));
+                fileInput.files = dataTransfer.files;
+
+                previewImages();
+            }
+        }
+    </script>
+</main>
+{% endblock %}

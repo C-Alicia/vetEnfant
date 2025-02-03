@@ -10,5 +10,17 @@ enum State: string
     case BONETAT = 'Bon état';
     case ETATCORRECT = 'Etat correct';
     case USE = 'Use';
+
+    public static function getChoices(): array
+    {
+        return [
+            'Neuf avec étiquette' => self::NEUFAVECETIQUETTE,
+            'Neuf sans étiquette' => self::NEUFSANSETIQUETTE,
+            'Très bon état' => self::TRESBONETAT,
+            'Bon état' => self::BONETAT,
+            'Etat correct' => self::ETATCORRECT,
+            'Use' => self::USE,
+        ];
+    }
 }
 

@@ -8,16 +8,39 @@ use Symfony\Component\Routing\Attribute\Route;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Product;
 use App\Entity\Image;
+use App\Entity\User;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use App\Repository\ProductRepository;
 use App\Enum\Gender;
+use App\Enum\State;
+use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
+<<<<<<< HEAD
+=======
+use Knp\Component\Pager\PaginatorInterface;
+use App\Form\ProductFormType;
+use App\Service\PictureService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+>>>>>>> SellFonctionnality
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
 {
+<<<<<<< HEAD
 
   #[Route('/newproduct', name: 'newProduct')]
+=======
+  private $productRepo;
+
+  public function __construct(ProductRepository $productRepo)
+  {
+    $this->productRepo = $productRepo;
+  }
+
+  #[Route('/new', name: 'productNew')]
+>>>>>>> SellFonctionnality
   public function showAllNewProduct(ProductRepository $prodRepo): Response
   {
     $products = [];
@@ -135,21 +158,62 @@ class ProductController extends AbstractController
     ]);
   }
 
+<<<<<<< HEAD
 
 
 
 
   #[Route('/{id<\d+>}', name: 'details')]
   public function details(ManagerRegistry $doctrine, $id): Response
+=======
+  #[Route('/details/{slug}', name: 'details')]
+  public function details(ManagerRegistry $doctrine, string $slug): Response
+>>>>>>> SellFonctionnality
   {
-    $product = $doctrine->getRepository(Product::class)->find($id);
-
-    if (!$product) {
-      throw new NotFoundHttpException("Product not found.");
-    }
-
-    return $this->render('product/details.html.twig', [
-      'product' => $product
-    ]);
+      $product = $doctrine->getRepository(Product::class)->findOneBy(['slug' => $slug]);
+  
+      if (!$product) {
+          throw new NotFoundHttpException("Produit introuvable.");
+      }
+  
+      return $this->render('product/details.html.twig', [
+          'product' => $product
+      ]);
   }
+
+  #[Route('/sell', name: 'productSell')]
+  public function add(  Request $request, ProductRepository $productRepo, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em): Response {
+  // Créer un nouveau produit
+  $product = new Product();
+
+  // Récupérer l'utilisateur connecté via le TokenStorage
+  $user = $tokenStorage->getToken()?->getUser();
+
+  if ($user instanceof User) {
+    $product->setUser($user);
+  }
+
+  // Créer le formulaire
+  $productForm = $this->createForm(ProductFormType::class, $product);
+  $productForm->handleRequest($request);
+
+  // Vérifier si le formulaire est soumis et valide
+  if ($productForm->isSubmitted() && $productForm->isValid()) {
+    // Récupérer les images
+    $images = $productForm->get('image')->getData();
+
+    // Utiliser le repository pour créer le produit avec ses images
+    $productRepo->createProductWithImages($product, $images, 'products', $slugger, $pictureService, $em);
+
+    // Afficher un message de succès
+    $this->addFlash('success', 'Produit ajouté avec succès');
+
+    // Redirection après ajout
+    return $this->redirectToRoute('product_productNew');
+  }
+
+  return $this->render('product/productSell.html.twig', [
+    'productForm' => $productForm->createView(),
+  ]);
+}
 }

@@ -1,8 +1,10 @@
 <section class="section-products mt-2">
     <div class="container custom-container">
         <div id="allProducts">
-            <div class="row gx-4 gy-4 justify-content-center"> <!-- Added 'justify-content-center' for centering -->
+            {% set productCount = 0 %}
+            <div class="row gx-4 gy-5 justify-content-center"> <!-- gy-5 pour espacement vertical -->
                 {% for product in products %}
+<<<<<<< HEAD
                 <div class="col-md-4 col-lg-4 col-xl-4"> <!-- Changed to 'col-md-4' to show 3 items per row -->
                     <div class="single-product">
                         <div class="product-header">
@@ -35,8 +37,17 @@
                         </div>
                     </div>
                 </div>
+=======
+                {% if productCount > 0 and productCount % 3 == 0 %}
+            </div> <!-- Fermer la ligne -->
+            <div class="row gx-4 gy-5 justify-content-center"> 
+                {% endif %}
+                {# Use component #}
+                {{ include('components/card.html.twig')}}
+                {% set productCount = productCount + 1 %}
+>>>>>>> SellFonctionnality
                 {% endfor %}
-            </div>
+            </div> <!-- Fermer la dernière ligne -->
         </div>
     </div>
 </section>
