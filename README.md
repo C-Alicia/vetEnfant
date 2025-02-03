@@ -25,14 +25,9 @@
   - VetEnfant Mail Bot
   - composer require symfonycasts/verify-email-bundle
   - symfony console make:auth
-<<<<<<< HEAD
   - composer require symfonycasts/reset-password-bundle
   - php bin/console make:reset-password
   
-=======
->>>>>>> ProductFonctionnality
-
-
   <!-- complementaire : paginator, breadcrump -->
   - composer require knplabs/knp-paginator-bundle
 
