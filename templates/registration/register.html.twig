@@ -1,6 +1,10 @@
 {% extends 'layout/base.html.twig' %}
 
+<<<<<<< HEAD
 {% block title %}S'enregistrer{% endblock %}
+=======
+{% block title %}Inscription{% endblock %}
+>>>>>>> ShopFonctionnality
 
 {% block body %}
 
@@ -48,9 +52,16 @@
                                         </div>
                                     </div> #}
                                     {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
+<<<<<<< HEAD
                                     <div class="col-12">
                                         <div class="form-floating mb-3">
                                             {{ form_widget(registrationForm.username, {
+=======
+
+                                    <div class="form-floating mb-3">
+                                        {{ form_row(registrationForm.username, {
+                                            'label': 'Nom d\'utilisateur',
+>>>>>>> ShopFonctionnality
                                             'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
                                             }) }}
                                             <label for="{{ registrationForm.username.vars.id }}" class="form-label">Nom
@@ -87,6 +98,7 @@
                                     </div>
 
 
+<<<<<<< HEAD
                                     <div class="col-12">
                                         <div class="form-check mb-4">
                                             {{ form_widget(registrationForm.agreeTerms, {
@@ -98,6 +110,13 @@
                                                     class="link-warning text-decoration-none">termes et conditions</a>
                                             </label>
                                         </div>
+=======
+                                    <div class="form-check mb-4">
+                                        {{ form_row(registrationForm.RGPDConsent, {
+                                            'attr': { 'class': 'form-check-input' },
+                                            'label_attr': { 'class': 'form-check-label' }
+                                        }) }}
+>>>>>>> ShopFonctionnality
                                     </div>
 
                                     <p class="text-muted small" id="texte-justify">
@@ -123,10 +142,15 @@
                                         <a href="#" class="text-decoration-none">"Cookies"</a>.
                                     </p>
 
+<<<<<<< HEAD
                                     <div class="col-12">
                                         <div class="d-grid">
                                             {{ include('components/button.html.twig', { class: 'btn-general', label: 'S\'enregistrer', type: 'submit' }) }}
                                         </div>
+=======
+                                    <div class="d-grid">
+                                        <button type="submit" class="btn-general">M'inscrire</button>
+>>>>>>> ShopFonctionnality
                                     </div>
                                 </div>
                                {#  <div class="row">

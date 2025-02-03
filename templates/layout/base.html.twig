@@ -173,10 +173,17 @@
                 </ul>
               </div>
               <li class="nav-item">
-                <a href="/" class="nav-link">
+                <a href="{{ path('cart_index') }}" class="nav-link">
                   <i class="fa fa-shopping-bag "></i>
                 </a>
               </li>
+              <li class="nav-item">
+                {% if is_granted('ROLE_ADMIN') %}
+                <a href="{{ path('admin') }}" class="nav-link">
+                  <i class="fa fa-lock" aria-hidden="true"></i>
+                  {% endif %}
+                </a>
+              </li>              
             </ul>
           </div>
         </div>

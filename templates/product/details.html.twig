@@ -64,13 +64,19 @@
                                         'Ajouter aux favoris', type: 'submit' }) }}
                                     </div>
                                     <div class="d-grid"> {# ajouter un lien vers la page du vendeur #}
-                                        {{ include('components/button.html.twig', { class: 'btn-general', label:
+                                  {{ include('components/button.html.twig', { class: 'btn-general', label:
                                         'Contacter le vendeur', type: 'submit' }) }}
                                     </div>
-                                    <div class="d-grid"> {# ajouter un #}
-                                        {{ include('components/button.html.twig', { class: 'btn-general', label:
-                                        'Ajouter au panier', type: 'submit' }) }}
-                                    </div>
+                                    
+                                    {# ajouter un lien vers la page panier #}
+                                    <div class="d-grid">                                
+                                    {{ include('components/button_with_link.html.twig', {
+                                        class: 'btn-general',
+                                        href: path('cart_add', { id: product.id }),
+                                        type: 'submit',
+                                        label: 'Ajouter au panier'
+                                    }) }}
+                                </div>
                                 </div>
                             </div>
                         </div>

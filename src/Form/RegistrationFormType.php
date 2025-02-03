@@ -26,11 +26,11 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a username']),
                 ],
-                'attr' => ['placeholder' => 'Username'],
+                'attr' => ['placeholder' => 'Nom d\'utilisateur'],
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
-                    new NotBlank(['message' => 'Please enter an email']),
+                    new NotBlank(['message' => 'Veuillez entrer un email']),
                 ],
                 'attr' => ['placeholder' => 'Email'],
             ])
@@ -38,7 +38,7 @@ class RegistrationFormType extends AbstractType
                 'mapped' => false,
                 'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
                 'constraints' => [
-                    new NotBlank(['message' => 'Please enter a password']),
+                    new NotBlank(['message' => 'Veuillez entrer un mot de passe']),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Your password should be at least {{ limit }} characters',
@@ -46,7 +46,7 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('agreeTerms', CheckboxType::class, [
+            ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue(['message' => 'You should agree to our terms.']),
