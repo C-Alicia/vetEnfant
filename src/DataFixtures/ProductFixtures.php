@@ -39,7 +39,7 @@ class ProductFixtures extends Fixture
         ],
         [
             'name' => 'Pyjamas de motif père-Noël',
-            'gender' => Gender::UNISEX,
+            'gender' => Gender::UNISEXE,
             'state' => State::TRESBONETAT,
             'price' => 19.99,
             'size' => 9,
