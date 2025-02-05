@@ -1,3 +1,8 @@
 #texte-justify{
     text-align: justify;
 }
+
+/* Style de l'icône */
+#password-icon {
+    color: var(--balkeYellow-color); /* Couleur de l'icône */
+}

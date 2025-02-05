@@ -123,3 +123,6 @@ input::-webkit-input-placeholder {
     /* Taille par défaut pour les grands écrans */
 }
 
+.navbar-nav .dropdown-menu {
+    position: absolute;
+}
