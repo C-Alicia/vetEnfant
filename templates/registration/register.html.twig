@@ -1,14 +1,6 @@
 {% extends 'layout/base.html.twig' %}
 
-<<<<<<< HEAD
 {% block title %}Inscription{% endblock %}
-=======
-<<<<<<< HEAD
-{% block title %}S'enregistrer{% endblock %}
-=======
-{% block title %}Inscription{% endblock %}
->>>>>>> ShopFonctionnality
->>>>>>> develop
 
 {% block body %}
 <section class="bg-light p-3 p-md-4 p-xl-5">
@@ -37,22 +29,10 @@
 
                                     <!-- Formulaire -->
                                     {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                                    <div class="col-12">
-                                        <div class="form-floating mb-3">
-                                            {{ form_widget(registrationForm.username, {
-=======
->>>>>>> develop
 
                                     <div class="form-floating mb-3">
                                         {{ form_row(registrationForm.username, {
                                             'label': 'Nom d\'utilisateur',
-<<<<<<< HEAD
-=======
->>>>>>> ShopFonctionnality
->>>>>>> develop
                                             'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
                                         }) }}
                                     </div>
@@ -75,31 +55,11 @@
                                         </span>
                                     </div>
 
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-                                    <div class="col-12">
-                                        <div class="form-check mb-4">
-                                            {{ form_widget(registrationForm.agreeTerms, {
-                                            'attr': { 'class': 'form-check-input' }
-                                            }) }}
-                                            <label for="{{ registrationForm.agreeTerms.vars.id }}"
-                                                class="form-check-label text-secondary">
-                                                J'accepte les <a href="#!"
-                                                    class="link-warning text-decoration-none">termes et conditions</a>
-                                            </label>
-                                        </div>
-=======
->>>>>>> develop
                                     <div class="form-check mb-4">
                                         {{ form_row(registrationForm.RGPDConsent, {
                                             'attr': { 'class': 'form-check-input' },
                                             'label_attr': { 'class': 'form-check-label' }
                                         }) }}
-<<<<<<< HEAD
-=======
->>>>>>> ShopFonctionnality
->>>>>>> develop
                                     </div>
 
                                     <p class="text-muted small" id="texte-justify">
@@ -125,20 +85,8 @@
                                         <a href="#" class="text-decoration-none">"Cookies"</a>.
                                     </p>
 
-<<<<<<< HEAD
                                     <div class="d-grid">
                                         <button type="submit" class="btn-general">M'inscrire</button>
-=======
-<<<<<<< HEAD
-                                    <div class="col-12">
-                                        <div class="d-grid">
-                                            {{ include('components/button.html.twig', { class: 'btn-general', label: 'S\'enregistrer', type: 'submit' }) }}
-                                        </div>
-=======
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn-general">M'inscrire</button>
->>>>>>> ShopFonctionnality
->>>>>>> develop
                                     </div>
 
                                     {{ form_end(registrationForm) }}
