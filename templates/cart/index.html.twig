@@ -1,0 +1,84 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Mon panier{% endblock %}
+
+{% block body %}
+
+
+<section class="bg-light p-3 p-md-4 p-xl-5 mt-5">
+    <div class="container my-5 card border-light shadow-lg">
+        <div class="row justify-content-between">
+            <!-- Liste de produits -->
+            <div class="col-lg-7 p-3">
+                <h2 class="mb-4">Mon Panier</h2>
+
+                {% if data is empty %}
+                <p class="">Votre panier est vide.</p>
+                {% else %}
+                {% set total = 0 %}
+
+                {% for element in data %}            
+
+                <div class="row align-items-center border-bottom py-3">
+                    <div class="col-3 col-md-2">
+                        {% if element.product.image|length > 0 %}
+                        <a class="text-decoration-none product-title text-muted"
+                            href="{{ path('product_details', {'slug': element.product.slug}) }}">
+                            <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ element.product.image[0].src) }}"
+                                class="img-fluid rounded img-thumbnail" alt="{{ element.product.name }}">
+                        </a>
+                        {% else %}
+                        <p class="">Pas d'image disponible.</p>
+                        {% endif %}
+                    </div>
+
+                    <div class="col-5 col-md-6">
+                        <h5 class="mb-1">{{ element.product.name }}</h5>
+                        <p class="text-muted mb-0">Taille : {{ element.product.getAgeCategory() }}</p>
+                    </div>
+
+                    <div class="col-2 text-end">
+                        <p class="fw-bold">{{ element.product.price }} €</p>
+                    </div>
+
+                    <div class="col-2 text-end">
+                        <a href="{{path('cart_delete', {id: element.product.id})}}">
+                            <button class="btn btn-outline-warning btn-sm w-25">✖</button>
+                        </a>
+                    </div>
+                </div>
+
+                {% set total = total + (element.quantity * element.product.price) %}
+                {% endfor %}
+                {% endif %}
+            </div>
+
+            <!-- Carte récapitulative -->
+            <div class="col-lg-4 p-3">
+                <div class="card border-black shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="card-title">Récapitulatif</h4>
+                            <span class="text-muted">Prix TTC</span>
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between">
+                            <span>Total</span>
+                            <span>{{ total | number_format(2, ',', ' ') }} €</span>
+                        </div>
+                    </div>
+
+                    {{ include('components/button_with_link.html.twig', {
+                    class: 'btn-general mt-3 w-50',
+                    href: path('app_home'),
+                    type: 'submit',
+                    label: 'Passer la commande'
+                    }) }}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}
