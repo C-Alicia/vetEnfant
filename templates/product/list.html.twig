@@ -1,7 +1,8 @@
 <section class="section-products mt-2">
     <div class="container custom-container">
         <div id="allProducts">
-            <div class="row gx-4 gy-4 justify-content-center"> <!-- Added 'justify-content-center' for centering -->
+            {% set productCount = 0 %}
+            <div class="row gx-4 gy-5 justify-content-center"> <!-- gy-5 pour espacement vertical -->
                 {% for product in products %}
                 <div class="col-md-4 col-lg-4 col-xl-4"> <!-- Changed to 'col-md-4' to show 3 items per row -->
                     <div class="single-product">
@@ -36,7 +37,7 @@
                     </div>
                 </div>
                 {% endfor %}
-            </div>
+            </div> <!-- Fermer la dernière ligne -->
         </div>
     </div>
 </section>

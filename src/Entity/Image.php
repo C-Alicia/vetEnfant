@@ -25,6 +25,9 @@ class Image
     #[ORM\ManyToOne(inversedBy: 'image')]
     private ?Product $product = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $slug = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -74,6 +77,18 @@ class Image
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }

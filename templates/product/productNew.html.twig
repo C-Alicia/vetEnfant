@@ -12,15 +12,23 @@
         banner_button_text: 'Trier et Filtrer'
     } %}
 
-    <div class="container custom-container">
-        <p>{{ productsCount }} produits</p>
+   {#  {% for type, messages in app.flashes %}
+    {% for message in messages %}
+    <div class="alert alert-{{ type }}">
+        {{ message }}
     </div>
-
+    {% endfor %}
+    {% endfor %} #}
+    
     {% if message %}
     <div class="alert alert-warning text-center">
         {{ message }}
     </div>
     {% endif %}
+
+    <div class="container custom-container">
+        <p>{{ productsCount }} produits</p>
+    </div>
 
     {% include 'product/list.html.twig' with { 'products': products } %}
 

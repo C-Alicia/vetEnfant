@@ -9,6 +9,7 @@
 @import url('./pages/register.css');
 @import url('./pages/product_detail.css');
 @import url('./pages/product_new.css');
+@import url('./pages/product_sell.css');
 
 /* Autres styles globaux */
 body {

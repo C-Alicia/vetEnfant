@@ -4,38 +4,50 @@
 
 {% block body %}
 
-<section class="bg-light p-3 p-md-4 p-xl-5 mt-5">
-    <article class="container container-lg">
+<section class="bg-light p-3 p-md-4 p-xl-5 mt-4">
+    <article class="container container-lg pt-5"> {# Ajout de la classe pt-5 pour l'espace en haut #}
         <div class="row justify-content-center">
             <div class="col-12 col-xxl-11">
                 <div class="card border-light-subtle shadow-sm">
                     <div class="row g-0 align-items-center">
                         <!-- Image à gauche -->
-                        <div class="col-12 col-md-6">
-                            <img src="{{ asset(product.image[0].src) }}" alt="{{ product.image[0].altText }}"
+                        <!-- Image principale -->
+                        <div class="col-12 col-md-6 m-4">
+                            <img src="{{ asset('assets/uploads/products/' ~ product.image[0].src ) }}"
+                                alt="{{ product.name }}"
                                 class="img-fluid rounded-start object-fit-cover mb-3 product-image" id="mainImage">
-                            <div class="d-flex justify-content-between">
+
+                            <!-- Miniatures d'images -->
+                            <div class="d-flex">
                                 {% for image in product.image %}
-                                <img src="{{ asset(image.src) }}" alt="{{ image.altText }}"
+                                <img src="{{ asset('assets/uploads/products/mini/300x300-' ~ image.src) }}"
+                                    alt="{{ product.name }}"
                                     class="thumbnail rounded mb-3 {% if loop.first %}active{% endif %}"
-                                    onclick="changeImage(event, '{{ asset(image.src) }}')">
+                                    onclick="changeImage(event, '{{ asset('assets/uploads/products/mini/300x300-' ~ image.src) }}')"
+                                    onkeypress="handleKeyPress(event)">
                                 {% endfor %}
                             </div>
                         </div>
 
                         <!-- Formulaire à droite -->
-                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
+                        <div class="col-12 col-md-6 m-4">
                             <div class="col-12 col-lg-11 col-xl-10">
                                 <div class="card-body p-3 p-md-4 p-xl-5">
                                     <!-- Titre -->
                                     <h2 class="mb-3">{{ product.name }}</h2>
                                     <div class="text-muted mb-4 d-flex align-items-center">
-                                        <a href="" class="text-decoration-none text-muted">
-                                            <img src="{{product.user.profileImage}}" alt="Photo du vendeur"
-                                                class="rounded-circle me-2" style="width: 40px; height: 40px;">
-                                            <span>{{product.user.username}}</span>
+                                        <a href="#" class="text-decoration-none text-muted">
+                                            <!-- Default image fallback using asset() -->
+                                            <img src="{{ product.user is not null and product.user.profileImage is not null ? product.user.profileImage : asset('images/avatarDefault.jpg') }}"
+                                                alt="Photo du vendeur" class="rounded-circle me-2"
+                                                style="width: 40px; height: 40px;">
+
+                                            <!-- Default username fallback -->
+                                            <span>{{ product.user is not null ? product.user.username : 'Unknown User'
+                                                }}</span>
                                         </a>
                                     </div>
+
                                     <div class="mb-3">
                                         <span class="h4 me-2">Prix : {{ product.price }} €</span>
                                     </div>

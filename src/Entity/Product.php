@@ -48,7 +48,7 @@ class Product
     /**
      * @var Collection<int, Image>
      */
-    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'product')]
+    #[ORM\OneToMany(targetEntity: Image::class, mappedBy: 'product', orphanRemoval: true, cascade:['persist'])]
     private Collection $image;
 
     #[ORM\ManyToOne(inversedBy: 'product')]
@@ -56,6 +56,9 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'product')]
     private ?User $user = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -189,7 +192,7 @@ class Product
     public function addImage(Image $image): static
     {
         if (!$this->image->contains($image)) {
-            $this->image->add($image);
+            $this->image[] = $image;
             $image->setProduct($this);
         }
 
@@ -245,5 +248,17 @@ class Product
         }
 
         return floor($age / 12) . ' ans';
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
+
+        return $this;
     }
 }
