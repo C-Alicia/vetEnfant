@@ -16,6 +16,11 @@ use App\Enum\State;
 use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
 use Knp\Component\Pager\PaginatorInterface;
+use App\Form\ProductFormType;
+use App\Service\PictureService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
@@ -27,8 +32,7 @@ class ProductController extends AbstractController
     $this->productRepo = $productRepo;
   }
 
-  #[Route('/new', name: 'productNew')]
-  public function showAllNewProduct(ProductRepository $prodRepo): Response
+  private function getProductsWithCount(ProductRepository $prodRepo, string $methodName): array
   {
     try {
       // Appeler la méthode dynamique du repository pour récupérer les produits
@@ -101,10 +105,6 @@ class ProductController extends AbstractController
       'message' => $data['message'] ?? null
     ]);
   }
-
-
-
-
 
   #[Route('/details/{slug}', name: 'details')]
   public function details(ManagerRegistry $doctrine, string $slug): Response
