@@ -50,7 +50,19 @@
             <div class="offcanvas-body">
               <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                 <li class="nav-item">
+<<<<<<< HEAD
                   <a class="nav-link" aria-current="page" href="{{path('product_productNew')}}">NOUVEAUTÉS</a>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                  <a class="nav-link" aria-current="page" href="">NOUVEAUTÉS</a>
+=======
+                  <a class="nav-link" aria-current="page" href="{{path('product_newProduct')}}">NOUVEAUTÉS</a>
+>>>>>>> ProductFonctionnality
+=======
+                  <a class="nav-link" aria-current="page" href="{{path('product_productNew')}}">NOUVEAUTÉS</a>
+>>>>>>> SellFonctionnality
+>>>>>>> develop
                   <span class="">0-16 ans</span>
                 </li>
                 <div class="separator"></div>
@@ -75,10 +87,27 @@
             <ul class="navbar-nav justify-content-end d-flex flex-row align-items-center">
               {% if app.user %}
               <li class="nav-item">
+<<<<<<< HEAD
                 <a href="{{ path('product_productSell') }}">
                   {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes articles', type:
                   'submit' }) }}
                 </a>
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+                {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes articles', type: 'submit' }) }}
+=======
+                <a href="#">
+                  {{ include('components/button.html.twig', { class: 'btn-general', label:
+                  'Vends tes articles', type: 'submit' }) }}
+=======
+                <a href="{{ path('product_productSell') }}">
+                  {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes articles', type:
+                  'submit' }) }}
+>>>>>>> SellFonctionnality
+                </a>
+>>>>>>> ProductFonctionnality
+>>>>>>> develop
               </li>
               {% else %}
               <li class="nav-item">

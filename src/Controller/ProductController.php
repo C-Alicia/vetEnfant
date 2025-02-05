@@ -15,16 +15,23 @@ use App\Enum\Gender;
 use App\Enum\State;
 use App\Form\ProductType;
 use Symfony\Component\HttpFoundation\Request;
+<<<<<<< HEAD
+=======
 use Knp\Component\Pager\PaginatorInterface;
 use App\Form\ProductFormType;
 use App\Service\PictureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+>>>>>>> SellFonctionnality
 
 #[Route('product', name: 'product_')]
 class ProductController extends AbstractController
 {
+<<<<<<< HEAD
+
+  #[Route('/newproduct', name: 'newProduct')]
+=======
   private $productRepo;
 
   public function __construct(ProductRepository $productRepo)
@@ -59,6 +66,7 @@ class ProductController extends AbstractController
   }
 
   #[Route('/new', name: 'productNew')]
+>>>>>>> SellFonctionnality
   public function showAllNewProduct(ProductRepository $prodRepo): Response
   {
     $data = $this->getProductsWithCount($prodRepo, 'findAllNewProduct');
@@ -106,8 +114,17 @@ class ProductController extends AbstractController
     ]);
   }
 
+<<<<<<<<< Temporary merge branch 1
+
+
+
+
+  #[Route('/{id<\d+>}', name: 'details')]
+  public function details(ManagerRegistry $doctrine, $id): Response
+=========
   #[Route('/details/{slug}', name: 'details')]
   public function details(ManagerRegistry $doctrine, string $slug): Response
+>>>>>>>>> Temporary merge branch 2
   {
     $product = $doctrine->getRepository(Product::class)->findOneBy(['slug' => $slug]);
 
