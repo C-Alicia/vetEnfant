@@ -49,6 +49,9 @@ class OrderOrd
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'orderOrd')]
     private Collection $product;
 
+    #[ORM\Column(type: 'string', length: 20, unique: true)]
+    private ?string $reference = null;
+
     public function __construct()
     {
         $this->claim = new ArrayCollection();
@@ -207,6 +210,18 @@ class OrderOrd
                 $product->setOrderOrd(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
 
         return $this;
     }
