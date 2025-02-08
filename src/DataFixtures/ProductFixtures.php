@@ -8,6 +8,7 @@ use App\Entity\Product;
 use App\Entity\Category;
 use App\Enum\Gender;
 use App\Entity\OrderOrd;
+use App\Entity\User;
 use App\Enum\State;
 
 class ProductFixtures extends Fixture
@@ -24,18 +25,22 @@ class ProductFixtures extends Fixture
             'createdAt' => '2023-01-15',
             'category_id' => 7,
             'order_ord_id' => 1,
+            'user_id' => 2,
+            'slug' => 'doudoune_rose_et_blanche'
         ],
         [
-            'name' => 'Pantalon en Jean',
+            'name' => 'Ensemble Haut et bas',
             'gender' => Gender::BOY,
             'state' => State::BONETAT,
             'price' => 34.99,
             'size' => 8,
-            'description' => 'Un pantalon résistant pour les garçons.',
+            'description' => 'Haut et pantalon résistant pour les garçons.',
             'isSold' => true,
             'createdAt' => '2023-02-10',
             'category_id' => 2,
+            'user_id' => 3,
             'order_ord_id' => 2,
+            'slug' => 'ensemble_haut_bas'
         ],
         [
             'name' => 'Pyjamas de motif père-Noël',
@@ -43,11 +48,13 @@ class ProductFixtures extends Fixture
             'state' => State::TRESBONETAT,
             'price' => 19.99,
             'size' => 9,
-            'description' => 'pyjamas motif de noël tout le monde.',
+            'description' => 'pyjamas motif de noël.',
             'isSold' => false,
             'createdAt' => '2023-03-01',
             'category_id' => 8,
+            'user_id' => 3,
             'order_ord_id' => 3,
+            'slug' => 'pyjamin_pere_noel'
         ],
     ];
 
@@ -63,7 +70,14 @@ class ProductFixtures extends Fixture
             $product->setDescription($productData['description']);
             $product->setIsSold($productData['isSold']);
             $product->setCreatedAt(new \DateTime($productData['createdAt']));
+            $product->setSlug($productData['slug']);
 
+             // Associe l'utilisateur via l'ID (user_id)
+             $user = $manager->getRepository(User::class)->find($productData['user_id']);
+             if ($user) {
+                 $product->setUser($user);
+             }
+                         
             // Associe l'ID de la commande via l'order_id
             $order = $manager->getRepository(OrderOrd::class)->find($productData['order_ord_id']);
             if ($order) {

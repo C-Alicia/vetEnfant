@@ -22,6 +22,7 @@ class TransactionFixtures extends Fixture
             'paymentDate' => '2023-12-01 10:15:00',
             'cardNumber' => '4111111111111111',
             'order_ord_id' => 1, // ID de la commande */
+            'reference' => 'TRN0001'
         ],
         [
             'name' => 'Transaction #2',
@@ -35,6 +36,7 @@ class TransactionFixtures extends Fixture
             'paymentDate' => '2023-12-02 11:20:00',
             'cardNumber' => '5500000000000004',
             'order_ord_id' => 2, // ID de la commande */
+            'reference' => 'TRN0002'
         ],
         [
             'name' => 'Transaction #3',
@@ -48,6 +50,7 @@ class TransactionFixtures extends Fixture
             'paymentDate' => '2023-12-03 09:10:00',
             'cardNumber' => '340000000000009',
             'order_ord_id' => 3, // ID de la commande */
+            'reference' => 'TRN0003'
         ],
     ];
 
@@ -65,6 +68,7 @@ class TransactionFixtures extends Fixture
             $transaction->setDiscount($transactionData['discount']);
             $transaction->setPaymentDate(new \DateTime($transactionData['paymentDate']));
             $transaction->setCardNumber($transactionData['cardNumber']);
+            $transaction->setReference($transactionData['reference']);
 
             // Associer la transaction à une commande existante
             $order = $manager->getRepository(OrderOrd::class)->find($transactionData['order_ord_id']);

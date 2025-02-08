@@ -47,6 +47,9 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transaction')]
     private ?OrderOrd $orderOrd = null;
 
+    #[ORM\Column(length: 20)]
+    private ?string $reference = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -180,6 +183,18 @@ class Transaction
     public function setOrderOrd(?OrderOrd $orderOrd): static
     {
         $this->orderOrd = $orderOrd;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): static
+    {
+        $this->reference = $reference;
 
         return $this;
     }

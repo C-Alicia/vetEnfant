@@ -9,7 +9,7 @@ use App\Entity\Category;
 class CategoryFixtures extends Fixture
 {
     public const CATEGORIES = [
-        'T-shirts',
+        'T-shirt',
         'Pantalons',
         'Robes',
         'Jupes',
@@ -29,6 +29,7 @@ class CategoryFixtures extends Fixture
             $category = new Category();
             $category->setName($categoryName);
             $category->setDescription("Description pour la catégorie $categoryName");
+            $category->setSlug($categoryName);
 
             $manager->persist($category);
             $this->addReference('category_' . strtolower(str_replace(' ', '_', $categoryName)), $category);
