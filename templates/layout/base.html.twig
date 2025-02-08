@@ -29,7 +29,7 @@
 <body>
   <main>
     <header>
-      <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top">
+      <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top py-1">
         <div class="container-fluid">
           <a class="navbar-brand me-auto" href="{{path('app_home')}}">
             <img src="{{ asset('/images/LogoVet.png') }}" height="80" alt="Logo" />
@@ -157,20 +157,61 @@
               </div>
 
               <div class="dropdown">
-                <button class="btn dropdown-toggle" type="button" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                  <a href=" {{ path('cart_index') }}" >
-                    <i class="fa fa-shopping-bag"></i>
+                <button class="btn position-relative" type="button" id="cartDropdown" data-bs-toggle="dropdown"
+                  aria-expanded="false" style="border: none; background: transparent;">
+                  <a href="{{ path('cart_index') }}"
+                    class="d-flex flex-column align-items-center text-decoration-none text-dark">
+                    <!-- Icône du panier réduite -->
+                    <i class="fa fa-shopping-bag" style="font-size: 30px;"></i>
+                    <span class="badge rounded-pill position-absolute top-50 start-50 translate-middle p-1"
+                      style="font-size: 14px; padding: 0.2rem 0.4rem;">
+                      {# {{ cartCount }}   #} 0
+                    </span>
                   </a>
                 </button>
+                <!-- Menu déroulant -->
+                <ul class="dropdown-menu" aria-labelledby="cartDropdown">
+                  <!-- Contenu du menu -->
+                  <li><a class="dropdown-item" href="#">Action 1</a></li>
+                  <li><a class="dropdown-item" href="#">Action 2</a></li>
+                  <li><a class="dropdown-item" href="#">Action 3</a></li>
+
+                  <div class="d-grid">
+
+                    {{ include('components/button_with_link.html.twig', {
+                    class: 'dropdown-item btn-general text-center',
+                    href: path('cart_index'),
+                    type: 'submit',
+                    label: 'Voir mon panier'
+                    }) }}
+                  </div>
+                </ul>
+              </div>
+
+
+
+
+              {# <div class="dropdown">
+                <button class="btn dropdown-toggle position-relative d-flex flex-column align-items-center"
+                  type="button" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                  <a href="{{ path('cart_index') }}" class="text-decoration-none text-dark">
+                    <i class="fa fa-shopping-bag fa-2x"></i>
+                  </a>
+                  <!-- Badge sous l'icône -->
+                  <span id="cartCountBadge" class="badge rounded-pill bg-warning mt-1">
+                    0
+                  </span>
+                </button>
+
                 <ul class="dropdown-menu mt-2 p-4" aria-labelledby="dropdownMenuButton">
-              
                   <li class="nav-item">
                     <a class="nav-link" href="#"><i class="fa fa-user"></i> Mon Profil</a>
                   </li>
                 </ul>
-                
-            </div>
-            
+              </div> #}
+
+
+
 
               {# <div class="dropdown">
                 <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"

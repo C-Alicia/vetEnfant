@@ -40,7 +40,7 @@
                     <div class="col-2 text-end">
                         <p class="fw-bold">{{ element.product.price }} €</p>
                     </div>
-
+                    
                     <div class="col-2 text-end">
                         <a href="{{path('cart_delete', {id: element.product.id})}}">
                             <button class="btn btn-outline-warning btn-sm w-25">✖</button>
@@ -48,9 +48,14 @@
                     </div>
                 </div>
 
+            
+
                 {% set total = total + (element.quantity * element.product.price) %}
                 {% endfor %}
                 {% endif %}
+                <div class="grid">
+                    <a href="{{path('cart_empty')}}"class="btn btn-general">Vider</a>
+                </div>
             </div>
 
             <!-- Carte récapitulative -->
@@ -67,10 +72,12 @@
                             <span>{{ total | number_format(2, ',', ' ') }} €</span>
                         </div>
                     </div>
+                    
+                    {# <a href="{{ path('app_order_add') }}" class="btn btn-primary">Valider le panier</a> #}
 
                     {{ include('components/button_with_link.html.twig', {
                     class: 'btn-general mt-3 w-50',
-                    href: path('app_home'),
+                    href: path('app_order_add'),
                     type: 'submit',
                     label: 'Passer la commande'
                     }) }}

@@ -1,0 +1,188 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  FAQ
+{% endblock %}
+
+{% block body %}
+  <link rel="stylesheet" href={{ asset('assets/css/faq.css') }}>
+  <script src={{ asset('assets/js/faq.js') }} defer></script>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Comment s'inscrire à un vetenfant ?
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        {# Pour s'inscrire à un cours sur la plateforme, rien de plus simple ! <br>
+        Passez par la liste des compétences en haut à droite du portail. Cliquez sur l'une d'elles. 
+        Vous constaterez que la page affiche désormais des examens, avec la précision du lieu et de l'heure. #}
+      </p>
+    </div>
+  </div>
+  
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Puis-je me désinscrire d'un examen ? 
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Oui il est tout à fait possible de se désinscrire d'un examen, en envoyant un mail à:
+        <strong>contact@vetenfant.com</strong>, préciser votre nom et prénom ainsi que l'examen 
+        auquel vous souhaitez vous désinscrire. 
+        Un mail de confirmation vous sera ensuite envoyé.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Les formations pour débutants
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      {# <p>
+        Nous avons quelques conseils pour les plus débutants, les examens ne sont pas 
+        tous destiné à des experts du milieu. <br>
+        Il vous permet de vous évaluer et connaître votre niveau technique/théorique sur 
+        les compétences choisies et permettre de savoir où vous en êtes dans votre 
+        apprentissage. <br>
+        Lisez les détails des compétences pour savoir si l'exament est à votre portée ou 
+        non.
+      </p> #}
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Les examens sont-ils handi-accessible ?
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Nous faisons en sortes que tout les lieux d'examen que nous proposons
+        soit ouvert à tous, et d'autant plus aux personne à mobilité réduite. 
+        Grâce aux accès PMR, ne vous inquiétez pas de savoir si aurez accès ou
+        non tout est prêt pour vous acceuillir. <br>
+        En cas de doute ou de demande particulière laissez nous un message sur 
+        notre page de <a href="{{ path('app_contact') }}" target="_blank">contact</a>.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Combien de temps dure un examen ?
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        En général les examens durent 1h30 maximum, mais prévoyez deux heures, 
+        ces une heure et demie ne prends pas en compte la présentation de l'examen
+        et du passage, ni la préparation à votre passage pour l'examen. <br>
+        Notamment il y a parfois du retard lors des passages, nous ne serons donc pas
+        en tort si jamais votre heure de passage est décalée.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Quels documents je dois fournir pour l'inscription ?
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Lorsque vous vous inscrivez, vous devrez y mettre vos infos personelles,
+        lors de l'inscription via notre site, nous enregistrons ces données sur 
+        l'examen en question. Vous n'avez donc rien à prévoir en plus en termes 
+        de document.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Quels documents je dois fournir pour le passage ?
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Pour valider votre passage à l'examen, il vous sera demandé quelques papiers :
+        <ul>
+          <li>Carte d'identité</li>
+          <li>Papier de confirmation d'inscription</li>
+          <li>Votre dossier professionnel</li>
+        </ul>
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Le déroulement d'un examen 
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Vous serez tout d'abord accueillie dans nos locaux, puis accompagné
+        dans une salle de travail, où nous vous présenterons le bon déroulement
+        de votre passage, du contenu de l'examen ainsi que du roulement de passage. <br>
+        Vous aurez ensuite trente minutes de préparation orale et écrite, puis vous passerez
+        un à un, et là tout est entre vos mains.
+      </p>
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="question-box">
+    <div class="question">
+      <h4>
+        Sous combien de jours est donné les réponses
+      </h4>
+      <i class="fa-solid fa-circle-chevron-down arrow arrow__down"></i>
+    </div>
+    <div class="response hide">
+      <p>
+        Tout dépends de l'examen. <br>
+        En général les réponses d'admissions ou non, sont envoyées sous
+        une dizaine de jours maximum, que vous recevrez par courrier 
+        postal.
+      </p>
+    </div>
+  </div>
+
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Mentions légales
+{% endblock %}
+
+{% block body %}
+	<link rel="stylesheet" href={{ asset('assets/css/profil.css') }}>
+
+  <section class="container my-4">
+    <h2 class="mt-4">
+      Mentions légales
+    </h2>
+    <small class="alert alert-light p-0">
+      Dernieres mise à jour le <span class="fw-bold">Mercredi 21 Septembre 2022</span>
+    </small>
+    <hr />
+
+    <h3>
+      Propriété du site
+    </h3>
+    <p>
+      Le présent site est la propriété de la société 
+      VETENFANT SAS au capital de 0 €, inscrite au registre du commerce et
+      des sociétés de Lyon, sous le numéro RCS B 329 727 390 dont le siège
+      social est situé au 34 Rue Antoine Primat, 69100 Villeurbanne. Le
+      directeur de la publication du Site Web est Alicia CHAREF. Conception du
+      site internet : AliciaC .
+    </p>
+
+    <h3>
+      Contenu du site
+    </h3>
+    <p>
+      On entend par contenu du site la structure générale, les textes, les
+      images animées ou non, et les sons dont le site est composé. Toute
+      représentation totale ou partielle de ce Site et de son contenu, par
+      quelques procédés que ce soient, sans autorisation préalable expresse de
+      la société Alicia CHAREF, est interdite et constituerait une contrefaçon
+      sanctionnée par les articles L335-2 et suivants du Code de la Propriété
+      intellectuelle.
+    </p>
+
+    <h3>
+      Licence d'utilisation du contenu du site
+    </h3>
+    <p>
+      Du seul fait de sa connexion au site https://www.vetenfant.fr,
+      l’utilisateur reconnaît accepter de la société VetEnfant une licence
+      d’usage du Contenu du Site strictement limitée aux conditions impératives
+      suivantes :<ul>
+        <li>
+          La présente licence accordée à titre non exclusif n’est pas
+          transmissible.
+        </li>
+        <li>
+          Le droit d’usage conféré à l’utilisateur est personnel et privé :
+          c’est-à-dire que toute reproduction du contenu du cite sur un
+          quelconque support pour un usage collectif ou professionnel, même en
+          interne dans l’entreprise, est prohibée. Il en est de même pour toute
+          communication de ce contenu par voie électronique, même diffusé en
+          Intranet ou en Extranet d’entreprises.
+        </li>
+        <li>
+          Cet usage comprend seulement l’autorisation de reproduire pour
+          stockage aux fins de représentation sur écran monoposte et de
+          reproduction en un exemplaire, pour copie de sauvegarde et tirage
+          papier.
+        </li>
+        <li>
+          Tout autre usage est soumis à l’autorisation expresse préalable de la
+          société CENTRE EXAMEN. La violation de ces dispositions soumet le
+          contrevenant et toutes personnes responsables aux peines pénales et
+          civiles prévues par la loi française. Pour toute information et
+          demande de reproduction sur support papier ou électronique :
+          rh@centreexamen.fr
+        </li>
+      </ul>
+    </p>
+
+    <h3>
+      Autorisation de reproduction de contenus sur support électronique
+    </h3>
+    <p>
+      Pour mettre en place un lien avec le site https://www.vetenfant.fr Pour
+      reproduire un contenu (textes, graphiques, illustrations) sur support
+      électronique (Web, Intranet, CD-ROM…) paru sur le site
+      https://www.vetenfant.fr, adressez votre demande par courrier, fax ou
+      e-mail à : contact@vetenfant.com
+
+      SITES SAS 34 Rue Antoine Primat, 69100 Villeurbanne – France
+      contact@vetenfant.com
+
+      Nous vous demandons de bien vouloir nous préciser le contexte, la durée de
+      reproduction souhaitée, la nature du site, la présentation envisagée…
+      N’oubliez pas de nous préciser également votre nom, le nom de votre
+      association ou de votre entreprise, l’adresse URL de votre site, ainsi que
+      vos coordonnées incluant votre e-mail.
+    </p>
+
+    <div class="d-flex align-item-center justify-content-center my-4">
+      <a href="{{ path('app_rgpd') }}" class="btn__histo">Politique de confidentialité</a>
+    </div>
+
+  </section>
+{% endblock %}
