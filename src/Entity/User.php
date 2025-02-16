@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true,)]
     private ?float $evaluation = null;
 
-    #[ORM\Column(nullable: true,type: Types::DATETIME_MUTABLE, options:['default' => 'CURRENT_TIMESTAMP'])]
+    #[ORM\Column(nullable: true, type: 'datetime_immutable', options:['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeInterface $createdAt = null;
 
     /**
@@ -67,7 +67,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Address>
      */
-    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user')]
+    #[ORM\OneToMany(targetEntity: Address::class, mappedBy: 'user', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $address;
 
     /**
@@ -90,6 +90,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->address = new ArrayCollection();
         $this->orderOrd = new ArrayCollection();
         $this->product = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
     
     public function getId(): ?int

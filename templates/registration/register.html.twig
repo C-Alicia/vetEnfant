@@ -28,39 +28,41 @@
                                     <h2 class="h4 text-center">Nouveau client ?</h2>
 
                                     <!-- Formulaire -->
-                                    {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
+                               
+                                        {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
 
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.username, {
+                                        <div class="form-floating mb-3">
+                                            {{ form_row(registrationForm.username, {
                                             'label': 'Nom d\'utilisateur',
                                             'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
-                                        }) }}
-                                    </div>
+                                            }) }}
+                                        </div>
 
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.email, {
+                                        <div class="form-floating mb-3">
+                                            {{ form_row(registrationForm.email, {
                                             'attr': { 'class': 'form-control', 'placeholder': 'Email' }
-                                        }) }}
-                                    </div>
+                                            }) }}
+                                        </div>
 
-                                    <div class="form-floating mb-3 position-relative">
-                                        {{ form_row(registrationForm.plainPassword, {
+                                        <div class="form-floating mb-3 position-relative">
+                                            {{ form_row(registrationForm.plainPassword, {
                                             'label': 'Mot de passe',
                                             'attr': { 'class': 'form-control', 'placeholder': 'Mot de passe' }
-                                        }) }}
-                                        <!-- Icône œil pour afficher le mot de passe -->
-                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style="cursor: pointer;" onclick="togglePasswordVisibility()">
-                                            <i class="fa fa-eye" id="password-icon"></i>
-                                        </span>
-                                    </div>
+                                            }) }}
+                                            <!-- Icône œil pour afficher le mot de passe -->
+                                            <span class="position-absolute top-50 end-0 translate-middle-y me-3"
+                                                style="cursor: pointer;" onclick="togglePasswordVisibility()">
+                                                <i class="fa fa-eye" id="password-icon"></i>
+                                            </span>
+                                        </div>
 
-                                    <div class="form-check mb-4">
-                                        {{ form_row(registrationForm.RGPDConsent, {
+                                        <div class="form-check mb-4">
+                                            {{ form_row(registrationForm.RGPDConsent, {
                                             'attr': { 'class': 'form-check-input' },
                                             'label_attr': { 'class': 'form-check-label' }
-                                        }) }}
-                                    </div>
+                                            }) }}
+                                        </div>
+                                   
 
                                     <p class="text-muted small" id="texte-justify">
                                         VetEnfant, responsable du traitement, collecte des données personnelles
@@ -95,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-            </div> 
+            </div>
         </div>
     </div>
 </section>

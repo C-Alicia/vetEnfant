@@ -1,7 +1,7 @@
 
  {% extends 'layout/base.html.twig' %}
 
-{% block title %}Détails {{ product.name }}{% endblock %}
+{% block title %}Details {{ product.name }}{% endblock %}
 
 {% block body %}
 
@@ -36,7 +36,7 @@
                                     <!-- Titre -->
                                     <h2 class="mb-3">{{ product.name }}</h2>
                                     <div class="text-muted mb-4 d-flex align-items-center">
-                                        <a href="#" class="text-decoration-none text-muted">
+                                        <a href="{{path('profil_seller')}}" class="text-decoration-none text-muted">
                                             <!-- Default image fallback using asset() -->
                                             <img src="{{ product.user is not null and product.user.profileImage is not null ? product.user.profileImage : asset('images/avatarDefault.jpg') }}"
                                                 alt="Photo du vendeur" class="rounded-circle me-2"

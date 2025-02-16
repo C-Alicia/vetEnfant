@@ -1,0 +1,96 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}Profil de {{ app.user.firstName }} {{ app.user.lastName }}{% endblock %}
+
+{% block body %}
+<section class="bg-light p-3 p-md-4 p-xl-5 mt-5 w-100" style="min-height: 100vh;">
+	<div class="container-fluid">
+		<h1 class="mb-4 text-uppercase">Gérez vos informations personnelles comme vous le souhaitez</h1>
+
+		<h2 class="mb-3">Données personnelles :</h2>
+		<div class="row align-items-center border-dotted rounded-3 mt-3 bg-white p-4 shadow-sm">
+			{{ form_start(form) }}
+			<div class="row">
+				<!-- Colonne gauche -->
+				<div class="col-md-6">
+					<div class="mb-3">
+						<h3>Nom :</h3>
+						{{ form_widget(form.lastName, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+					<div class="mb-3">
+						<h3>Prénom :</h3>
+						{{ form_widget(form.firstName, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+				<!-- Colonne droite -->
+				<div class="col-md-6">
+					<div class="mb-3">
+						<h3>Date de naissance :</h3>
+						{{ form_widget(form.dateOfBirth, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+					<div class="mb-3">
+						<h3>Numéro de téléphone :</h3>
+						{{ form_widget(form.phoneNumber, { 'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="mt-5">Mot de passe :</h2>
+		<div class="row align-items-center border-dotted rounded-3 bg-white p-4 shadow-sm">
+			<div class="col-md-12">
+				<div class="mb-3">
+					<h3>Ici, vous pouvez changer votre mot de passe en toute sécurité :</h3>
+				</div>
+				<div class="mb-3">
+					<a href="{{ path('profil_editPassword') }}" class="btn btn-general">Modifier le mot de passe</a>
+				</div>
+			</div>
+		</div>
+
+		<h2 class="mt-5">Adresses :</h2>
+		<div class="row align-items-center border-dotted rounded-3 mt-3 bg-white p-4 shadow-sm">
+			{% for addressForm in form.address %}
+			<div class="col-md-6">
+				<h4 class="d-inline-block mr-3">Adresse principale</h4>
+				<div class="mb-3">
+					<h5>Rue :</h5>
+					{{ form_widget(addressForm.street, {'attr': {'class': 'form-control'} }) }}
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<h5>Code Postal :</h5>
+						{{ form_widget(addressForm.postalCode, {'attr': {'class': 'form-control'} }) }}
+					</div>
+					<div class="col-md-6">
+						<h5>Ville :</h5>
+						{{ form_widget(addressForm.city, {'attr': {'class': 'form-control'} }) }}
+					</div>
+				</div>
+				 <!-- Bouton de soumission pour l'adresse -->
+				 <div class="col-md-12 mt-3">
+					{{ form_widget(addressForm.save, {'attr': {'class': 'btn btn-general'} }) }}
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<h4 class="d-inline-block mr-3">Adresse de livraison</h4>
+				<div class="mb-3">
+					<h5>Rue :</h5>
+					{{ form_widget(addressForm.streetDelivery, {'attr': {'class': 'form-control'} }) }}
+				</div>
+			</div>
+			
+			{% endfor %}
+		</div>
+
+		<!-- Boutons Annuler et Modifier Profil -->
+		<div class="col-md-12 mt-3 text-end">
+			<a href="{{ path('profil_user') }}" class="btn btn-general">Annuler</a>
+			{{ form_widget(form.submit, {'attr': {'class': 'btn btn-general'} }) }}
+		</div>
+
+		{{ form_end(form) }}
+	</div>
+</section>
+{% endblock %}

@@ -29,47 +29,6 @@ class ProductRepository extends ServiceEntityRepository
         $this->slugger = $slugger;  // Initialize the slugger
         $this->em = $em;  // Injections de EntityManagerInterface
     }
-    /**
-     * Trouver un produit avec toutes ses images associées en utilisant SQL brut.
-     */
-    /*  public function findWithImages(int $id): ?array
-    {
-        $sql = '
-            SELECT p.*, i.id AS image_id, i.name AS image_name, i.src AS image_src, i.alt_text AS image_alt_text
-            FROM product p
-            LEFT JOIN image i ON i.product_id = p.id
-            WHERE p.id = :id
-        ';
-
-        $stmt = $this->connection->prepare($sql);
-        $stmt->bindValue('id', $id);
-        $result = $stmt->executeQuery()->fetchAllAssociative();
-
-        if (!$result) {
-            return null;
-        }
-
-        // Regrouper les données pour que le produit et ses images soient bien organisés
-        $product = [
-            'id' => $result[0]['id'],
-            'name' => $result[0]['name'],
-            'images' => [],
-        ];
-
-        foreach ($result as $row) {
-            if ($row['image_id']) {
-                $product['images'][] = [
-                    'id' => $row['image_id'],
-                    'name' => $row['image_name'],
-                    'src' => $row['image_src'],
-                    'altText' => $row['image_alt_text'],
-                ];
-            }
-        }
-
-        return $product;
-    }
- */
 
     /**
      * Récupérer tous les nouveaux produits non vendus, triés par date de création

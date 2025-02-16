@@ -25,7 +25,8 @@ class Address
     #[ORM\Column(nullable: true,length: 150)]
     private ?string $city = null;
 
-    #[ORM\ManyToOne(inversedBy: 'address')]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'address')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     public function getId(): ?int

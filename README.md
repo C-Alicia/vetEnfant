@@ -28,10 +28,12 @@
   - composer require symfonycasts/reset-password-bundle
   - php bin/console make:reset-password
   
-
-
   <!-- complementaire : paginator, breadcrump -->
   - composer require knplabs/knp-paginator-bundle
 
   <!-- Test -->
   - php bin/phpunit --filter ProductControllerTest
+
+  <!-- Gerer les branches -->
+
+  - git branch -d [nom-de-ma-branche]
