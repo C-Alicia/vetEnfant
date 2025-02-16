@@ -1,0 +1,170 @@
+<header>
+    <nav class="navbar navbar-light bg-white navbar-expand-lg border-bottom fixed-top py-1">
+        <div class="container-fluid">
+            <a class="navbar-brand me-auto" href="{{path('app_home')}}">
+                <img src="{{ asset('/images/LogoVet.png') }}" height="80" alt="Logo" />
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <a class="offcanvas-title" href="{{path('app_home')}}" id="offcanvasNavbarLabel">
+                        <img src="{{ asset('/images/LogoVet.png') }}" height="100" alt="Logo Vetenfant" />
+                    </a>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{{path('product_productNew')}}">NOUVEAUTÉS</a>
+                            <span class="">0-16 ans</span>
+                        </li>
+                        <div class="separator"></div>
+                        <li class="nav-item text-wrap">
+                            <a class="nav-link" href="{{path('product_productBaby')}}">BÉBÉ</a>
+                            <span class="">0-3 ans</span>
+                        </li>
+                        <div class="separator"></div>
+                        <li class="nav-item text-wrap">
+                            <a class="nav-link" href="{{path('product_productGirl')}}">FILLE</a>
+                            <span class="">3-16 ans</span>
+                        </li>
+                        <div class="separator"></div>
+                        <li class="nav-item text-wrap">
+                            <a class="nav-link" href="{{path('product_productBoy')}}">GARÇON</a>
+                            <span class="">3-16 ans</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="offcanvas-side-body d-none d-sm-block d-md-block">
+                <ul class="navbar-nav justify-content-end d-flex flex-row align-items-center">
+                    {% if app.user %}
+                    <li class="nav-item">
+                        <a href="{{ path('product_productSell') }}">
+                            {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes
+                            articles', type:
+                            'submit' }) }}
+                        </a>
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
+                        <a href="{{ path('app_login') }}">
+                            {{ include('components/button.html.twig', { class: 'btn-general', label: 'Vends tes
+                            articles', type:
+                            'submit' }) }}
+                        </a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <div class="search-box d-flex align-items-center">
+                            <i class="fa fa-search"></i>
+                            <input type="text" class="form-control search-input" placeholder="Que recherchez-vous ?" />
+                        </div>
+                    </li>
+
+                    <div class="dropdown">
+                        <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {% if app.user %}
+                            <img src="{{ app.user.profileImage }}" height="80" alt="avatar" />
+                            Bonjour, {{ app.user.username }}
+                            {% else %}
+                            <i class="fa fa-user" aria-hidden="false"> Mon compte</i>
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu mt-2 p-4" aria-labelledby="dropdownMenuButton">
+                            {% if app.user %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-user"></i> Mon Profil</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-heart"></i> Mes favoris</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Messages</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <form action="{{ path('app_logout') }}" method="post">
+                                    <button type="submit" class="dropdown-item btn-general text-center">
+                                        <i class="fa fa-power-off"></i> Se déconnecter
+                                    </button>
+                                </form>
+                            </li>
+                            {% else %}
+                            <li>
+                                <strong>Déjà client</strong>
+                            </li>
+                            <li>
+                                <a class="dropdown-item btn-general text-center" href="{{ path('app_login') }}">Me
+                                    connecter</a>
+                            </li>
+                            <li>
+                                <a class="text-muted" href="">Mot de passe perdu ?</a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider" />
+                            </li>
+                            <li>
+                                <strong>Nouveau client</strong>
+                            </li>
+                            <li>
+                                <a class="dropdown-item btn-general text-center" href="{{ path('app_register') }}">Créer
+                                    un
+                                    compte</a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+
+                    <div class="dropdown">
+                        <button class="btn position-relative" type="button" id="cartDropdown" data-bs-toggle="dropdown"
+                            aria-expanded="false" style="border: none; background: transparent;">
+                            <a href="{{ path('cart_index') }}"
+                                class="d-flex flex-column align-items-center text-decoration-none text-dark">
+                                <!-- Icône du panier réduite -->
+                                <i class="fa fa-shopping-bag" style="font-size: 30px;"></i>
+                                <span class="badge rounded-pill position-absolute top-50 start-50 translate-middle p-1"
+                                    style="font-size: 14px; padding: 0.2rem 0.4rem;">
+                                    {# {{ cartCount }} #} 
+                                </span>
+                            </a>
+                        </button>
+                        <!-- Menu déroulant -->
+                        <ul class="dropdown-menu" aria-labelledby="cartDropdown">
+                             {# Ajouter une liste de produit #}
+                            <div class="d-grid">
+                                {{ include('components/button_with_link.html.twig', {
+                                class: 'dropdown-item btn-general text-center',
+                                href: path('cart_index'),
+                                type: 'submit',
+                                label: 'Voir mon panier'
+                                }) }}
+                            </div>
+                        </ul>
+                    </div>
+                    <li class="nav-item">
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('admin') }}" class="nav-link">
+                            <i class="fa fa-lock" aria-hidden="true"></i>
+                            {% endif %}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
