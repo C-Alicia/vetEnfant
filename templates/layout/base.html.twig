@@ -165,19 +165,15 @@
                     <i class="fa fa-shopping-bag" style="font-size: 30px;"></i>
                     <span class="badge rounded-pill position-absolute top-50 start-50 translate-middle p-1"
                       style="font-size: 14px; padding: 0.2rem 0.4rem;">
-                      {# {{ cartCount }}   #} 0
+                      {# {{ cartCount }}   #} 
                     </span>
                   </a>
                 </button>
                 <!-- Menu déroulant -->
                 <ul class="dropdown-menu" aria-labelledby="cartDropdown">
                   <!-- Contenu du menu -->
-                  <li><a class="dropdown-item" href="#">Action 1</a></li>
-                  <li><a class="dropdown-item" href="#">Action 2</a></li>
-                  <li><a class="dropdown-item" href="#">Action 3</a></li>
-
+                  
                   <div class="d-grid">
-
                     {{ include('components/button_with_link.html.twig', {
                     class: 'dropdown-item btn-general text-center',
                     href: path('cart_index'),
