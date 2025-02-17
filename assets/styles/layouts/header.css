@@ -96,22 +96,15 @@
 
 .dropdown-item {
     background-color: white;
-    /* Couleur de fond par défaut */
     color: #000;
-    /* Couleur du texte */
     padding: 10px 15px;
-    /* Espacement intérieur */
     border-radius: 5px;
-    /* Coins arrondis */
     transition: background-color 0.3s ease;
-    /* Transition de couleur */
 }
 
 .dropdown-item:hover {
     background-color: var(--peru-color);
-    /* Couleur de fond au survol */
     color: #fff;
-    /* Couleur du texte au survol */
 }
 
 input::-webkit-input-placeholder {
@@ -129,4 +122,52 @@ input::-webkit-input-placeholder {
 
 .navbar-nav .dropdown-menu {
     position: absolute;
+}
+
+/* Styles spécifiques aux petits écrans */
+@media (max-width: 768px) {
+    .separator::after {
+        content: "";
+        /* Vide pour personnaliser le tiret */
+        display: inline-block;
+        /* Permet de contrôler la largeur */
+        width: 100%;
+        /* Longueur du tiret */
+        height: 1px;
+        /* Épaisseur du tiret */
+        background-color: var(--peru-color);
+        /* Couleur du tiret */
+        margin: 0 5px;
+        /* Espacement autour du tiret */
+        vertical-align: middle;
+        /* Aligner verticalement */
+    }
+    .row {
+        flex-wrap: wrap;
+    }
+
+}
+
+/* MEDIA QUERIES */
+/* Styles pour les liens de navigation sur grands écrans */
+@media (min-width: 991px) {
+    .nav-link::before {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background-color: var(--balkeYellow-color);
+        visibility: hidden;
+        transition: width 0.3s ease-in-out;
+        /* Correction du timing de transition */
+    }
+
+    .nav-link:hover::before,
+    .nav-link.active::before {
+        width: 100%;
+        visibility: visible;
+    }
 }

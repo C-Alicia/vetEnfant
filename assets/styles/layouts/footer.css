@@ -36,3 +36,16 @@
     color: #000;
 }
 
+
+/* Styles spécifiques aux petits écrans */
+@media (max-width: 768px) {
+
+    .footer-divider {
+        width: 50%;
+        height: 2px;
+        background-color: var(--peru-color);
+        margin: 0 auto 15px;
+    }
+
+}
+

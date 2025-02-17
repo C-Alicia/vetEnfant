@@ -1,0 +1,61 @@
+<div class="dropdown">
+    <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"
+        aria-expanded="false">
+        {% if app.user %}
+        <img src="{{ app.user.profileImage }}" height="80" alt="avatar" />
+        Bonjour, {{ app.user.username }}
+        {% else %}
+        <i class="fa fa-user" aria-hidden="false"> Mon compte</i>
+        {% endif %}
+    </button>
+    <ul class="dropdown-menu mt-2 p-4" aria-labelledby="dropdownMenuButton">
+        {% if app.user %}
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fa fa-user"></i> Mon Profil</a>
+        </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fa fa-heart"></i> Mes favoris</a>
+        </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="#"><i class="fa fa-envelope"></i> Messages</a>
+        </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li>
+            <form action="{{ path('app_logout') }}" method="post">
+                <button type="submit" class="dropdown-item btn-general text-center">
+                    <i class="fa fa-power-off"></i> Se déconnecter
+                </button>
+            </form>
+        </li>
+        {% else %}
+        <li>
+            <strong>Déjà client</strong>
+        </li>
+        <li>
+            <a class="dropdown-item btn-general text-center" href="{{ path('app_login') }}">Me
+                connecter</a>
+        </li>
+        <li>
+            <a class="text-muted" href="">Mot de passe perdu ?</a>
+        </li>
+        <li>
+            <hr class="dropdown-divider" />
+        </li>
+        <li>
+            <strong>Nouveau client</strong>
+        </li>
+        <li>
+            
+            <a class="dropdown-item btn-general text-center" href="{{ path('app_register') }}">Créer un compte</a>
+        </li>
+        {% endif %}
+    </ul>
+</div>

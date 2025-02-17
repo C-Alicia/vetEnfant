@@ -2,6 +2,7 @@
 @import url('./base/variables.css');
 @import url('./components/button.css');
 @import url('./layouts/header.css');
+@import url('./layouts/banner.css');
 @import url('./layouts/footer.css');
 @import url('./components/card.css');
 @import url('./pages/home.css');
@@ -16,60 +17,4 @@ body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins', sans-serif;
-}
-
-/* MEDIA QUERIES */
-/* Styles spécifiques aux petits écrans */
-@media (max-width: 768px) {
-    .separator::after {
-        content: "";
-        /* Vide pour personnaliser le tiret */
-        display: inline-block;
-        /* Permet de contrôler la largeur */
-        width: 100%;
-        /* Longueur du tiret */
-        height: 1px;
-        /* Épaisseur du tiret */
-        background-color: var(--peru-color);
-        /* Couleur du tiret */
-        margin: 0 5px;
-        /* Espacement autour du tiret */
-        vertical-align: middle;
-        /* Aligner verticalement */
-    }
-
-    .footer-divider {
-        width: 50%;
-        height: 2px;
-        background-color: var(--peru-color);
-        margin: 0 auto 15px;
-    }
-
-    .row {
-        flex-wrap: wrap;
-    }
-
-}
-
-/* Styles pour les liens de navigation sur grands écrans */
-@media (min-width: 991px) {
-    .nav-link::before {
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 0;
-        height: 2px;
-        background-color: var(--balkeYellow-color);
-        visibility: hidden;
-        transition: width 0.3s ease-in-out;
-        /* Correction du timing de transition */
-    }
-
-    .nav-link:hover::before,
-    .nav-link.active::before {
-        width: 100%;
-        visibility: visible;
-    }
 }

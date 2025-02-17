@@ -1,0 +1,28 @@
+<div class="dropdown">
+    <button class="btn position-relative" type="button" id="cartDropdown" data-bs-toggle="dropdown"
+        aria-expanded="false" style="border: none; background: transparent;">
+        <a href="{{ path('cart_index') }}"
+            class="d-flex flex-column align-items-center text-decoration-none text-dark">
+            <!-- Icône du panier -->
+            <i class="fa fa-shopping-bag" style="font-size: 30px;"></i>
+            <span class="badge rounded-pill position-absolute top-50 start-50 translate-middle p-1"
+                style="font-size: 14px; padding: 0.2rem 0.4rem;">
+               {#  {{ cartCount }}   #}<!-- Affichage du nombre d'articles dans le panier -->
+            </span>
+        </a>
+    </button>
+    <!-- Menu déroulant -->
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="cartDropdown">
+        <div class="d-grid">
+
+            
+            {{ include('components/button_with_link.html.twig', {
+            class: 'dropdown-item btn-general text-center',
+            href: path('cart_index'),
+            type: 'submit',
+            label: 'Voir mon panier'
+            }) }}
+        </div>
+        <!-- Vous pouvez ajouter plus d'éléments de panier ici -->
+    </ul>
+</div>
