@@ -3,7 +3,7 @@
   CLI
   
   - git clone lien du repo
-  - npm icomposer install
+  - composer install
   - npm run build
   - symfony serve -d
 
@@ -28,7 +28,6 @@
   - composer require symfonycasts/reset-password-bundle
   - php bin/console make:reset-password
   
-
 
   <!-- complementaire : paginator, breadcrump -->
   - composer require knplabs/knp-paginator-bundle
