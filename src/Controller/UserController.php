@@ -25,7 +25,7 @@ class UserController extends AbstractController
   #[Route('', name: 'homepage', methods: ['GET'])]
   public function index(): Response
   {
-    return new Response('<h1>Bienvenue sur Symfony !</h1>');
+    return new Response('<h1>Bienvenue sur VetEnfant!</h1>');
   }
 
   #[Route('users', name: 'get_users', methods: ['GET'])]
@@ -33,9 +33,10 @@ class UserController extends AbstractController
   {
     $users = $this->userService->getAllUsers();
     return new JsonResponse($users, Response::HTTP_OK);
+  
   }
 
- 
+
   #[Route('user/{id}', name: 'get_user_by_id', methods: ['GET'])]
   public function getUserById(int $id): JsonResponse
   {
@@ -60,7 +61,7 @@ class UserController extends AbstractController
         return new JsonResponse([
           'message' => "Le champ '$field' est requis."
         ], Response::HTTP_BAD_REQUEST);
-      } 
+      }
     }
 
     try {
@@ -78,44 +79,51 @@ class UserController extends AbstractController
   #[Route('user/{id}', name: 'update_user', methods: ['PUT'])]
   public function updateUser(int $id, Request $request): JsonResponse
   {
-      try {
-          // Récupérer les données envoyées dans la requête (en supposant un JSON)
-          $data = json_decode($request->getContent(), true);
-  
-          $updatedUser = $this->userService->updateUser($id, $data);
-  
-          if (!$updatedUser) {
-              return new JsonResponse(['message' => 'Utilisateur non trouvé'], Response::HTTP_NOT_FOUND);
-          }
-  
-          return new JsonResponse([
-              'message' => 'Utilisateur mis à jour avec succès',
-              'user' => $updatedUser 
-          ], Response::HTTP_OK);
-      } catch (\Exception $e) {
-          return new JsonResponse([
-              'message' => 'Erreur lors de la mise à jour de l’utilisateur.',
-              'error' => $e->getMessage()
-          ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    try {
+      // Récupérer les données envoyées dans la requête (en supposant un JSON)
+      $data = json_decode($request->getContent(), true);
+
+      $updatedUser = $this->userService->updateUser($id, $data);
+
+      if (!$updatedUser) {
+        return new JsonResponse(['message' => 'Utilisateur non trouvé'], Response::HTTP_NOT_FOUND);
       }
+
+      return new JsonResponse([
+        'message' => 'Utilisateur mis à jour avec succès',
+        'user' => $updatedUser
+      ], Response::HTTP_OK);
+    } catch (\Exception $e) {
+      return new JsonResponse([
+        'message' => 'Erreur lors de la mise à jour de l’utilisateur.',
+        'error' => $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
+    }
   }
 
   /* Delete */
   #[Route('user/{id}', name: 'delete_user', methods: ['DELETE'])]
-    public function deleteUser(int $id): JsonResponse
-    {
-        try {
-            $deleted = $this->userService->deleteUser($id);
-            if (!$deleted) {
-                return new JsonResponse(['message' => 'Utilisateur non trouvé'], Response::HTTP_NOT_FOUND);
-            }
+  public function deleteUser(int $id): JsonResponse
+  {
+    try {
+      $deleted = $this->userService->deleteUser($id);
+      if (!$deleted) {
+        return new JsonResponse(['message' => 'Utilisateur non trouvé'], Response::HTTP_NOT_FOUND);
+      }
 
-            return new JsonResponse(['message' => 'Utilisateur supprimé avec succès'], Response::HTTP_OK);
-        } catch (\Exception $e) {
-            return new JsonResponse([
-                'message' => 'Erreur lors de la suppression de l’utilisateur.',
-                'error' => $e->getMessage()
-            ], Response::HTTP_INTERNAL_SERVER_ERROR);
-        }
+      return new JsonResponse(['message' => 'Utilisateur supprimé avec succès'], Response::HTTP_OK);
+    } catch (\Exception $e) {
+      return new JsonResponse([
+        'message' => 'Erreur lors de la suppression de l’utilisateur.',
+        'error' => $e->getMessage()
+      ], Response::HTTP_INTERNAL_SERVER_ERROR);
     }
+  }
+
+ /*  #[Route('/usersAll', methods: ['GET'])]
+  public function userList(): Response
+  {
+    $users = $this->userService->getAllUsers();
+    return $this->render('user/list.html.twig', ['users' => $users]);
+  } */
 }

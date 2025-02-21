@@ -1,118 +1,87 @@
-{% extends 'layout/base.html.twig' %}
+{% extends 'user/authBase.html.twig' %}
+
+{% set image_path = '/images/registerImage.jpeg' %}
+{% set image_alt = 'EnfantMèreImage' %}
 
 {% block title %}Inscription{% endblock %}
 
-{% block body %}
-<section class="bg-light p-3 p-md-4 p-xl-5">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-xxl-11">
-                <div class="card border-light-subtle shadow-sm">
-                    <div class="row g-0 align-items-center">
-                        <!-- Image à gauche -->
-                        <div class="col-12 col-md-6">
-                            <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
-                                src="{{ asset('/images/registerImage.jpeg') }}" loading="lazy" alt="EnfantMèreImage">
-                        </div>
+{% block form_title %}Nouveau client ?{% endblock %}
 
-                        <!-- Flash messages -->
-                        {% for flash_error in app.flashes('verify_email_error') %}
-                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
-                        {% endfor %}
+{% block form_content %}
+<!-- Flash messages -->
+<form method="POST" action="{{ path('app_register') }}">
+    {% for flash_error in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+    {% endfor %}
 
-                        <!-- Formulaire à droite -->
-                        <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                            <div class="col-12 col-lg-11 col-xl-10">
-                                <div class="card-body p-3 p-md-4 p-xl-5">
-                                    <!-- Titre -->
-                                    <h2 class="h4 text-center">Nouveau client ?</h2>
-
-                                    <!-- Formulaire -->
-                                    {{ form_start(registrationForm, { 'attr': { 'class': 'needs-validation' } }) }}
-
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.username, {
-                                            'label': 'Nom d\'utilisateur',
-                                            'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur' }
-                                        }) }}
-                                    </div>
-
-                                    <div class="form-floating mb-3">
-                                        {{ form_row(registrationForm.email, {
-                                            'attr': { 'class': 'form-control', 'placeholder': 'Email' }
-                                        }) }}
-                                    </div>
-
-                                    <div class="form-floating mb-3 position-relative">
-                                        {{ form_row(registrationForm.plainPassword, {
-                                            'label': 'Mot de passe',
-                                            'attr': { 'class': 'form-control', 'placeholder': 'Mot de passe' }
-                                        }) }}
-                                        <!-- Icône œil pour afficher le mot de passe -->
-                                        <span class="position-absolute top-50 end-0 translate-middle-y me-3"
-                                            style="cursor: pointer;" onclick="togglePasswordVisibility()">
-                                            <i class="fa fa-eye" id="password-icon"></i>
-                                        </span>
-                                    </div>
-
-                                    <div class="form-check mb-4">
-                                        {{ form_row(registrationForm.RGPDConsent, {
-                                            'attr': { 'class': 'form-check-input' },
-                                            'label_attr': { 'class': 'form-check-label' }
-                                        }) }}
-                                    </div>
-
-                                    <p class="text-muted small" id="texte-justify">
-                                        VetEnfant, responsable du traitement, collecte des données personnelles
-                                        obligatoires signalées par un astérisque.
-                                        Ces données sont nécessaires à la création de compte, pour le traitement, le
-                                        suivi et la livraison de votre commande,
-                                        mais aussi à la consultation de votre programme fidélité. Elles pourront être
-                                        utilisées pour la réalisation d’analyses
-                                        statistiques et d’enquêtes de satisfaction, ainsi que pour l’envoi des offres et
-                                        actualités sur la vie de la communauté.
-                                        Conformément au Règlement Européen 2016/679 du 27 avril 2016 sur la protection
-                                        des données personnelles, vous bénéficiez
-                                        d’un droit d’accès, d’édiction des directives anticipées, de rectification,
-                                        d’opposition, d’effacement, de portabilité ou
-                                        de limitation aux traitements de données vous concernant. Vous pouvez exercer
-                                        vos droits en écrivant à <strong>SERVICE CLIENT
-                                            VETENFANT</strong> par le biais de notre <a
-                                            href="mailto:contact@vetenfant.com"
-                                            class="text-decoration-none">contact@vetenfant.com</a>.
-                                        Pour plus d’informations, vous pouvez consulter notre politique <a href="#"
-                                            class="text-decoration-none">"Données Personnelles"</a> et
-                                        <a href="#" class="text-decoration-none">"Cookies"</a>.
-                                    </p>
-
-                                    <div class="d-grid">
-                                        <button type="submit" class="btn-general">M'inscrire</button>
-                                    </div>
-
-                                    {{ form_end(registrationForm) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-        </div>
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.username, { 'attr': { 'class': 'form-control', 'placeholder': 'Nom d\'utilisateur', 'id': 'inputUsername' } }) }}
+        <label for="inputUsername">Nom d'utilisateur</label>
     </div>
-</section>
-<!-- Script pour afficher/masquer le mot de passe -->
-<script>
-    function togglePasswordVisibility() {
-        const passwordField = document.getElementById("password");
-        const icon = document.getElementById("password-icon");
-        if (passwordField.type === "password") {
-            passwordField.type = "text";
-            icon.classList.remove("fa-eye");
-            icon.classList.add("fa-eye-slash");
-        } else {
-            passwordField.type = "password";
-            icon.classList.remove("fa-eye-slash");
-            icon.classList.add("fa-eye");
-        }
-    }
-</script>
+
+    <div class="form-floating mb-3">
+        {{ form_widget(registrationForm.email, { 'attr': { 'class': 'form-control', 'placeholder': 'Email', 'id': 'inputEmail' } }) }}
+        <label for="inputEmail">Email</label>
+    </div>
+
+    <div class="mb-4 position-relative">
+        <div class="form-floating">
+            {{ form_widget(registrationForm.plainPassword, { 'attr': { 'class': 'form-control password-field', 'placeholder': 'Mot de passe', 'autocomplete': 'new-password', 'id': 'inputPassword' } }) }}
+            <label for="inputPassword">Mot de passe</label>
+        </div>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3 password-icon" style="cursor: pointer;">
+       
+        </span>
+        
+    </div>   
+
+    <div class="form-check mb-3">
+        {{ form_widget(registrationForm.RGPDConsent, { 'attr': { 'class': 'form-check-input' } }) }}
+        <label class="form-check-label" for="RGPDConsent">
+            J'accepte les termes et conditions
+        </label>
+    </div>
+
+    <p class="text-muted small" id="texte-justify" style="font-size: 0.4em;">
+        VetEnfant, responsable du traitement, collecte des données personnelles
+        obligatoires signalées par un astérisque.
+        Ces données sont nécessaires à la création de compte, pour le traitement, le
+        suivi et la livraison de votre commande,
+        mais aussi à la consultation de votre programme fidélité. Elles pourront être
+        utilisées pour la réalisation d’analyses
+        statistiques et d’enquêtes de satisfaction, ainsi que pour l’envoi des offres et
+        actualités sur la vie de la communauté.
+        Conformément au Règlement Européen 2016/679 du 27 avril 2016 sur la protection
+        des données personnelles, vous bénéficiez
+        d’un droit d’accès, d’édiction des directives anticipées, de rectification,
+        d’opposition, d’effacement, de portabilité ou
+        de limitation aux traitements de données vous concernant. Vous pouvez exercer
+        vos droits en écrivant à <strong>SERVICE CLIENT
+            VETENFANT</strong> par le biais de notre <a href="mailto:contact@vetenfant.com"
+            class="text-decoration-none">contact@vetenfant.com</a>.
+        Pour plus d’informations, vous pouvez consulter notre politique <a href="#" class="text-decoration-none">"Données
+            Personnelles"</a> et
+        <a href="#" class="text-decoration-none">"Cookies"</a>.
+    </p>
+
+    {{ form_row(registrationForm._token) }}
+
+    <div class="d-grid">
+        {{ include('components/button.html.twig', { 'class': 'btn-general', 'label': 'Créer un compte', 'type': 'submit' }) }}
+    </div>
+</form>
+
+<div class="text-center mt-5">
+    <p class="mb-0 text-secondary">
+        Vous avez déjà un compte ?
+        <a href="{{ path('app_login') }}" class="link-warning text-decoration-none">Se connecter</a>
+    </p>
+</div>
+
+{{ form_end(registrationForm) }}
+
+<script src="/assets/app.js"></script>
+
 {% endblock %}
+
+

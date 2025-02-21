@@ -26,64 +26,45 @@ class RegistrationFormType extends AbstractType
                 'constraints' => [
                     new NotBlank(['message' => 'Please enter a username']),
                 ],
-                'attr' => ['placeholder' => 'Nom d\'utilisateur'],
+                'attr' => ['placeholder' => 'Nom d\'utilisateur', 'class' => 'form-control'],
+                'label' => 'Nom d\'utilisateur',
+                'label_attr' => ['class' => 'form-label'], // Pour les labels personnalisés
+                'row_attr' => ['class' => 'form-floating mb-3'], // Classe de la ligne
             ])
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez entrer un email']),
                 ],
-                'attr' => ['placeholder' => 'Email'],
+                'attr' => ['placeholder' => 'Email', 'class' => 'form-control'],
+                'label' => 'Email',
+                'label_attr' => ['class' => 'form-label'], // Pour les labels personnalisés
+                'row_attr' => ['class' => 'form-floating mb-3'], // Classe de la ligne
             ])
             ->add('plainPassword', PasswordType::class, [
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Password'],
+                'attr' => ['autocomplete' => 'new-password', 'placeholder' => 'Mot de passe', 'class' => 'form-control'],
                 'constraints' => [
                     new NotBlank(['message' => 'Veuillez entrer un mot de passe']),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Votre mot de passe doit contenir au moins {{ limit }} caractères',
                         'max' => 4096,
                     ]),
                 ],
+                'label' => 'Mot de passe',
+                'label_attr' => ['class' => 'form-label'], // Pour les labels personnalisés
+                'row_attr' => ['class' => 'form-floating mb-3'], // Classe de la ligne
             ])
             ->add('RGPDConsent', CheckboxType::class, [
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue(['message' => 'You should agree to our terms.']),
+                    new IsTrue(['message' => 'Vous devez accepter nos conditions d\'utilisation.']),
                 ],
-                'label' => 'J\'accepte les termes et conditions', // Ajout du texte personnalisé
-                'label_attr' => ['class' => 'form-check-label text-secondary'], // Ajouter une classe pour le style
-            ]);            
-            /* ->add('createdAt', DateTimeType::class, [
-                'widget' => 'single_text',
-                'input' => 'datetime',
-                'html5' => true,
-                'required' => false, // Le champ ne sera pas visible
-                'data' => new \DateTime(), // Définir la date de création à la date et heure actuelles
-                'attr' => ['style' => 'display:none;'], // Masquer le champ dans le formulaire
-            ])
-            ->add('isRole', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Has Role?',
-                'attr' => ['style' => 'display:none;'], // Masquer ce champ
-            ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Admin' => 'ROLE_ADMIN',
-                    'User' => 'ROLE_USER',
-                ],
-                'multiple' => true,
-                'expanded' => true, // Affichage sous forme de cases à cocher
-                'label' => 'Roles',
-                'attr' => ['style' => 'display:none;'], // Masquer ce champ
-            ])
-            ->add('isActive', CheckboxType::class, [
-                'required' => false,
-                'label' => 'Is Active',
-                'attr' => ['style' => 'display:none;'], // Masquer ce champ
-            ]); */
+                'label' => 'J\'accepte les termes et conditions', // Texte personnalisé
+                'label_attr' => ['class' => 'form-check-label text-secondary'], // Pour personnaliser le label
+                'row_attr' => ['class' => 'mb-3'], // Classe pour l'espacement du champ
+            ]);
     }
-
 
     public function configureOptions(OptionsResolver $resolver): void
     {

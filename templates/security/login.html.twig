@@ -1,111 +1,58 @@
-{% extends 'layout/base.html.twig' %}
+{% extends 'user/authBase.html.twig' %}
+
+{% set image_path = '/images/loginImage.jpg' %}
+{% set image_alt = 'Image d\'une mère et un enfant' %}
 
 {% block title %}Se connecter{% endblock %}
 
-{% block body %}
-<section class="bg-light p-3 p-md-4 p-xl-5 d-flex align-items-center justify-content-center" style="min-height: 100vh;">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-12 col-xxl-11">
-        <div class="card border-light-subtle shadow-sm">
-          <div class="row g-0">
-            <!-- Image de gauche -->
-            <div class="col-12 col-md-6">
-              <img class="img-fluid rounded-start w-100 h-100 object-fit-cover"
-                src="{{ asset('/images/loginImage.jpg') }}" loading="lazy" alt="Image d'une mère et un enfant">
-            </div>
+{% block form_title %}Bienvenue chez VetEnfant{% endblock %}
 
-            <!-- Formulaire de connexion -->
-            <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-              <div class="col-12 col-lg-11 col-xl-10">
-                <div class="card-body p-3 p-md-4 p-xl-5">
-                  <div class="text-center mb-5">
-                    <a href="{{ path('app_home') }}">
-                      <img src="{{ asset('/images/LogoVet.png') }}" width="200" alt="VetEnfantLogo" />
-                    </a>
-                    <h2 class="h4 mt-4">Bienvenue chez VetEnfant</h2>
-                  </div>
-
-                  <form method="post" action="{{ path('app_login') }}">
-                    <!-- Affichage des erreurs -->
-                    {% if error %}
-                    <div class="alert alert-danger">
-                      {{ error.messageKey|trans(error.messageData, 'security') }}
-                    </div>
-                    {% endif %}
-
-                    <!-- Message pour les utilisateurs déjà connectés -->
-                    {% if app.user %}
-                    <div class="alert alert-info">
-                      Vous êtes connecté en tant que {{ app.user.userIdentifier }},
-                      <a href="{{ path('app_logout') }}">Se déconnecter</a>.
-                    </div>
-                    {% endif %}
-
-                    <!-- Email -->
-                    <div class="form-floating mb-3">
-                      <input type="email" class="form-control" name="email" value="{{ last_username }}" id="inputEmail"
-                        placeholder="Email" required>
-                      <label for="inputEmail">Email</label>
-                    </div>
-
-                    <!-- Mot de passe avec icône -->
-                    <div class="mb-4 position-relative">
-                      <div class="form-floating">
-                        <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required
-                          class="form-control" autocomplete="current-password">
-                        <label for="inputPassword">Mot de passe</label>
-                      </div>
-                      <span class="position-absolute top-50 end-0 translate-middle-y me-3" style="cursor: pointer;"
-                        onclick="togglePasswordVisibility()">
-                        <i class="fa fa-eye" id="password-icon"></i>
-                      </span>
-                    </div>
-
-                    <a class="text-muted" href="{{ path('app_reset_password') }}">Mot de passe perdu ?</a>
-
-                    <!-- Jeton CSRF -->
-                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-
-                    <!-- Bouton de connexion -->
-                    <div class="d-grid">
-                      {{ include('components/button.html.twig', { class: 'btn-general', label: 'Se connnecter', type: 'submit' }) }}
-                    </div>
-                  </form>
-
-                  <!-- Liens de redirection -->
-                  <div class="text-center mt-5">
-                    <p class="mb-0 text-secondary">
-                      Vous n’avez pas encore de compte ?
-                      <a href="{{ path('app_register') }}" class="link-warning text-decoration-none">Créer un
-                        compte</a>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
+{% block form_content %}
+<form method="POST" action="{{ path('app_login') }}">
+    {% if error %}
+    <div class="alert alert-danger">
+        {{ error.messageKey|trans(error.messageData, 'security') }}
     </div>
-  </div>
-</section>
+    {% endif %}
 
-<!-- Script pour afficher/masquer le mot de passe -->
-<script>
-  function togglePasswordVisibility() {
-    const passwordField = document.getElementById("inputPassword");
-    const icon = document.getElementById("password-icon");
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      icon.classList.remove("fa-eye");
-      icon.classList.add("fa-eye-slash");
-    } else {
-      passwordField.type = "password";
-      icon.classList.remove("fa-eye-slash");
-      icon.classList.add("fa-eye");
-    }
-  }
-</script>
+    {% if app.user %}
+    <div class="alert alert-info">
+        Vous êtes connecté en tant que {{ app.user.userIdentifier }},
+        <a href="{{ path('app_logout') }}">Se déconnecter</a>.
+    </div>
+    {% endif %}
+
+    <div class="form-floating mb-3">
+        <input type="email" class="form-control" name="email" value="{{ last_username }}" id="inputEmail"
+            placeholder="Email" required>
+        <label for="inputEmail">Email</label>
+    </div>
+
+    <div class="mb-4 position-relative">
+        <div class="form-floating">
+            <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required
+                   class="form-control password-field" autocomplete="current-password">
+            <label for="inputPassword">Mot de passe</label>
+        </div>
+        <span class="position-absolute top-50 end-0 translate-middle-y me-3 password-icon" style="cursor: pointer;">
+        </span>
+    </div>
+    
+
+    <a class="text-muted" href="{{ path('app_reset_password') }}">Mot de passe perdu ?</a>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <div class="d-grid">
+        {{ include('components/button.html.twig', { class: 'btn-general', label: 'Se connecter', type: 'submit' }) }}
+    </div>
+</form>
+
+<div class="text-center mt-5">
+    <p class="mb-0 text-secondary">
+        Vous n’avez pas encore de compte ?
+        <a href="{{ path('app_register') }}" class="link-warning text-decoration-none">Créer un compte</a>
+    </p>
+</div>
+
 {% endblock %}

@@ -3,6 +3,6 @@
 }
 
 /* Style de l'icône */
-#password-icon {
+.password-icon {
     color: var(--balkeYellow-color); /* Couleur de l'icône */
 }
