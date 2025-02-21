@@ -76,7 +76,7 @@ class UserController extends AbstractController
   }
 
   // Update
-  #[Route('user/{id}', name: 'update_user', methods: ['PUT'])]
+  #[Route('user/update/{id}', name: 'update_user', methods: ['PUT'])]
   public function updateUser(int $id, Request $request): JsonResponse
   {
     try {
@@ -102,7 +102,7 @@ class UserController extends AbstractController
   }
 
   /* Delete */
-  #[Route('user/{id}', name: 'delete_user', methods: ['DELETE'])]
+  #[Route('user/delete/{id}', name: 'delete_user', methods: ['DELETE'])]
   public function deleteUser(int $id): JsonResponse
   {
     try {

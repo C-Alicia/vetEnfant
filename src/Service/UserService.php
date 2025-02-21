@@ -75,9 +75,8 @@ class UserService
      *
      * @param int $id
      * @param array $data
-     * @return bool|null
      */
-    public function updateUser(int $id, array $data): ?bool
+    public function updateUser(int $id, array $data): ?array
     {
         // Récupérer l'utilisateur via l'ID
         $user = $this->userRepository->find($id);
@@ -107,9 +106,8 @@ class UserService
         }
 
         // Enregistrer les modifications
-        $this->userRepository->save($user);
-
-        return true;
+        $this->userRepository->update($user);
+        return $this->formatUser($user);
     }
 
     /**
@@ -119,7 +117,7 @@ class UserService
      * @return bool|null
      */
 
-    public function deleteUser(int $id): ?bool
+    public function deleteUser(int $id): ?array
     {
         // Récupérer l'utilisateur via l'ID
         $user = $this->userRepository->find($id);
@@ -131,9 +129,10 @@ class UserService
 
         // Supprimer l'utilisateur de la base de données
         $this->userRepository->remove($user);
+        
 
         // Retourner true pour indiquer que la suppression a réussi
-        return true;
+        return $user ? $this->formatUser($user) : null; 
     }
 
     /**
