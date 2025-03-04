@@ -1,17 +1,17 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}Profil de {{app.user.firstName}} {{app.user.lastName}}{% endblock %}
+{% block title %}Profil de {{profile.firstName}} {{profile.lastName}}{% endblock %}
 
 {% block body %}
 <section class="bg-light p-3 p-md-4 p-xl-5 mt-5 w-100" style="min-height: 100vh;">
     <div class="container-fluid">
         <div class="col-12 col-lg-10 col-xxl-11">
             {% for message in app.flashes('message') %}
-                <div class="col-12 mb-3">
-                    <div class="alert alert-success text-center" role="alert">
-                        {{ message }}
-                    </div>
+            <div class="col-12 mb-3">
+                <div class="alert alert-success text-center" role="alert">
+                    {{ message }}
                 </div>
+            </div>
             {% endfor %}
         </div>
         <div class="row justify-content-center">
@@ -20,12 +20,12 @@
                     <div class="card p-4">
                         <div class="row align-items-center border-dotted rounded-3 mt-3">
                             <div class="col-md-3 text-center">
-                                {% if user.profileImage %}
-                                <img src="{{ app.user.profileImage }}" alt="Profil" class="img-fluid rounded-circle"
-                                    style="max-width: 250px;">
+                                {% if profile.profileImage %}
+                                <img src="{{ profile.profileImage }}" alt="Profil" class="img-fluid rounded-circle"
+                                    style="max-width: 150px;">
                                 {% else %}
                                 <img src="{{ asset('images/default-profile.png') }}" alt="Profil par défaut"
-                                    class="img-fluid rounded-circle" style="max-width: 250px;">
+                                    class="img-fluid rounded-circle" style="max-width: 150px;">
                                 {% endif %}
                                 {# <!-- Formulaire de téléchargement d'image -->
                                 <form method="post" enctype="multipart/form-data" action="">
@@ -36,47 +36,51 @@
                             <!-- Informations utilisateur -->
                             <div class="col-md-6">
                                 <h2 class="d-flex justify-content-between align-items-center">
-                                    {{ user.username }}
+                                    {{ profile.username }}
 
                                     <div class="btn-group" style="margin-left: 20px;">
                                         <!-- Ajout d'une marge entre le nom et les boutons -->
-                                        <a href="{{path('profil_editProfil')}}">
+                                        {# <a href="{{path('profil_editProfil')}}">
                                             <button class="btn btn-general">
                                                 <i class="fa fa-pencil"></i> Modifier
                                             </button>
-                                        </a>
+                                        </a> #}
                                         <button class="btn btn-general">
                                             <i class="fa fa-trash"></i> Supprimer
                                         </button>
                                     </div>
                                 </h2>
 
-                                {% if user.evaluation %}
-                                <p><strong>Evaluation :</strong> {{ user.evaluation }}</p>
+                                {% if profile.evaluation %}
+                                <p><strong>Evaluation :</strong> {{ profile.evaluation }}</p>
                                 {% else %}
                                 <p>Aucune note trouvée.</p>
                                 {% endif %}
                                 <div class="row mt-3">
                                     <div class="col-md-12">
                                         <h4>À propos :</h4>
-                                        <p>{{ user.description }}</p>
+                                        <p>{{ profile.description }}</p>
                                         <div class="text-muted" style="font-size: 0.9rem;">
                                             <div class="row">
                                                 <div class="col-md-6">
-                                                    <p><strong>Nom :</strong> {{ user.lastName }}</p>
-                                                    <p><strong>Prénom :</strong> {{ user.firstName }}</p>
-                                                    <p><strong>Téléphone :</strong> {{ user.phoneNumber }}</p>
+                                                    <p><strong>Nom :</strong> {{ profile.lastName }}</p>
+                                                    <p><strong>Prénom :</strong> {{ profile.firstName }}</p>
+                                                    <p><strong>Téléphone :</strong> {{ profile.phoneNumber }}</p>
                                                     <p><strong>Date de naissance :</strong> {{
-                                                        user.dateOfBirth|date('d/m/Y') }}</p>
+                                                        profile.dateOfBirth|date('d/m/Y') }}</p>
                                                 </div>
+
                                                 <div class="col-md-6">
-                                                    {% if user.address is not empty %}
+                                                    {% if profile.addresses is empty %}
+                                                    <p>Aucune adresse trouvée.</p>
+                                                    {% else %}
+                                                    {% endif %}
+                                                    {% for address in profile.addresses %}
                                                     <p><strong>Adresse :</strong> {{ address.street }}</p>
                                                     <p><strong>Code postal :</strong> {{ address.postalCode }}</p>
                                                     <p><strong>Ville :</strong> {{ address.city }}</p>
-                                                    {% else %}
-                                                    <p>Aucune adresse trouvée.</p>
-                                                    {% endif %}
+                                                    {% endfor %}
+
                                                 </div>
                                             </div>
                                         </div>
@@ -94,28 +98,36 @@
                             'title': 'Dressing'
                             } %}
                         </div>
-                        <div class="card p-4 mt-4">
-                            <div class="card p-4 mt-4">
+                        <div class="row p-4 mt-4 border-dotted rounded-3">
 
-                            
-                                {# {% if products is empty %}
-                                    <p>Aucun produit dans votre dressing.</p>
-                                {% else %}
-                                    <div class="row">
-                                        {% for product in products %}
-                                            <div class="col-md-4">
-                                                <div class="card">
-                                                    <img src="{{ product.image }}" class="card-img-top" alt="{{ product.name }}">
-                                                    <div class="card-body">
-                                                        <h5 class="card-title">{{ product.name }}</h5>
-                                                        <p class="card-text">{{ product.description }}</p>
-                                                        <p class="text-muted">{{ product.price }} €</p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
+
+                            {% if profile.products is empty %}
+                            <p>Aucun produit dans votre dressing.</p>
+                            {% else %}
+
+
+                            <div class="row">
+                                {% for product in profile.products %}
+                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3"> <!-- Réduction de la largeur -->
+                                    <div class="card shadow-sm" style="max-width: 250px;"> <!-- Taille max définie -->
+                                        <img src="" class="card-img-top" alt="{{ product.name }}"
+                                            style="height: 120px; object-fit: cover;">
+                                        <div class="card-body p-2"> <!-- Réduction du padding -->
+                                            <a class="text-decoration-none product-title text-muted"
+                                                href="{{ path('product_details', {'slug': product.slug}) }}">
+                                                <h6 class="card-title text-truncate" style="max-width: 200px;">{{
+                                                    product.name }}</h6>
+                                            </a>
+                                            <p class="card-text small text-truncate" style="max-width: 200px;">{{
+                                                product.description }}</p>
+                                            <p class="text-muted small">{{ product.price }} €</p>
+                                        </div>
                                     </div>
-                                {% endif %} #}
+                                </div>
+                                {% endfor %}
+                                {% endif %}
+                            </div>
+
                             {# Ajouter les produits #}
                         </div>
 
@@ -126,7 +138,7 @@
                             'title': 'Mes Favoris'
                             } %}
                         </div>
-                        <div class="card p-4 mt-4">
+                        <div class="row p-4 mt-4 border-dotted rounded-3">
 
                         </div>
                         <!-- Historique d'achat -->
@@ -136,7 +148,7 @@
                             'title': 'Historique d\'achat'
                             } %}
                         </div>
-                        <div class="card p-4 mt-4">
+                        <div class="row p-4 mt-4 border-dotted rounded-3">
 
                         </div>
                     </div>

@@ -2,7 +2,7 @@
     <button class="btn dropdown-toggle" type="button" id="customDropdown" data-bs-toggle="dropdown"
         aria-expanded="false">
         {% if app.user %}
-        <img src="{{ app.user.profileImage }}" height="80" alt="avatar" />
+        <img src="{{ app.user.profileImage }}" height="40px" width="40px" alt="avatar" />
         Bonjour, {{ app.user.username }}
         {% else %}
         <i class="fa fa-user" aria-hidden="false"> Mon compte</i>
@@ -11,9 +11,10 @@
     <ul class="dropdown-menu mt-2 p-4" aria-labelledby="dropdownMenuButton">
         {% if app.user %}
         <li class="nav-item">
-            <a class="nav-link" href="#"><i class="fa fa-user"></i> Mon Profil</a>
+            <a class="nav-link" href="{{ path('user_profile', { 'id': app.user.id }) }}">
+                <i class="fa fa-user"></i> Mon Profil
+            </a>
         </li>
-        <li>
             <hr class="dropdown-divider" />
         </li>
         <li class="nav-item">
@@ -53,7 +54,6 @@
             <strong>Nouveau client</strong>
         </li>
         <li>
-            
             <a class="dropdown-item btn-general text-center" href="{{ path('app_register') }}">Créer un compte</a>
         </li>
         {% endif %}

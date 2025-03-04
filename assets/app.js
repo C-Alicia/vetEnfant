@@ -1,4 +1,4 @@
-import '../bootstrap.js';
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -7,39 +7,13 @@ import '../bootstrap.js';
  */
 import './styles/app.css';
 
-console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉');
+// Code principal de ton application ici
+console.log("App.js chargé");
 
-/* document.addEventListener('DOMContentLoaded', function () {
-    // Ajouter un écouteur d'événements pour le formulaire de déconnexion
-    const logoutForm = document.querySelector('form[action="{{ path('app_logout') }}"]');
-    if (logoutForm) {
-        logoutForm.addEventListener('submit', function (event) {
-            // Empêcher la soumission par défaut du formulaire
-            event.preventDefault();
+/* console.log('This log comes from assets/app.js - welcome to AssetMapper! 🎉'); */
 
-            // Trouver le bouton dropdown et fermer le menu
-            const dropdownButton = document.getElementById('customDropdown');
-            if (dropdownButton) {
-                // Réinitialiser l'attribut aria-expanded pour fermer le menu
-                dropdownButton.setAttribute('aria-expanded', 'false');
-            }
 
-            // Soumettre manuellement le formulaire de déconnexion après avoir manipulé le dropdown
-            logoutForm.submit();
-        });
-    }
-
-    // Vérifier si l'utilisateur est connecté ou non
-    const isUserLoggedIn = {{ app.user ? 'true' : 'false' }};
-    
-    if (!isUserLoggedIn) {
-        // L'utilisateur est déconnecté, fermer le dropdown
-        const dropdownButton = document.getElementById('customDropdown');
-        if (dropdownButton) {
-            dropdownButton.setAttribute('aria-expanded', 'false');
-        }
-    }
-}); */
+// Cette fonction charge les informations de l'utilisateur via l'API
 
 console.log("app.js chargé avec succès !");
 
@@ -75,6 +49,30 @@ document.addEventListener('DOMContentLoaded', () => {
         button.addEventListener('click', togglePasswordVisibility);
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    function changeImage(event, src) {
+        const mainImage = document.getElementById('mainImage');
+        const thumbnails = document.querySelectorAll('.thumbnail');
+
+        if (mainImage) {
+            mainImage.src = src;
+            thumbnails.forEach(thumb => thumb.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+    }
+
+    // Rendre la fonction accessible globalement
+    window.changeImage = changeImage;
+});
+
+
+
+
+
+
+
+
 
 
 

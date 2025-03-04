@@ -33,7 +33,6 @@ class UserController extends AbstractController
   {
     $users = $this->userService->getAllUsers();
     return new JsonResponse($users, Response::HTTP_OK);
-  
   }
 
 
@@ -120,10 +119,33 @@ class UserController extends AbstractController
     }
   }
 
- /*  #[Route('/usersAll', methods: ['GET'])]
-  public function userList(): Response
+  #[Route('user/profile/{id}', name: 'user_profile', methods: ['GET'])]
+  public function userProfile(int $id): Response
   {
-    $users = $this->userService->getAllUsers();
-    return $this->render('user/list.html.twig', ['users' => $users]);
+    $user = $this->getUser();
+        
+    if (!$user) {
+      throw $this->createNotFoundException('Vous devez être connecté pour');
+    }
+
+    $profile = $this->userService->getUserById($id);
+
+    return $this->render('user/ProfilUser.html.twig', [
+      'profile' => $profile, 
+    ]);
+  }
+
+  /* #[Route('/user/profil/edit/{id}', name: 'edit_profile', methods: ['PUT'])]
+  public function EditProfile(int $id): Response
+  {
+      $user = $this->userService->getUserById($id);
+  
+      if (!$user) {
+          throw $this->createNotFoundException('Utilisateur non trouvé');
+      }
+  
+      return $this->render('user/EditProfil.html.twig', [
+          'user' => $user,
+      ]);
   } */
 }

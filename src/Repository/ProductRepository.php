@@ -156,7 +156,7 @@ class ProductRepository extends ServiceEntityRepository
 
     public function createProductWithImages(Product $product, array $images, string $folder, SluggerInterface $slugger, PictureService $pictureService, EntityManagerInterface $em): Product
     {
-        // Générer le slug du produit
+        // Générer le slug du produit 
         $slug = $slugger->slug($product->getName());
         $product->setSlug($slug);
 

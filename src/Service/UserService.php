@@ -61,7 +61,7 @@ class UserService
         $user->setRoles($data['roles'] ?? ['ROLE_USER']);
         $user->setIsActive($data['isActive'] ?? true);
         $user->setIsRole($data['isRole'] ?? false);
-
+        
         // Encodage du mot de passe
         $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
         $user->setPassword($encodedPassword);
@@ -74,6 +74,7 @@ class UserService
      * Modifier un utilisateur par son ID avec ses relations.
      *
      * @param int $id
+     * @return bool|null
      * @param array $data
      */
     public function updateUser(int $id, array $data): ?array
@@ -82,9 +83,9 @@ class UserService
         $user = $this->userRepository->find($id);
 
         // Si l'utilisateur n'existe pas, retourner false
-        if (!$user) {
+       /* if (!$user) {
             return false;
-        }
+        } */
 
         // Mettre à jour les informations de l'utilisateur
         $user->setUsername($data['username'] ?? $user->getUsername());
@@ -100,7 +101,7 @@ class UserService
         $user->setIsRole($data['isRole'] ?? $user->isRole());
 
         // Si un nouveau mot de passe est fourni, le mettre à jour
-        if (!empty($data['password'])) {
+        if (isset($data['password']) && !empty($data['password'])) {
             $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
             $user->setPassword($encodedPassword);
         }
@@ -123,10 +124,9 @@ class UserService
         $user = $this->userRepository->find($id);
  
         // Si l'utilisateur n'existe pas, retourner false
-        if (!$user) {
+        /* if (!$user) {
             return false;
-        }
-
+        } */
         // Supprimer l'utilisateur de la base de données
         $this->userRepository->remove($user);
         
@@ -191,7 +191,10 @@ class UserService
     {
         return array_map(fn($order) => [
             'id' => $order->getId(),
-            'DateOfPurchase' => $order->getDateOfPurchase()?->format('Y-m-d')
+            'DateOfPurchase' => $order->getDateOfPurchase()?->format('Y-m-d'),
+            'name' =>$order->getName(),
+            'comment'=>$order->getComment(),
+            'reference'=>$order->getReference()
         ], $user->getOrderOrd()->toArray());
     }
 
@@ -206,7 +209,10 @@ class UserService
         return array_map(fn($product) => [
             'id' => $product->getId(),
             'name' => $product->getName(),
-            'price' => $product->getPrice()
+            'description' => $product->getDescription(),
+            'slug' => $product->getSlug(),
+            'price' => $product->getPrice(),
+            
         ], $user->getProduct()->toArray());
-    }
+    }    
 }

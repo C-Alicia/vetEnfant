@@ -1,0 +1,126 @@
+ul > li
+{
+    list-style-type: none;
+    
+}
+
+#evaluation{
+    color: var(--balkeYellow-color);
+}
+
+/* Style général pour la liste de produits */
+#products-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive avec un nombre de colonnes flexibles */
+    gap: 20px;
+    padding: 20px;
+    list-style-type: none;
+    margin: 0;
+}
+
+/* Style pour chaque élément de produit (card) */
+.product-item {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+/* Effet de survol sur la card */
+.product-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Style pour le nom du produit */
+.product-name {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.2em;
+    margin-bottom: 10px;
+}
+
+/* Style pour la description du produit */
+.product-description {
+    font-size: 1em;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+/* Style pour le prix du produit */
+.product-price {
+    font-size: 1.1em;
+    color: black;
+    font-weight: bold;
+    margin-top: auto;
+}
+
+/* Style pour le cas où il n'y a pas de produits */
+.no-product-item {
+    text-align: center;
+    color: black;
+    font-style: italic;
+    font-size: 1.2em;
+}
+
+/* Style pour la liste (optionnel) */
+#products-list {
+    padding-left: 0;
+    margin-top: 20px;
+}
+
+.order-item {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.order-name {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.order-date,
+.order-reference,
+.order-comment {
+    display: block;
+    margin-top: 5px;
+    color: #555;
+}
+
+.order-date {
+    font-style: italic;
+}
+
+.no-order-item {
+    color: red;
+    font-style: italic;
+    text-align: center;
+    padding: 10px;
+}
+
+/* Réinitialisation des marges et paddings pour éviter tout décalage */
+.address-item {   
+    margin: 0; /* Supprimer toute marge externe */
+
+}
+
+.address-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Espacement entre les différentes parties de l'adresse */
+    padding: 0; /* Pas de padding supplémentaire */
+}
+
+.address-part {
+    font-size: 1.1em;
+    font-weight: bold;
+    margin: 0; /* Pas de marge supplémentaire */
+}
+

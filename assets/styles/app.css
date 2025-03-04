@@ -39,6 +39,7 @@
 @import url('./pages/product_detail.css');
 @import url('./pages/product_new.css');
 @import url('./pages/product_sell.css');
+@import url('./pages/user_page.css');
 
 /* Autres styles globaux */
 body {

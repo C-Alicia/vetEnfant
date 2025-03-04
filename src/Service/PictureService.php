@@ -96,10 +96,15 @@ class PictureService
             mkdir($path . '/mini/', 0755, true);
         }
 
-        // On stocke l'image recadrée
+        /*  // On stocke l'image recadrée
         imagewebp($resized_picture, $path . '/mini/' . $width . 'x' . $height . '-' . $nomImage);
 
-        $picture->move($path . '/', $nomImage);
+        $picture->move($path . '/', $nomImage); */
+        $webpName = pathinfo($nomImage, PATHINFO_FILENAME) . '.webp';
+        imagewebp($resized_picture, $path . '/mini/' . $width . 'x' . $height . '-' . $webpName);
+
+        // Enfin, assurez-vous que le fichier original est également converti en .webp
+        $picture->move($path . '/', $webpName);
 
         return $nomImage;
     }
