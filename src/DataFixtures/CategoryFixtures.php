@@ -10,6 +10,7 @@ class CategoryFixtures extends Fixture
 {
     public const CATEGORIES = [
         'T-shirt',
+        'Pulls',
         'Pantalons',
         'Robes',
         'Jupes',
@@ -19,8 +20,8 @@ class CategoryFixtures extends Fixture
         'Pyjamas',
         'Accessoires',
         'Shorts',
-        'Pulls',
-        'Survetement'
+        'Survetements',
+        'Chemises'
     ];
     
     public function load(ObjectManager $manager): void
