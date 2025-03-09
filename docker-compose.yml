@@ -1,17 +1,39 @@
 version: '3.8'
 
 services:
-  php:
-    image: php:8.2.12-apache
-    container_name: symfony_php
-    volumes:
-      - .:/var/www/html  # Mappe ton projet local dans le conteneur
+  app:
+    build:
+      context: .  # Contexte de construction, prend le répertoire courant
+      dockerfile: Dockerfile  # Spécifie le Dockerfile à utiliser pour construire l'image
+    container_name: symfony_api
     ports:
-      - "8001:80"  # Redirige le port 80 du conteneur vers le port 8000 de ta machine locale
-    environment:
-      - APACHE_DOCUMENT_ROOT=/var/www/html/public  # Répertoire public pour Symfony
+      - "8000:8000"  # Redirige le port 8000 du conteneur vers le port 8000 de l'hôte
+    volumes:
+      - .:/var/www/html  # Monte le répertoire local dans /var/www/html du conteneur
     networks:
-      - symfony_net
+      - symfony  # Utilise le réseau défini pour les communications inter-conteneurs
+    depends_on:
+      - database  # Indique que l'application dépend du service db
+    entrypoint: ["sh", "-c", "/wait-for-it.sh database:3306 -- symfony serve --port=8000"]  # Attente avant de démarrer Symfony
+
+  database:
+    image: mysql:latest  # Utilise l'image officielle de MySQL
+    container_name: symfony_db
+    environment:
+      MYSQL_ROOT_PASSWORD: root  # Le mot de passe root pour MySQL
+      MYSQL_USER: AerixT  # Utilisateur pour se connecter à la base de données
+      MYSQL_PASSWORD: Anljman@bddSql25!  # Mot de passe pour l'utilisateur
+      MYSQL_DATABASE: vetenfant  # Nom de la base de données
+    ports:
+      - "3306:3306"  # Redirige le port 3306 du conteneur vers le port 3306 de l'hôte
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persistance des données MySQL
+    networks:
+      - symfony  # Utilise le réseau défini pour les communications inter-conteneurs
+
+volumes:
+  mysql_data:  # Déclare le volume de persistance pour MySQL
 
 networks:
-  symfony_net:
+  symfony:
+    driver: bridge  # Utilise un réseau de type bridge pour les conteneurs

@@ -20,7 +20,9 @@ class CategoryFixtures extends Fixture
         'Accessoires',
         'Shorts',
         'Pulls',
-        'Survetement'
+        'Survêtements',
+        'Déguisements',
+        'Costumes',
     ];
     
     public function load(ObjectManager $manager): void
