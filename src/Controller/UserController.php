@@ -22,11 +22,11 @@ class UserController extends AbstractController
     $this->validator = $validator;
   }
 
-  #[Route('', name: 'homepage', methods: ['GET'])]
+  /*  #[Route('', name: 'homepage', methods: ['GET'])]
   public function index(): Response
   {
     return new Response('<h1>Bienvenue sur VetEnfant!</h1>');
-  }
+  } */
 
   #[Route('users', name: 'get_users', methods: ['GET'])]
   public function getUsers(): JsonResponse
@@ -123,29 +123,33 @@ class UserController extends AbstractController
   public function userProfile(int $id): Response
   {
     $user = $this->getUser();
-        
+
     if (!$user) {
-      throw $this->createNotFoundException('Vous devez être connecté pour');
+      throw $this->createNotFoundException('Vous devez être connecté');
     }
 
     $profile = $this->userService->getUserById($id);
 
     return $this->render('user/ProfilUser.html.twig', [
-      'profile' => $profile, 
+      'profile' => $profile,
     ]);
   }
 
-  /* #[Route('/user/profil/edit/{id}', name: 'edit_profile', methods: ['PUT'])]
-  public function EditProfile(int $id): Response
+  #[Route('user/edit/{id}', name: 'edit_profile', methods: ['GET'])]
+  public function editProfile(int $id): Response
   {
-      $user = $this->userService->getUserById($id);
-  
-      if (!$user) {
-          throw $this->createNotFoundException('Utilisateur non trouvé');
-      }
-  
-      return $this->render('user/EditProfil.html.twig', [
-          'user' => $user,
-      ]);
-  } */
+    $user = $this->getUser();
+    
+    // Récupérer l'utilisateur
+    if (!$user) {
+      throw $this->createNotFoundException('Utilisateur non trouvé');
+    }
+    
+    $profile = $this->userService->getUserById($id);
+
+    // Afficher un formulaire d'édition
+    return $this->render('user/EditProfil.html.twig', [
+      'profile' => $profile,
+    ]);
+  }
 }

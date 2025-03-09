@@ -2,34 +2,61 @@
 
 namespace App\Tests\Controller;
 
+use App\Controller\UserController;
+use App\Service\UserService;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class UserControllerTest extends WebTestCase
 {
     private $client;
+    private MockObject $userService;
 
     // Setup: créer un client pour chaque test
     protected function setUp(): void
     {
         $this->client = static::createClient();
+
+        // Créer un mock pour le UserService
+        $this->userService = $this->createMock(UserService::class);
     }
 
-    // Test de l'index
-    public function testIndex()
-    {
-        $this->client->request('GET', '/');
-        $this->assertResponseIsSuccessful();
-        $this->assertSelectorTextContains('h1', 'Bienvenue sur VetEnfant!');
-    }
-
-    /* // Test de la récupération de tous les utilisateurs
     public function testGetUsers()
+    {
+        // Envoie une requête GET vers la route /users
+        $this->client->request('GET', '/users');
+
+        // Vérifie que la réponse est réussie
+        $this->assertResponseIsSuccessful();
+
+        // Vérifie que la réponse est bien au format JSON
+        $this->assertJson($this->client->getResponse()->getContent());
+
+        // Vérifie que le contenu de la réponse contient les utilisateurs attendus
+        $content = json_decode($this->client->getResponse()->getContent(), true);
+        $this->assertCount(2, $content); // Assurez-vous qu'il y a bien 2 utilisateurs
+    }
+
+
+    /* public function testGetUsers()
     {
         $this->client->request('GET', '/users');
         $this->assertResponseIsSuccessful();
         $this->assertJson($this->client->getResponse()->getContent());
     }
+ */
+    // Test de l'index
+    /*     public function testIndex()
+    {
+        $this->client->request('GET', '/');
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorTextContains('h1', 'Bienvenue sur VetEnfant!');
+    }
+ */
+    /* // Test de la récupération de tous les utilisateurs
+    
 
     // Test de la récupération d'un utilisateur par ID
     public function testGetUserById()

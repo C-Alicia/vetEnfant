@@ -14,7 +14,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class HomeController extends AbstractController
 {
     // Route d'accueil qui affiche la liste des produits
-    #[Route('/home', name: 'app_home')]
+    #[Route('/', name: 'app_home')]
     public function index(ProductRepository $prodRepo): Response
     {
         $products = null;

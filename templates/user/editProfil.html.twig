@@ -1,6 +1,6 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}Profil de {{ user.firstName }} {{ user.lastName }}{% endblock %}
+{% block title %}Modifier mon profil de {{profile.firstName}} {{profile.lastName}}{% endblock %}
 
 {% block body %}
 <section class="bg-light p-3 p-md-4 p-xl-5 d-flex align-items-center justify-content-center"
@@ -17,21 +17,21 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <h3 class="fs-5">Nom :</h3>
-                            <input type="text" name="lastname" id="lastName" value="{{ user.lastName }}" class="form-control">
+                            <input type="text" name="lastname" id="lastName" value="{{ profile.lastName }}" class="form-control">
                         </div>
                         <div class="mb-3">
                             <h3 class="fs-5">Prénom :</h3>
-                            <input type="text" name="firstname" id="firstName" value="{{ user.firstName }}" class="form-control">
+                            <input type="text" name="firstname" id="firstName" value="{{ profile.firstName }}" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <h3 class="fs-5">Date de naissance :</h3>
-                            <input type="date" name="dateofbirth" id="dateOfBirth" value="{{ user.dateOfBirth|date('Y-m-d') }}" class="form-control">
+                            <input type="date" name="dateofbirth" id="dateOfBirth" value="{{ profile.dateOfBirth|date('Y-m-d') }}" class="form-control">
                         </div>
                         <div class="mb-3">
                             <h3 class="fs-5">Numéro de téléphone :</h3>
-                            <input type="text" name="phonenumber" id="phoneNumber" value="{{ user.phoneNumber }}" class="form-control">
+                            <input type="text" name="phonenumber" id="phoneNumber" value="{{ profile.phoneNumber }}" class="form-control">
                         </div>
                     </div>
                 </div>

@@ -158,7 +158,7 @@ class UserService
             'roles' => $user->getRoles(),
             'isActive' => $user->isActive(),
             'isRole' => $user->isRole(),
-            'addresses' => $this->formatAddresses($user),
+            'address' => $this->formatAddresses($user),
             'orders' => $this->formatOrders($user),
             'products' => $this->formatProducts($user),
         ];

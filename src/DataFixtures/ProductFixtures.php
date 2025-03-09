@@ -23,7 +23,7 @@ class ProductFixtures extends Fixture
             'description' => 'Une veste confortable et impérmeable',
             'isSold' => false,
             'createdAt' => '2023-01-15',
-            'category_id' => 7,
+            'category_id' => 8,
             'order_ord_id' => 1,
             'user_id' => 2,
             'slug' => 'doudoune_rose_et_blanche'
@@ -33,7 +33,7 @@ class ProductFixtures extends Fixture
             'gender' => Gender::BOY,
             'state' => State::BONETAT,
             'price' => 34.99,
-            'size' => 8,
+            'size' => 1,
             'description' => 'Haut et pantalon résistant pour les garçons.',
             'isSold' => true,
             'createdAt' => '2023-02-10',
@@ -51,7 +51,7 @@ class ProductFixtures extends Fixture
             'description' => 'pyjamas motif de noël.',
             'isSold' => false,
             'createdAt' => '2023-03-01',
-            'category_id' => 8,
+            'category_id' => 9,
             'user_id' => 3,
             'order_ord_id' => 3,
             'slug' => 'pyjamin_pere_noel'

@@ -40,13 +40,14 @@
 
                                     <div class="btn-group" style="margin-left: 20px;">
                                         <!-- Ajout d'une marge entre le nom et les boutons -->
-                                        {# <a href="{{path('profil_editProfil')}}">
+                                        {# <a href="{{path('edit_profile')}}"> #}
+                                            <a href="{{ path('edit_profile', { 'id': app.user.id}) }}">
                                             <button class="btn btn-general">
                                                 <i class="fa fa-pencil"></i> Modifier
                                             </button>
-                                        </a> #}
-                                        
-                                        
+                                        </a>
+
+
                                         <button class="btn btn-general">
                                             <i class="fa fa-trash"></i> Supprimer
                                         </button>
@@ -54,53 +55,45 @@
                                 </h2>
 
                                 {% if profile.evaluation %}
-                                 {% for i in 1..5 %}
-                                        {% if i <= profile.evaluation %}
-                                            ⭐
-                                        {% else %}
-                                            ☆
-                                        {% endif %}
-                                    {% endfor %}
-                                </p>
-                            {% else %}
-                                <p>Aucune note trouvée.</p>
-                            {% endif %}
-                                <div class="row mt-3">
-                                    <div class="col-md-12">
-                                        <h4>À propos :</h4>
-                                        <p>{{ profile.description }}</p>
-                                        <div class="text-muted" style="font-size: 0.9rem;">
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <p><strong>Nom :</strong> {{ profile.lastName }}</p>
-                                                    <p><strong>Prénom :</strong> {{ profile.firstName }}</p>
-                                                    <p><strong>Téléphone :</strong> {{ profile.phoneNumber }}</p>
-                                                    <p><strong>Date de naissance :</strong> {{
-                                                        profile.dateOfBirth|date('d/m/Y') }}</p>
-                                                </div>
+                                {% for i in 1..5 %}
+                                {% if i <= profile.evaluation %} ⭐ {% else %} ☆ {% endif %} {% endfor %} </p>
+                                    {% else %}
+                                    <p>Aucune note trouvée.</p>
+                                    {% endif %}
+                                    <div class="row mt-3">
+                                        <div class="col-md-12">
+                                            <h4>À propos :</h4>
+                                            <p>{{ profile.description }}</p>
+                                            <div class="text-muted" style="font-size: 0.9rem;">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <p><strong>Nom :</strong> {{ profile.lastName }}</p>
+                                                        <p><strong>Prénom :</strong> {{ profile.firstName }}</p>
+                                                        <p><strong>Téléphone :</strong> {{ profile.phoneNumber }}</p>
+                                                        <p><strong>Date de naissance :</strong> {{
+                                                            profile.dateOfBirth|date('d/m/Y') }}</p>
+                                                    </div>
 
-                                                <div class="col-md-6">
-                                                    {% if profile.addresses is empty %}
-                                                    <p>Aucune adresse trouvée.</p>
-                                                    {% else %}
-                                                    {% endif %}
-                                                    {% for address in profile.addresses %}
-                                                    <p><strong>Adresse :</strong> {{ address.street }}</p>
-                                                    <p><strong>Code postal :</strong> {{ address.postalCode }}</p>
-                                                    <p><strong>Ville :</strong> {{ address.city }}</p>
-                                                    {% endfor %}
+                                                    <div class="col-md-6">
+                                                        {% if profile.address is empty %}
+                                                        <p>Aucune adresse trouvée.</p>
+                                                        {% else %}
+                                                        {% endif %}
+                                                        {% for address in profile.address %}
+                                                        <p><strong>Adresse :</strong> {{ address.street }}</p>
+                                                        <p><strong>Code postal :</strong> {{ address.postalCode }}</p>
+                                                        <p><strong>Ville :</strong> {{ address.city }}</p>
+                                                        {% endfor %}
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
                             </div>
                         </div>
 
-                        <!-- Dressing -->
+                        <!-- Dressing en premier -->
                         <div class="row g-0 align-items-center">
                             {% include 'components/cardProfil.html.twig' with {
                             'icon_class': 'fa fa-shopping-bag',
@@ -108,20 +101,16 @@
                             } %}
                         </div>
                         <div class="row p-4 mt-4 border-dotted rounded-3">
-
-
                             {% if profile.products is empty %}
                             <p>Aucun produit dans votre dressing.</p>
                             {% else %}
-
-
                             <div class="row">
                                 {% for product in profile.products %}
-                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3"> <!-- Réduction de la largeur -->
-                                    <div class="card shadow-sm" style="max-width: 250px;"> <!-- Taille max définie -->
+                                <div class="col-sm-6 col-md-4 col-lg-3 mb-3">
+                                    <div class="card shadow-sm" style="max-width: 250px;">
                                         <img src="" class="card-img-top" alt="{{ product.name }}"
                                             style="height: 120px; object-fit: cover;">
-                                        <div class="card-body p-2"> <!-- Réduction du padding -->
+                                        <div class="card-body p-2">
                                             <a class="text-decoration-none product-title text-muted"
                                                 href="{{ path('product_details', {'slug': product.slug}) }}">
                                                 <h6 class="card-title text-truncate" style="max-width: 200px;">{{
@@ -134,13 +123,11 @@
                                     </div>
                                 </div>
                                 {% endfor %}
-                                {% endif %}
                             </div>
-
-                            {# Ajouter les produits #}
+                            {% endif %}
                         </div>
 
-                        <!-- Favoris -->
+                        <!-- Mes Favoris -->
                         <div class="row g-0 align-items-center">
                             {% include 'components/cardProfil.html.twig' with {
                             'icon_class': 'fa fa-heart',
@@ -148,8 +135,9 @@
                             } %}
                         </div>
                         <div class="row p-4 mt-4 border-dotted rounded-3">
-
+                            <!-- Contenu des favoris -->
                         </div>
+
                         <!-- Historique d'achat -->
                         <div class="row g-0 align-items-center">
                             {% include 'components/cardProfil.html.twig' with {
@@ -158,12 +146,40 @@
                             } %}
                         </div>
                         <div class="row p-4 mt-4 border-dotted rounded-3">
-
+                            <!-- Contenu de l'historique d'achat -->
                         </div>
                     </div>
+
+
+
+
+
+
+
+                    <!-- Favoris -->
+                    {# <div class="row g-0 align-items-center">
+                        {% include 'components/cardProfil.html.twig' with {
+                        'icon_class': 'fa fa-heart',
+                        'title': 'Mes Favoris'
+                        } %}
+                    </div>
+                    <div class="row p-4 mt-4 border-dotted rounded-3">
+                        #}
+                        {# </div> #}
+                    <!-- Historique d'achat -->
+                    {# <div class="row g-0 align-items-center">
+                        {% include 'components/cardProfil.html.twig' with {
+                        'icon_class': 'fa fa-history',
+                        'title': 'Historique d\'achat'
+                        } %}
+                    </div>
+                    <div class="row p-4 mt-4 border-dotted rounded-3">
+
+                    </div> #}
                 </div>
             </div>
         </div>
+    </div>
     </div>
 </section>
 {% endblock body %}

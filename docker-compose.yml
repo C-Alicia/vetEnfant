@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  php:
+    image: php:8.2.12-apache
+    container_name: symfony_php
+    volumes:
+      - .:/var/www/html  # Mappe ton projet local dans le conteneur
+    ports:
+      - "8001:80"  # Redirige le port 80 du conteneur vers le port 8000 de ta machine locale
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public  # Répertoire public pour Symfony
+    networks:
+      - symfony_net
+
+networks:
+  symfony_net:
