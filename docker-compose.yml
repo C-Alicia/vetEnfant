@@ -1,58 +1,65 @@
-version: '3.8'
+version: '3.8'  # Déclare la version de Docker Compose à utiliser
 
 services:
+  # Service PHP (avec Apache et PHP-FPM)
   php:
-    build: .
-    container_name: symfony-php
+    build: .  # Utilise le Dockerfile dans le répertoire courant pour construire l'image PHP
+    container_name: symfony-php  # Nom du conteneur PHP
     volumes:
-      - .:/var/www/html
+      - .:/var/www/html  # Monte le répertoire courant de l'hôte dans le conteneur pour accéder au code
     depends_on:
-      - database
+      - database  # Assure que le service 'database' soit démarré avant PHP
     ports:
-      - "8001:80"  # Optionnel : exposez Apache sur le port 8001 de l'hôte
+      - "8001:80"  # Expose Apache sur le port 8001 de l'hôte, redirige vers le port 80 du conteneur
 
+  # Service Nginx
   nginx:
-    image: nginx:latest
-    container_name: symfony-nginx
+    image: nginx:latest  # Utilise l'image Nginx la plus récente
+    container_name: symfony-nginx  # Nom du conteneur Nginx
     ports:
-      - "8080:80"
+      - "8080:80"  # Expose Nginx sur le port 8080 de l'hôte
     volumes:
-      - .:/var/www/html
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html  # Monte le répertoire courant de l'hôte dans le conteneur pour que Nginx puisse accéder aux fichiers du projet
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf  # Monte un fichier de configuration personnalisé pour Nginx
     depends_on:
-      - php
+      - php  # Assure que le service 'php' soit démarré avant Nginx
 
+  # Service PHPMyAdmin pour gérer la base de données via une interface web
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: symfony-phpmyadmin
-    restart: always
+    image: phpmyadmin/phpmyadmin  # Utilise l'image officielle de phpMyAdmin
+    container_name: symfony-phpmyadmin  # Nom du conteneur phpMyAdmin
+    restart: always  # Redémarre le conteneur automatiquement en cas de problème
     ports:
-      - "8081:80"
+      - "8081:80"  # Expose phpMyAdmin sur le port 8081 de l'hôte
     environment:
-      PMA_HOST: database
-      MYSQL_ROOT_PASSWORD: Anljman@bddSql25!
+      PMA_HOST: database  # Spécifie l'hôte de la base de données auquel phpMyAdmin se connecte
+      MYSQL_ROOT_PASSWORD: **************  # Mot de passe pour l'utilisateur root MySQL
     depends_on:
-      - database
+      - database  # Assure que la base de données soit prête avant de démarrer phpMyAdmin
 
+  # Service de base de données (MariaDB)
   database:
-    image: mariadb:10.4
-    container_name: symfony-db
-    restart: always
+    image: mariadb:10.4  # Utilise l'image MariaDB version 10.4
+    container_name: symfony-db  # Nom du conteneur de la base de données
+    restart: always  # Redémarre le conteneur automatiquement en cas de problème
     environment:
-      MYSQL_USER: AerixT
-      MYSQL_ROOT_PASSWORD: Anljman@bddSql25!
-      MYSQL_PASSWORD: Anljman@bddSql25!
-      MYSQL_DATABASE: vetenfant
+      MYSQL_USER: ********  # Utilisateur MySQL non-root
+      MYSQL_ROOT_PASSWORD: ***************  # Mot de passe root pour MySQL
+      MYSQL_PASSWORD: **************  # Mot de passe pour l'utilisateur normal
+      MYSQL_DATABASE: ************* # Nom de la base de données à créer
     ports:
-      - "3307:3306"  # Exposez le port 3307 de l'hôte vers le port 3306 du conteneur
+      - "3307:3306"  # Expose le port 3307 de l'hôte vers le port 3306 du conteneur (le port par défaut de MariaDB)
     volumes:
-      - db-data:/var/lib/mysql
+      - db-data:/var/lib/mysql  # Monte un volume pour persister les données de la base de données
     networks:
-      - my_network  # Utilisation du réseau personnalisé
+      - my_network  # Utilise un réseau personnalisé pour les communications entre les conteneurs
 
+# Définition du réseau Docker personnalisé pour permettre la communication entre les services
 networks:
   my_network:
-    driver: bridge  # Le réseau Docker personnalisé pour les communications entre conteneurs
+    driver: bridge  # Utilisation du réseau de type bridge, permettant la communication entre les conteneurs
 
+# Définition du volume pour la persistance des données de la base de données
 volumes:
-  db-data:  # Volume pour persister les données de la base de données
+  db-data:  # Le volume 'db-data' stocke les données de MariaDB pour qu'elles persistent même après un redémarrage du conteneur
+
