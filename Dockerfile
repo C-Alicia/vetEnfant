@@ -1,26 +1,31 @@
-# Utiliser l'image PHP officielle avec Apache
 FROM php:8.2-apache
 
-# Installer les dépendances système nécessaires
-RUN apt-get update && apt-get install -y \
-    libicu-dev zip unzip git curl libonig-dev \
-    && docker-php-ext-install pdo pdo_mysql intl
-
-# Installer Composer depuis l'image officielle Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Définir le répertoire de travail dans le conteneur
+# Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Copier les fichiers du projet local vers le conteneur
+# Installer les extensions PHP nécessaires pour Symfony
+RUN apt-get update && apt-get install -y \
+    libpng-dev libjpeg-dev libfreetype6-dev \
+    libzip-dev unzip libicu-dev libonig-dev git \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd zip pdo pdo_mysql intl mbstring
+
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Activation de mod_rewrite pour Symfony
+RUN a2enmod rewrite
+
+# Modifier le DocumentRoot d'Apache pour pointer vers le dossier public
+RUN sed -ri 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
+# Copier les fichiers de l'application dans le conteneur
 COPY . /var/www/html
 
-# Donner les bons droits aux fichiers dans le conteneur
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 775 /var/www/html/var
+# Attribuer les permissions à www-data
+RUN chown -R www-data:www-data /var/www/html
 
-# Exposer le port 81 pour Apache
-EXPOSE 81
+# Exposer le port 80
+EXPOSE 80
 
-# Commande par défaut pour démarrer Apache
 CMD ["apache2-foreground"]

@@ -23,3 +23,9 @@
 /public/assets/
 /assets/vendor/
 ###< symfony/asset-mapper ###
+
+# Ignorer les fichiers docker-compose sensibles
+docker-compose.yml
+docker-compose.override.yml
+
+

@@ -1,39 +1,58 @@
 version: '3.8'
 
 services:
-  app:
-    build:
-      context: .  # Contexte de construction, prend le répertoire courant
-      dockerfile: Dockerfile  # Spécifie le Dockerfile à utiliser pour construire l'image
-    container_name: symfony_api
-    ports:
-      - "8000:8000"  # Redirige le port 8000 du conteneur vers le port 8000 de l'hôte
+  php:
+    build: .
+    container_name: symfony-php
     volumes:
-      - .:/var/www/html  # Monte le répertoire local dans /var/www/html du conteneur
-    networks:
-      - symfony  # Utilise le réseau défini pour les communications inter-conteneurs
+      - .:/var/www/html
     depends_on:
-      - database  # Indique que l'application dépend du service db
-    entrypoint: ["sh", "-c", "/wait-for-it.sh database:3306 -- symfony serve --port=8000"]  # Attente avant de démarrer Symfony
+      - database
+    ports:
+      - "8001:80"  # Optionnel : exposez Apache sur le port 8001 de l'hôte
+
+  nginx:
+    image: nginx:latest
+    container_name: symfony-nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: symfony-phpmyadmin
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: database
+      MYSQL_ROOT_PASSWORD: Anljman@bddSql25!
+    depends_on:
+      - database
 
   database:
-    image: mysql:latest  # Utilise l'image officielle de MySQL
-    container_name: symfony_db
+    image: mariadb:10.4
+    container_name: symfony-db
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root  # Le mot de passe root pour MySQL
-      MYSQL_USER: AerixT  # Utilisateur pour se connecter à la base de données
-      MYSQL_PASSWORD: Anljman@bddSql25!  # Mot de passe pour l'utilisateur
-      MYSQL_DATABASE: vetenfant  # Nom de la base de données
+      MYSQL_USER: AerixT
+      MYSQL_ROOT_PASSWORD: Anljman@bddSql25!
+      MYSQL_PASSWORD: Anljman@bddSql25!
+      MYSQL_DATABASE: vetenfant
     ports:
-      - "3306:3306"  # Redirige le port 3306 du conteneur vers le port 3306 de l'hôte
+      - "3307:3306"  # Exposez le port 3307 de l'hôte vers le port 3306 du conteneur
     volumes:
-      - mysql_data:/var/lib/mysql  # Persistance des données MySQL
+      - db-data:/var/lib/mysql
     networks:
-      - symfony  # Utilise le réseau défini pour les communications inter-conteneurs
-
-volumes:
-  mysql_data:  # Déclare le volume de persistance pour MySQL
+      - my_network  # Utilisation du réseau personnalisé
 
 networks:
-  symfony:
-    driver: bridge  # Utilise un réseau de type bridge pour les conteneurs
+  my_network:
+    driver: bridge  # Le réseau Docker personnalisé pour les communications entre conteneurs
+
+volumes:
+  db-data:  # Volume pour persister les données de la base de données
