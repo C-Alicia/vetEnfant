@@ -31,7 +31,7 @@ class OrderFixtures extends Fixture
             'dateOfPurchase' => '2023-12-03 10:15:00',
             'comment' => 'Commande urgente pour un événement.',
             'createdAt' => '2023-12-03 08:00:00',
-            'user_id' => 1, // ID de l'utilisateur */
+            'user_id' => 4, // ID de l'utilisateur */
             'reference' => 'COM0003'
         ],
     ];
