@@ -15,7 +15,7 @@ console.log("App.js chargé");
 
 // Cette fonction charge les informations de l'utilisateur via l'API
 
-console.log("app.js chargé avec succès !");
+/* console.log("app.js chargé avec succès !");
 
 // Fonction pour afficher/masquer le mot de passe
 function togglePasswordVisibility(event) {
@@ -33,10 +33,10 @@ function togglePasswordVisibility(event) {
         icon.classList.remove("fa-eye-slash");
         icon.classList.add("fa-eye");
     }
-}
+} */
 
 // Attacher l'événement au bouton après le chargement du DOM
-document.addEventListener('DOMContentLoaded', () => {
+/* document.addEventListener('DOMContentLoaded', () => {
     console.log("DOM chargé, script en cours d'exécution...");
 
     const toggleButtons = document.querySelectorAll('.password-icon');
@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleButtons.forEach(button => {
         button.addEventListener('click', togglePasswordVisibility);
     });
-});
+}); */
 
 document.addEventListener("DOMContentLoaded", function () {
     function changeImage(event, src) {

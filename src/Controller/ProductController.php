@@ -165,38 +165,41 @@ class ProductController extends AbstractController
   }
 
   #[Route('/sell', name: 'productSell')]
-  public function add(  Request $request, ProductRepository $productRepo, SluggerInterface $slugger, PictureService $pictureService, TokenStorageInterface $tokenStorage, EntityManagerInterface $em): Response {
-  // Créer un nouveau produit
-  $product = new Product();
-
-  // Récupérer l'utilisateur connecté via le TokenStorage
-  $user = $tokenStorage->getToken()?->getUser();
-
-  if ($user instanceof User) {
-    $product->setUser($user);
+  public function add(
+      Request $request,
+      ProductRepository $productRepo,
+      SluggerInterface $slugger,
+      PictureService $pictureService,
+      TokenStorageInterface $tokenStorage,
+      EntityManagerInterface $em
+  ): Response {
+      $product = new Product();
+  
+      // Récupérer l'utilisateur connecté
+      $user = $tokenStorage->getToken()?->getUser();
+      if ($user instanceof User) {
+          $product->setUser($user);
+      }
+  
+      // Créer le formulaire et traiter la requête
+      $productForm = $this->createForm(ProductFormType::class, $product);
+      $productForm->handleRequest($request);
+  
+      if ($productForm->isSubmitted() && $productForm->isValid()) {
+          // Récupérer les images
+          $images = $productForm->get('image')->getData();
+  
+          // Appel à la méthode `saveProduct()`
+          $productRepo->saveProduct($product, $images, 'products', $slugger, $pictureService, $em);
+  
+          // Message de succès et redirection
+          $this->addFlash('success', 'Produit ajouté avec succès');
+          return $this->redirectToRoute('product_productNew');
+      }
+  
+      return $this->render('product/productSell.html.twig', [
+          'productForm' => $productForm->createView(),
+      ]);
   }
-
-  // Créer le formulaire
-  $productForm = $this->createForm(ProductFormType::class, $product);
-  $productForm->handleRequest($request);
-
-  // Vérifier si le formulaire est soumis et valide
-  if ($productForm->isSubmitted() && $productForm->isValid()) {
-    // Récupérer les images
-    $images = $productForm->get('image')->getData();
-
-    // Utiliser le repository pour créer le produit avec ses images
-    $productRepo->createProductWithImages($product, $images, 'products', $slugger, $pictureService, $em);
-
-    // Afficher un message de succès
-    $this->addFlash('success', 'Produit ajouté avec succès');
-
-    // Redirection après ajout
-    return $this->redirectToRoute('product_productNew');
-  }
-
-  return $this->render('product/productSell.html.twig', [
-    'productForm' => $productForm->createView(),
-  ]);
-}
+  
 }

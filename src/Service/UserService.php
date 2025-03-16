@@ -61,7 +61,7 @@ class UserService
         $user->setRoles($data['roles'] ?? ['ROLE_USER']);
         $user->setIsActive($data['isActive'] ?? true);
         $user->setIsRole($data['isRole'] ?? false);
-        
+
         // Encodage du mot de passe
         $encodedPassword = $this->passwordHasher->hashPassword($user, $data['password']);
         $user->setPassword($encodedPassword);
@@ -83,9 +83,9 @@ class UserService
         $user = $this->userRepository->find($id);
 
         // Si l'utilisateur n'existe pas, retourner false
-       /* if (!$user) {
-            return false;
-        } */
+        if (!$user) {
+            return null;
+        }
 
         // Mettre à jour les informations de l'utilisateur
         $user->setUsername($data['username'] ?? $user->getUsername());
@@ -122,17 +122,17 @@ class UserService
     {
         // Récupérer l'utilisateur via l'ID
         $user = $this->userRepository->find($id);
- 
+
         // Si l'utilisateur n'existe pas, retourner false
         /* if (!$user) {
             return false;
         } */
         // Supprimer l'utilisateur de la base de données
         $this->userRepository->remove($user);
-        
+
 
         // Retourner true pour indiquer que la suppression a réussi
-        return $user ? $this->formatUser($user) : null; 
+        return $user ? $this->formatUser($user) : null;
     }
 
     /**
@@ -192,9 +192,9 @@ class UserService
         return array_map(fn($order) => [
             'id' => $order->getId(),
             'DateOfPurchase' => $order->getDateOfPurchase()?->format('Y-m-d'),
-            'name' =>$order->getName(),
-            'comment'=>$order->getComment(),
-            'reference'=>$order->getReference()
+            'name' => $order->getName(),
+            'comment' => $order->getComment(),
+            'reference' => $order->getReference()
         ], $user->getOrderOrd()->toArray());
     }
 
@@ -212,7 +212,7 @@ class UserService
             'description' => $product->getDescription(),
             'slug' => $product->getSlug(),
             'price' => $product->getPrice(),
-            
+
         ], $user->getProduct()->toArray());
-    }    
+    }
 }

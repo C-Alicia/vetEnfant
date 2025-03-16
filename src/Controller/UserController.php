@@ -80,7 +80,9 @@ class UserController extends AbstractController
   {
     try {
       // Récupérer les données envoyées dans la requête (en supposant un JSON)
-      $data = json_decode($request->getContent(), true);
+      /*$data = json_decode($request->getContent(), true);*/
+      $data = $request->request->all();
+      dd($data);
 
       $updatedUser = $this->userService->updateUser($id, $data);
 

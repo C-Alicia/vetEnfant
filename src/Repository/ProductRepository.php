@@ -20,7 +20,7 @@ class ProductRepository extends ServiceEntityRepository
 {
     private Connection $connection;
     private SluggerInterface $slugger;  //
-    private $em; 
+    private $em;
 
     public function __construct(ManagerRegistry $registry, Connection $connection, SluggerInterface $slugger, EntityManagerInterface $em)
     {
@@ -154,35 +154,40 @@ class ProductRepository extends ServiceEntityRepository
 
     // Deplacer mes informations ProductController vers ma méthode saveProduct
 
-    public function createProductWithImages(Product $product, array $images, string $folder, SluggerInterface $slugger, PictureService $pictureService, EntityManagerInterface $em): Product
-    {
-        // Générer le slug du produit 
+    public function saveProduct(
+        Product $product,
+        array $images,
+        string $folder,
+        SluggerInterface $slugger,
+        PictureService $pictureService,
+        EntityManagerInterface $em
+    ): Product {
+        // Générer et assigner le slug du produit
         $slug = $slugger->slug($product->getName());
         $product->setSlug($slug);
-
+    
         // Traiter les images et les ajouter au produit
         foreach ($images as $image) {
-            // Appel du service pour gérer l'image
-            $fichier = $pictureService->add($image, $folder, 300, 300);
-
-            // Création de l'image
+            $webpFileName = $pictureService->add($image, $folder, 300, 300);
+    
             $img = new Image();
-            $img->setName($fichier);
-            $img->setSrc($fichier);
-            $img->setAltText('Image de ' . $fichier);
-            $img->setSlug($fichier);
-
-            // Ajouter l'image au produit
+            $img->setName($webpFileName);
+            $img->setSrc($webpFileName);
+            $img->setAltText('Image de ' . $webpFileName);
+            $img->setSlug($webpFileName);
+    
             $product->addImage($img);
+            $em->persist($img);
         }
-
-        // Initialiser le produit comme non vendu
+    
+        // Initialiser l'état du produit
         $product->setIsSold(false);
-
-        // Persister le produit dans la base de données
+    
+        // Persister le produit
         $em->persist($product);
         $em->flush();
-
+    
         return $product;
     }
+    
 }

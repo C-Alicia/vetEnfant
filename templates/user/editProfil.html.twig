@@ -12,7 +12,10 @@
         <h2 class="mb-3 fs-5">Données personnelles :</h2>
         <div class="row align-items-center border-dotted rounded-3 mt-3 bg-white p-4 shadow-sm">
 
-            <form id="editProfileForm">
+            <form action="{{ path('update_user', {'id': profile.id}) }}" method="PUT">
+                <!-- Champ caché pour la méthode PUT -->
+                <input type="hidden" name="_method" value="PUT">
+                
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -37,7 +40,7 @@
                 </div>
 
                 <div class="text-end mt-3">
-                    <button type="button" class="btn btn-general" id="updatePersonalInfo">Mettre à jour les informations</button>
+                    <button type="submit" class="btn btn-general">Mettre à jour les informations</button>
                 </div>
             </form>
         </div>

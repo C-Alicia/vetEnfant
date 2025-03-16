@@ -8,128 +8,121 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PictureService
 {
-    private $params;
+    private ParameterBagInterface $params;
 
     public function __construct(ParameterBagInterface $params)
     {
         $this->params = $params;
     }
 
-    public function add(UploadedFile $picture, ?string $folder = '', ?int $width = 250, ?int $height = 250)
+    public function add(UploadedFile $picture, ?string $folder = '', ?int $width = 250, ?int $height = 250): string
     {
-        // On donne un nouveau nom à l'image
-        //$fichier = md5(uniqid(rand(), true)) . '.webp';
+        // Récupérer le nom d'origine et son extension
+        $nomImage = pathinfo($picture->getClientOriginalName(), PATHINFO_FILENAME);
+        $extension = strtolower($picture->getClientOriginalExtension());
 
-        /* // Supposons que $nomImage contienne le nom d'origine de l'image, comme "photo.jpg"
-        $nomImage = 'photo.jpg';
-
-        // Extraction de l'extension du fichier
-        $extension = pathinfo($nomImage, PATHINFO_EXTENSION);
-
-        // Génération d'un nouveau nom unique tout en conservant l'extension d'origine
-        $fichier = bin2hex(random_bytes(16)) . '.' . $extension;
-
-        // Affichage du nouveau nom généré
-        echo $fichier;
-
-        // On récupère les infos de l'image
-        $picture_infos = getimagesize($picture); */
-
-        // Supposons que $nomImage contienne le nom d'origine de l'image, comme "photo.jpg"
-        $nomImage = $picture->getClientOriginalName(); // Utilisation du nom d'origine de l'image uploadée
-
-        // On récupère les infos de l'image
-        $picture_infos = getimagesize($picture);
-
-        if ($picture_infos === false) {
+        // Vérifier que le fichier est bien une image
+        $pictureInfos = getimagesize($picture->getPathname());
+        if ($pictureInfos === false) {
             throw new Exception('Format d\'image incorrect');
         }
 
-        // On vérifie le format de l'image
-        switch ($picture_infos['mime']) {
+        // Vérification du type MIME et création de l'image source
+        switch ($pictureInfos['mime']) {
             case 'image/png':
-                $picture_source = imagecreatefrompng($picture);
+                $pictureSource = imagecreatefrompng($picture->getPathname());
                 break;
             case 'image/jpeg':
-                $picture_source = imagecreatefromjpeg($picture);
+                $pictureSource = imagecreatefromjpeg($picture->getPathname());
                 break;
             case 'image/webp':
-                $picture_source = imagecreatefromwebp($picture);
+                $pictureSource = imagecreatefromwebp($picture->getPathname());
                 break;
             default:
-                throw new Exception('Format d\'image incorrect');
+                throw new Exception('Format d\'image non pris en charge');
         }
 
-        // On recadre l'image
-        // On récupère les dimensions
-        $imageWidth = $picture_infos[0];
-        $imageHeight = $picture_infos[1];
-
-        // On vérifie l'orientation de l'image
-        switch ($imageWidth <=> $imageHeight) {
-            case -1: // portrait
-                $squareSize = $imageWidth;
-                $src_x = 0;
-                $src_y = ($imageHeight - $squareSize) / 2;
-                break;
-            case 0: // carré
-                $squareSize = $imageWidth;
-                $src_x = 0;
-                $src_y = 0;
-                break;
-            case 1: // paysage
-                $squareSize = $imageHeight;
-                $src_x = ($imageWidth - $squareSize) / 2;
-                $src_y = 0;
-                break;
+        if (!$pictureSource) {
+            throw new Exception('Impossible de créer l\'image source');
         }
 
-        // On crée une nouvelle image "vierge"
-        $resized_picture = imagecreatetruecolor($width, $height);
+        // Récupération des dimensions de l'image originale
+        $imageWidth = $pictureInfos[0];
+        $imageHeight = $pictureInfos[1];
 
-        imagecopyresampled($resized_picture, $picture_source, 0, 0, $src_x, $src_y, $width, $height, $squareSize, $squareSize);
+        // Déterminer la taille du carré à extraire
+        if ($imageWidth > $imageHeight) {
+            $squareSize = $imageHeight;
+            $src_x = ($imageWidth - $squareSize) / 2;
+            $src_y = 0;
+        } elseif ($imageWidth < $imageHeight) {
+            $squareSize = $imageWidth;
+            $src_x = 0;
+            $src_y = ($imageHeight - $squareSize) / 2;
+        } else {
+            $squareSize = $imageWidth;
+            $src_x = 0;
+            $src_y = 0;
+        }
 
+        // Création d'une nouvelle image redimensionnée
+        $resizedPicture = imagecreatetruecolor($width, $height);
+        imagecopyresampled(
+            $resizedPicture,
+            $pictureSource,
+            0,
+            0,
+            (int)$src_x,
+            (int)$src_y,
+            $width,
+            $height,
+            $squareSize,
+            $squareSize
+        );
+
+        // Définition du chemin de destination
         $path = $this->params->get('images_directory') . $folder;
 
-        // On crée le dossier de destination s'il n'existe pas
-        if (!file_exists($path . '/mini/')) {
-            mkdir($path . '/mini/', 0755, true);
+        // Création des dossiers si nécessaire
+        if (!is_dir($path . '/mini/')) {
+            if (!mkdir($path . '/mini/', 0755, true) && !is_dir($path . '/mini/')) {
+                throw new Exception('Échec de la création des dossiers');
+            }
         }
 
-        /*  // On stocke l'image recadrée
-        imagewebp($resized_picture, $path . '/mini/' . $width . 'x' . $height . '-' . $nomImage);
+        // Nouveau nom de fichier en webp
+        $webpName = $nomImage . '.webp';
 
-        $picture->move($path . '/', $nomImage); */
-        $webpName = pathinfo($nomImage, PATHINFO_FILENAME) . '.webp';
-        imagewebp($resized_picture, $path . '/mini/' . $width . 'x' . $height . '-' . $webpName);
+        // Enregistrement de l'image redimensionnée en webp
+        imagewebp($resizedPicture, $path . '/mini/' . $width . 'x' . $height . '-' . $webpName);
 
-        // Enfin, assurez-vous que le fichier original est également converti en .webp
+        // Déplacement de l'image originale vers le répertoire en changeant l'extension en .webp
         $picture->move($path . '/', $webpName);
 
-        return $nomImage;
+        return $webpName;
     }
 
-    public function delete(string $fichier, ?string $folder = '', ?int $width = 250, ?int $height = 250)
+    public function delete(string $fichier, ?string $folder = '', ?int $width = 250, ?int $height = 250): bool
     {
         if ($fichier !== 'default.webp') {
             $success = false;
             $path = $this->params->get('images_directory') . $folder;
 
             $mini = $path . '/mini/' . $width . 'x' . $height . '-' . $fichier;
-
             if (file_exists($mini)) {
                 unlink($mini);
                 $success = true;
             }
 
             $original = $path . '/' . $fichier;
-
             if (file_exists($original)) {
                 unlink($original);
                 $success = true;
             }
+
             return $success;
         }
+
         return false;
     }
 }
